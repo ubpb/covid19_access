@@ -1,0 +1,13 @@
+.card.text-white.bg-info
+  .card-header
+    h5.mb-0 = "Log"
+
+  - if people.present?
+    ul.list-group.list-group-flush
+      - people.each do |person|
+        li.list-group-item.bg-transparent
+          div = person.ilsid
+          small = l(person.entered_at, format: "%d.%m.%Y, %H:%M:%S")
+  - else
+    .card-body
+      ' Keine Daten

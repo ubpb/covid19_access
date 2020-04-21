@@ -1,0 +1,20 @@
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+  a.navbar-brand(href="/")
+    i.fas.fa-users.fa-lg
+    =< "COVID19 Zugang"
+
+  button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarContent")
+    span.navbar-toggler-icon
+
+  #navbarContent.collapse.navbar-collapse
+    ul.navbar-nav.mr-auto
+      li.nav-item(class=active_when(/einlass/))
+        = link_to "Einlass", enter_index_path , class: "nav-link"
+      li.nav-item(class=active_when(/auslass/))
+        = link_to "Auslass", exit_index_path , class: "nav-link"
+      li.nav-item.dropdown(class=active_when(/admin/))
+        a.nav-link.dropdown-toggle(data-toggle="dropdown" href="#")
+          = "Admin"
+        .dropdown-menu
+          = link_to "Reset", admin_reset_index_path , class: "dropdown-item"
+

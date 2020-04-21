@@ -1,0 +1,26 @@
+- global = local_assigns.fetch(:global) { false }
+
+- flash.each do |key, message|
+  ruby:
+    alert_class = case key.to_sym
+      when :alert
+        "alert alert-warning"
+      when :error
+        "alert alert-danger"
+      when :notice, :info
+        "alert alert-info"
+      when :success
+        "alert alert-success"
+      else
+        "alert alert-primary"
+      end
+
+    alert_class += " alert-global" if global
+
+  - if message.is_a?(String)
+    - flash.delete(key)
+    div(class="#{alert_class} animated flipInX" role="alert")
+      button(type="button" class="close" data-dismiss="alert" aria-label="Close")
+        span(aria-hidden="true")
+          ' &times;
+      h5.text-center.mb-0 == message

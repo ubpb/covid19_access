@@ -1,0 +1,10 @@
+default: &default
+  max_people: 50
+  username: foo
+  password: bar
+
+development:
+  <<: *default
+
+production:
+  <<: *default
