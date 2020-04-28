@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_21_081157) do
+ActiveRecord::Schema.define(version: 2020_04_28_130052) do
 
   create_table "people", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "ilsid", null: false
@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(version: 2020_04_21_081157) do
     t.datetime "exited_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["entered_at"], name: "index_people_on_entered_at"
+    t.index ["exited_at"], name: "index_people_on_exited_at"
     t.index ["ilsid"], name: "index_people_on_ilsid"
   end
 
