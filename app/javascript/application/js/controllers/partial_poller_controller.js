@@ -4,16 +4,24 @@ import axios from "axios"
 export default class extends Controller {
   static targets = [ "output" ]
 
+  intervalId = null
+
   connect() {
     var that = this
     const interval = this.data.get("interval") || 5000
 
-    setInterval(() => {
-      this.loadStats()
+    this.intervalId = setInterval(() => {
+      this.loadPartial()
     }, interval);
   }
 
-  loadStats() {
+  disconnect() {
+    if (this.intervalId != null) {
+      clearInterval(this.intervalId)
+    }
+  }
+
+  loadPartial() {
     const url = this.data.get("url")
     axios.get(url)
       .then(response => response.data)
