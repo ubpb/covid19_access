@@ -12,7 +12,6 @@ class Person < ApplicationRecord
     else
       person = Person.new(ilsid: id, entered_at: Time.zone.now, exited_at: nil)
       person.save
-      id
     end
   end
 
@@ -23,7 +22,6 @@ class Person < ApplicationRecord
     if entered_person.present?
       entered_person.exited_at = Time.zone.now
       entered_person.save
-      id
     else
       false
     end
