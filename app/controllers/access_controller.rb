@@ -7,11 +7,9 @@ class AccessController < ApplicationController
 
   def enter
     if permitted_params[:ilsid].present?
-      if (id = Person.enter(permitted_params[:ilsid])).present?
-        flash[:success] = "#{id}: OK"
-      else
-        flash[:error] = "Person ist bereits im Gebäude. Auslass-Buchung vergessen?"
-      end
+      id = permitted_params[:ilsid].strip.upcase
+      Person.enter(id)
+      flash[:success] = "#{id}: OK"
     end
 
     redirect_to enter_index_path
@@ -24,11 +22,9 @@ class AccessController < ApplicationController
 
   def exit
     if permitted_params[:ilsid].present?
-      if (id = Person.exit(permitted_params[:ilsid])).present?
-        flash[:success] = "#{id}: OK"
-      else
-        flash[:error] = "Person war nicht im Gebäude. Einlass-Buchung vergessen?"
-      end
+      id = permitted_params[:ilsid].strip.upcase
+      Person.exit(id)
+      flash[:success] = "#{id}: OK"
     end
 
     redirect_to exit_index_path
