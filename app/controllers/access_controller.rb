@@ -8,7 +8,9 @@ class AccessController < ApplicationController
   def enter
     if permitted_params[:ilsid].present?
       id = permitted_params[:ilsid].strip.upcase
-      Person.enter(id)
+      timestamp = Time.zone.now
+
+      Person.enter(id, timestamp)
       flash[:success] = "#{id}: OK"
     end
 
@@ -23,7 +25,9 @@ class AccessController < ApplicationController
   def exit
     if permitted_params[:ilsid].present?
       id = permitted_params[:ilsid].strip.upcase
-      Person.exit(id)
+      timestamp = Time.zone.now
+
+      Person.exit(id, timestamp)
       flash[:success] = "#{id}: OK"
     end
 
