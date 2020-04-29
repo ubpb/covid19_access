@@ -11,6 +11,7 @@ class AccessController < ApplicationController
       timestamp = Time.zone.now
 
       Person.enter(id, timestamp)
+      AccessLog.create(ilsid: id, timestamp: timestamp, direction: "enter")
       flash[:success] = "#{id}: OK"
     end
 
@@ -28,6 +29,7 @@ class AccessController < ApplicationController
       timestamp = Time.zone.now
 
       Person.exit(id, timestamp)
+      AccessLog.create(ilsid: id, timestamp: timestamp, direction: "exit")
       flash[:success] = "#{id}: OK"
     end
 
@@ -47,7 +49,7 @@ class AccessController < ApplicationController
     setup_log
 
     render partial: "access/log", locals: {
-      people: @last_people
+      access_log: @access_log
     }
   end
 
@@ -62,7 +64,7 @@ private
   end
 
   def setup_log
-    @last_people = Person.order(entered_at: :desc).limit(5)
+    @access_log = AccessLog.order(timestamp: :desc).limit(10)
   end
 
   def permitted_params

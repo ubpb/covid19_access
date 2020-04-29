@@ -6,7 +6,7 @@
       div(data={"controller": "partial-poller", "partial-poller-url": stats_path})
         div(data={"target": "partial-poller.output"})
           = render "stats", number_of_people_entered: @number_of_people_entered, max_number_of_people: @max_number_of_people
-    /.mb-3
+    .mb-3
       div(data={"controller": "partial-poller", "partial-poller-url": log_path})
         div(data={"target": "partial-poller.output"})
-          = render "log", people: @last_people
+          = render "log", access_log: @access_log

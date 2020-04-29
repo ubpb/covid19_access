@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_28_130052) do
+ActiveRecord::Schema.define(version: 2020_04_29_172246) do
+
+  create_table "access_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "ilsid", null: false
+    t.string "direction", null: false
+    t.datetime "timestamp", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["direction"], name: "index_access_logs_on_direction"
+    t.index ["ilsid"], name: "index_access_logs_on_ilsid"
+    t.index ["timestamp"], name: "index_access_logs_on_timestamp"
+  end
 
   create_table "people", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "ilsid", null: false

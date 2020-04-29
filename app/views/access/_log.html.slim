@@ -2,12 +2,14 @@
   .card-header
     h5.mb-0 = "Log"
 
-  - if people.present?
+  - if access_log.present?
     ul.list-group.list-group-flush
-      - people.each do |person|
+      - access_log.each do |log|
         li.list-group-item.bg-transparent
-          div = person.ilsid
-          small = l(person.entered_at, format: "%d.%m.%Y, %H:%M:%S")
+          div
+            = "#{log.direction == "enter" ? "Einlass" : "Auslass"}:"
+            =< log.ilsid
+          small = l(log.timestamp, format: "%d.%m.%Y, %H:%M:%S")
   - else
     .card-body
       ' Keine Daten
