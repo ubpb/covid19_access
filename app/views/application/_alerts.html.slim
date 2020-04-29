@@ -20,7 +20,4 @@
   - if message.is_a?(String)
     - flash.delete(key)
     div(class="#{alert_class} animated flipInX" role="alert")
-      button(type="button" class="close" data-dismiss="alert" aria-label="Close")
-        span(aria-hidden="true")
-          ' &times;
       h5.text-center.mb-0 == message
