@@ -27,8 +27,11 @@ class Person < ApplicationRecord
     end
   end
 
-  def self.reset(timestamp)
-    Person.where(exited_at: nil).update(exited_at: timestamp)
+  def self.reset
+    Person.where(exited_at: nil).each do |p|
+      p.update(exited_at: p.entered_at.end_of_day)
+    end
+
     true
   end
 
