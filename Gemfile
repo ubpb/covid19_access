@@ -6,7 +6,7 @@ ruby IO.read(".ruby-version").strip
 gem "bcrypt",      "~> 3.1.7"
 gem "jbuilder",    "~> 2.7"
 gem "mysql2",      ">= 0.4.4"
-gem "puma",        "~> 4.1"
+gem "puma",        "~> 4.3"
 gem "rails",       "~> 6.0.2", ">= 6.0.2.2"
 gem "rails-i18n",  "~> 6.0.0"
 gem "sass-rails",  ">= 6"
