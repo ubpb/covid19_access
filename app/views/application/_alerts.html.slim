@@ -3,21 +3,21 @@
 - flash.each do |key, message|
   ruby:
     alert_class = case key.to_sym
-      when :alert
-        "alert alert-warning"
-      when :error
-        "alert alert-danger"
+      #when :alert, :warning
+      #  "alert alert-warning flash"
+      when :error, :alert, :warning
+        "alert alert-danger flash"
       when :notice, :info
-        "alert alert-info"
+        "alert alert-info flipInX"
       when :success
-        "alert alert-success"
+        "alert alert-success flipInX"
       else
-        "alert alert-primary"
+        "alert alert-primary flipInX"
       end
 
     alert_class += " alert-global" if global
 
   - if message.is_a?(String)
     - flash.delete(key)
-    div(class="#{alert_class} animated flipInX" role="alert")
+    div(class="#{alert_class} animated" role="alert")
       h5.text-center.mb-0 == message
