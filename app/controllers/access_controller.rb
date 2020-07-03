@@ -10,9 +10,18 @@ class AccessController < ApplicationController
       id = permitted_params[:ilsid].strip.upcase
       timestamp = Time.zone.now
 
-      Person.enter(id, timestamp)
-      AccessLog.create(ilsid: id, timestamp: timestamp, direction: "enter")
-      flash[:success] = "#{id}: OK"
+      if valid_id?(id)
+        Person.enter(id, timestamp)
+        AccessLog.create(ilsid: id, timestamp: timestamp, direction: "enter")
+
+        if data_matching_required_for?(id)
+          flash[:warning] = "#{id}: Bitte Datenabgleich durchführen"
+        else
+          flash[:success] = "#{id}: OK"
+        end
+      else
+        flash[:error] = "#{id}: Unzulässige Ausweisnummer"
+      end
     end
 
     redirect_to enter_index_path
@@ -69,6 +78,16 @@ private
 
   def permitted_params
     params.require(:person).permit(:ilsid)
+  end
+
+  def valid_id?(id)
+    matchers = Rails.configuration.application.valid_barcodes || []
+    matchers.any?{|r| r.match(id)}
+  end
+
+  def data_matching_required_for?(id)
+    matchers = Rails.configuration.application.data_matching_required_for || []
+    matchers.any?{|r| r.match(id)}
   end
 
 end
