@@ -2,6 +2,11 @@ default: &default
   max_people: 50
   username: foo
   password: bar
+  valid_barcodes: # List of regexps
+    - !ruby/regexp /\AXX/
+    - !ruby/regexp /\AXY/
+  data_matching_required_for: # List of regexps
+    - !ruby/regexp /\AXY/
 
 development:
   <<: *default
