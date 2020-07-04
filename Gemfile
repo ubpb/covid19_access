@@ -4,7 +4,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby IO.read(".ruby-version").strip
 
 gem "bcrypt",       "~> 3.1.7"
-gem "caxlsx_rails", "~> 0.6.2"
+gem "caxlsx",       "~> 3.0.1"
+gem "highline",     "~> 2.0.3"
 gem "jbuilder",     "~> 2.7"
 gem "mysql2",       ">= 0.4.4"
 gem "puma",         "~> 4.1"
