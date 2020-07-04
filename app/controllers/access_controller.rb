@@ -6,8 +6,7 @@ class AccessController < ApplicationController
   end
 
   def enter
-    if permitted_params[:ilsid].present?
-      id = permitted_params[:ilsid].strip.upcase
+    if id = get_id
       timestamp = Time.zone.now
 
       if valid_id?(id)
@@ -33,8 +32,7 @@ class AccessController < ApplicationController
   end
 
   def exit
-    if permitted_params[:ilsid].present?
-      id = permitted_params[:ilsid].strip.upcase
+    if id = get_id
       timestamp = Time.zone.now
 
       Person.exit(id, timestamp)
@@ -64,6 +62,18 @@ class AccessController < ApplicationController
 
 private
 
+  def get_id
+    if id = permitted_params[:ilsid]
+      filter_proc = ->(id) { id.gsub(/\s+/, "").upcase } # default filter proc
+
+      if filter_proc_string = Rails.configuration.application.id_filter_proc
+        filter_proc = eval(filter_proc_string)
+      end
+
+      filter_proc.(id)
+    end
+  end
+
   def setup_stats
     @number_of_people_entered = Person.number_of_people_entered
     @max_number_of_people = Rails.configuration.application.max_people || 40
@@ -81,12 +91,12 @@ private
   end
 
   def valid_id?(id)
-    matchers = Rails.configuration.application.valid_barcodes || []
+    matchers = Rails.configuration.application.valid_ids || []
     matchers.any?{|r| r.match(id)}
   end
 
   def data_matching_required_for?(id)
-    matchers = Rails.configuration.application.data_matching_required_for || []
+    matchers = Rails.configuration.application.data_matching_required_for_ids || []
     matchers.any?{|r| r.match(id)}
   end
 
