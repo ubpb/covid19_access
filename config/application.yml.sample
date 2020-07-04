@@ -16,6 +16,8 @@ default: &default
   data_matching_required_for_ids: # List of regexps
     - !ruby/regexp /\AXY/
 
+  aleph_x_services_url: http://localhost:8991/X
+
 development:
   <<: *default
 
