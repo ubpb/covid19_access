@@ -8,10 +8,10 @@ class Person < ApplicationRecord
     entered_person = Person.find_by(ilsid: id, exited_at: nil)
 
     if entered_person.present?
-      false
+      # we ignore this case
     else
       person = Person.new(ilsid: id, entered_at: timestamp, exited_at: nil)
-      person.save
+      person.save!
     end
   end
 
@@ -21,9 +21,10 @@ class Person < ApplicationRecord
 
     if entered_person.present?
       entered_person.exited_at = timestamp
-      entered_person.save
+      entered_person.save!
     else
-      false
+      person = Person.new(ilsid: id, entered_at: timestamp.to_date.beginning_of_day, exited_at: timestamp)
+      person.save!
     end
   end
 
