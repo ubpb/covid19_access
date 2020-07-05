@@ -35,9 +35,13 @@ class AccessController < ApplicationController
     if id = get_id
       timestamp = Time.zone.now
 
-      Person.exit(id, timestamp)
-      AccessLog.create(ilsid: id, timestamp: timestamp, direction: "exit")
-      flash[:success] = "#{id}: OK"
+      if valid_id?(id)
+        Person.exit(id, timestamp)
+        AccessLog.create(ilsid: id, timestamp: timestamp, direction: "exit")
+        flash[:success] = "#{id}: OK"
+      else
+        flash[:error] = "#{id}: Unzulässige Ausweisnummer"
+      end
     end
 
     redirect_to exit_index_path
