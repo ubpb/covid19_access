@@ -3,9 +3,9 @@
 - flash.each do |key, message|
   ruby:
     alert_class = case key.to_sym
-      #when :alert, :warning
-      #  "alert alert-warning flash"
-      when :error, :alert, :warning
+      when :alert, :warning
+        "alert alert-warning flash"
+      when :error
         "alert alert-danger flash"
       when :notice, :info
         "alert alert-info flipInX"
