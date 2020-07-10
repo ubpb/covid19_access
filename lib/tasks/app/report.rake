@@ -14,13 +14,13 @@ namespace :app do
 
       cli.say("Erstelle Report für den Zeitraum #{begin_date_time} bis #{end_date_time}.")
 
-      people = Person.where("entered_at >= ? AND exited_at <= ?", begin_date_time, end_date_time)
-      create_report(people)
+      registrations = Registration.where("entered_at >= ? AND exited_at <= ?", begin_date_time, end_date_time)
+      create_report(registrations)
     end
 
   private
 
-    def create_report(people)
+    def create_report(registrations)
       Axlsx::Package.new do |p|
         p.workbook.add_worksheet(name: "Report") do |sheet|
           headers = [
@@ -37,14 +37,14 @@ namespace :app do
 
           sheet.add_row(headers)
 
-          people.each do |person|
-            bib_data = @aleph_x_client ? get_bib_data(person.ilsid) : {}
+          registrations.each do |registration|
+            bib_data = @aleph_x_client ? get_bib_data(registration.ilsid) : {}
 
             values = [
-              person.ilsid,
+              registration.ilsid,
               bib_data[:bor_status],
-              I18n.l(person.entered_at),
-              I18n.l(person.exited_at),
+              I18n.l(registration.entered_at),
+              I18n.l(registration.exited_at),
               bib_data[:name],
               bib_data[:street],
               bib_data[:city],

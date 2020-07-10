@@ -1,4 +1,4 @@
-class AccessController < ApplicationController
+class RegistrationsController < ApplicationController
 
   def enter_index
     setup_stats
@@ -10,7 +10,7 @@ class AccessController < ApplicationController
       timestamp = Time.zone.now
 
       if valid_id?(id)
-        Person.enter(id, timestamp)
+        Registration.enter(id, timestamp)
         AccessLog.create(ilsid: id, timestamp: timestamp, direction: "enter")
 
         if data_matching_required_for?(id)
@@ -36,7 +36,7 @@ class AccessController < ApplicationController
       timestamp = Time.zone.now
 
       if valid_id?(id)
-        Person.exit(id, timestamp)
+        Registration.exit(id, timestamp)
         AccessLog.create(ilsid: id, timestamp: timestamp, direction: "exit")
         flash[:success] = "#{id}: OK"
       else
@@ -50,7 +50,7 @@ class AccessController < ApplicationController
   def stats
     setup_stats
 
-    render partial: "access/stats", locals: {
+    render partial: "registrations/stats", locals: {
       number_of_people_entered: @number_of_people_entered,
       max_number_of_people: @max_number_of_people
     }
@@ -59,7 +59,7 @@ class AccessController < ApplicationController
   def log
     setup_log
 
-    render partial: "access/log", locals: {
+    render partial: "registrations/log", locals: {
       access_log: @access_log
     }
   end
@@ -79,11 +79,11 @@ private
   end
 
   def setup_stats
-    @number_of_people_entered = Person.number_of_people_entered
+    @number_of_people_entered = Registration.number_of_people_entered
     @max_number_of_people = Rails.configuration.application.max_people || 40
     now = Time.zone.now
-    @number_of_people_entered_last_hour = Person.where(entered_at: (now - 1.hour)..now).count
-    @number_of_people_exited_last_hour = Person.where(exited_at: (now - 1.hour)..now).count
+    @number_of_people_entered_last_hour = Registration.where(entered_at: (now - 1.hour)..now).count
+    @number_of_people_exited_last_hour = Registration.where(exited_at: (now - 1.hour)..now).count
   end
 
   def setup_log
@@ -91,7 +91,7 @@ private
   end
 
   def permitted_params
-    params.require(:person).permit(:ilsid)
+    params.require(:registration).permit(:ilsid)
   end
 
   def valid_id?(id)
