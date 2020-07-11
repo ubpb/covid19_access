@@ -6,7 +6,12 @@ namespace :app do
 
       Registration.where("created_at < ?", date).each do |p|
         p.update_columns(
-          ilsid: p.ilsid[0..2].ljust(10, "*")
+          ilsid: p.ilsid[0..2].ljust(10, "*"),
+          name: nil,
+          street: nil,
+          city: nil,
+          phone: nil,
+          email: nil
         )
       end
     end
