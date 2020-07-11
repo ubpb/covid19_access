@@ -5,7 +5,7 @@ class RegistrationsController < ApplicationController
       verify_ilsid(ilsid, entries_path) or return
       verify_registration_for(ilsid) or return
 
-      bib_data = get_bib_data_for(ilsid)
+      bib_data = AlephClient.new.get_bib_data_for(ilsid)
       verify_bib_data(ilsid, bib_data) or return
 
       @registration        = Registration.new(ilsid: ilsid)

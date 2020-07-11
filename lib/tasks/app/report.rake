@@ -4,11 +4,6 @@ namespace :app do
     task :create => :environment do
       cli = HighLine.new
 
-      aleph_x_services_url = Rails.configuration.application.aleph_x_services_url
-      if aleph_x_services_url
-        @aleph_x_client = AlephApi::XServicesClient.new(url: aleph_x_services_url)
-      end
-
       begin_date_time = cli.ask("Begin (TT.MM.YYYY [HH:MM:SS])", Time)
       end_date_time = cli.ask("Ende (TT.MM.YYYY [HH:MM:SS])", Time)
 
@@ -25,7 +20,6 @@ namespace :app do
         p.workbook.add_worksheet(name: "Report") do |sheet|
           headers = [
             "Bib. Ausweis Nr.",
-            "Bor. Status",
             "Einlass",
             "Auslass",
             "Name",
@@ -37,19 +31,20 @@ namespace :app do
 
           sheet.add_row(headers)
 
+          aleph_client = AlephClient.new
+
           registrations.each do |registration|
-            bib_data = @aleph_x_client ? get_bib_data(registration.ilsid) : {}
+            bib_data = aleph_client.get_bib_data_for(registration.ilsid) || {}
 
             values = [
               registration.ilsid,
-              bib_data[:bor_status],
               I18n.l(registration.entered_at),
               I18n.l(registration.exited_at),
-              bib_data[:name],
-              bib_data[:street],
-              bib_data[:city],
-              bib_data[:phone],
-              bib_data[:email]
+              registration.name.presence   || bib_data[:name],
+              registration.street.presence || bib_data[:street],
+              registration.city.presence   || bib_data[:city],
+              registration.phone.presence  || bib_data[:phone],
+              registration.email.presence  || bib_data[:email]
             ]
 
             style = p.workbook.styles.add_style(alignment: {wrap_text: true, vertical: :top})
@@ -59,32 +54,6 @@ namespace :app do
 
         p.serialize(File.join(Rails.root, "tmp", "report.xlsx"))
       end
-    end
-
-    def get_bib_data(ilsid)
-      aleph_data = @aleph_x_client.get(
-        op: "bor_info",
-        bor_id: ilsid,
-        cash: "N",
-        loans: "N",
-        hold: "N"
-      )
-      aleph_xml = Nokogiri.parse(aleph_data)
-
-      #puts aleph_xml
-
-      bib_data = {}
-
-      unless aleph_xml.at_xpath("//error")&.text
-        bib_data[:name] = aleph_xml.at_xpath("//z304/z304-address-0")&.text
-        bib_data[:email] = aleph_xml.at_xpath("//z304/z304-email-address")&.text
-        bib_data[:phone] = aleph_xml.at_xpath("//z304/z304-telephone")&.text
-        bib_data[:street] = aleph_xml.at_xpath("//z304/z304-address-1")&.text
-        bib_data[:city] = aleph_xml.at_xpath("//z304/z304-address-2")&.text
-        bib_data[:bor_status] = aleph_xml.at_xpath("//z305/z305-bor-status")&.text
-      end
-
-      bib_data
     end
 
   end
