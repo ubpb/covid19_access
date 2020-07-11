@@ -1,107 +1,42 @@
 class RegistrationsController < ApplicationController
 
-  def enter_index
-    setup_stats
-    setup_log
-  end
+  def new
+    if ilsid = get_filtered_ilsid(params[:ilsid]).presence
+      verify_ilsid(ilsid, entries_path) or return
+      verify_registration_for(ilsid) or return
 
-  def enter
-    if id = get_id
-      timestamp = Time.zone.now
+      bib_data = get_bib_data_for(ilsid)
+      verify_bib_data(ilsid, bib_data) or return
 
-      if valid_id?(id)
-        Registration.enter(id, timestamp)
-        AccessLog.create(ilsid: id, timestamp: timestamp, direction: "enter")
-
-        if data_matching_required_for?(id)
-          flash[:warning] = "#{id}: Bitte Datenabgleich durchführen"
-        else
-          flash[:success] = "#{id}: OK"
-        end
-      else
-        flash[:error] = "#{id}: Unzulässige Ausweisnummer"
-      end
-    end
-
-    redirect_to enter_index_path
-  end
-
-  def exit_index
-    setup_stats
-    setup_log
-  end
-
-  def exit
-    if id = get_id
-      timestamp = Time.zone.now
-
-      if valid_id?(id)
-        Registration.exit(id, timestamp)
-        AccessLog.create(ilsid: id, timestamp: timestamp, direction: "exit")
-        flash[:success] = "#{id}: OK"
-      else
-        flash[:error] = "#{id}: Unzulässige Ausweisnummer"
-      end
-    end
-
-    redirect_to exit_index_path
-  end
-
-  def stats
-    setup_stats
-
-    render partial: "registrations/stats", locals: {
-      number_of_people_entered: @number_of_people_entered,
-      max_number_of_people: @max_number_of_people
-    }
-  end
-
-  def log
-    setup_log
-
-    render partial: "registrations/log", locals: {
-      access_log: @access_log
-    }
-  end
-
-private
-
-  def get_id
-    if id = permitted_params[:ilsid]
-      filter_proc = ->(id) { id.gsub(/\s+/, "").upcase } # default filter proc
-
-      if filter_proc_string = Rails.configuration.application.id_filter_proc
-        filter_proc = eval(filter_proc_string)
-      end
-
-      filter_proc.(id)
+      @registration        = Registration.new(ilsid: ilsid)
+      @registration.name   = bib_data[:name]
+      @registration.street = bib_data[:street]
+      @registration.city   = bib_data[:city]
+      @registration.phone  = bib_data[:phone]
+      @registration.email  = bib_data[:email]
+    else
+      redirect_to(entries_path)
     end
   end
 
-  def setup_stats
-    @number_of_people_entered = Registration.number_of_people_entered
-    @max_number_of_people = Rails.configuration.application.max_people || 40
-    now = Time.zone.now
-    @number_of_people_entered_last_hour = Registration.where(entered_at: (now - 1.hour)..now).count
-    @number_of_people_exited_last_hour = Registration.where(exited_at: (now - 1.hour)..now).count
-  end
+  def create
+    # Permit params
+    permitted_params = params.require(:registration).permit(
+      :ilsid, :name, :street, :city, :phone
+    )
 
-  def setup_log
-    @access_log = AccessLog.order(timestamp: :desc).limit(10)
-  end
+    ilsid = permitted_params[:ilsid]
+    verify_registration_for(ilsid) or return
 
-  def permitted_params
-    params.require(:registration).permit(:ilsid)
-  end
+    @registration = Registration.new(permitted_params)
+    @registration.entered_at = Time.zone.now
 
-  def valid_id?(id)
-    matchers = Rails.configuration.application.valid_ids || []
-    matchers.any?{|r| r.match(id)}
-  end
-
-  def data_matching_required_for?(id)
-    matchers = Rails.configuration.application.data_matching_required_for_ids || []
-    matchers.any?{|r| r.match(id)}
+    if @registration.save
+      flash["success"] = "OK: #{@registration.ilsid}"
+      redirect_to(entries_path)
+    else
+      render :new
+    end
   end
 
 end

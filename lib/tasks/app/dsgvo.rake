@@ -9,8 +9,6 @@ namespace :app do
           ilsid: p.ilsid[0..2].ljust(10, "*")
         )
       end
-
-      AccessLog.where("created_at < ?", date).destroy_all
     end
   end
 end

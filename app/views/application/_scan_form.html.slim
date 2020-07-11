@@ -1,0 +1,9 @@
+.card
+  .card-header
+    h5.mb-0 = header_text
+  .card-body
+    = render "alerts"
+
+    = simple_form_for :scan_form, url: form_path do |f|
+      = f.input :ilsid, label: false, placeholder: "Bibliotheksausweisnummer", input_html: {class: "form-control-lg", autocomplete: "off"}, autofocus: true
+      = f.button :submit, action_text, class: "btn-lg btn-block"

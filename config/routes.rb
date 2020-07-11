@@ -2,13 +2,14 @@ Rails.application.routes.draw do
 
   root to: redirect("/einlass")
 
-  get  "/einlass", to: "registrations#enter_index", as: "enter_index"
-  post "/einlass", to: "registrations#enter", as: "enter"
-  get  "/auslass", to: "registrations#exit_index", as: "exit_index"
-  post "/auslass", to: "registrations#exit", as: "exit"
+  resources "entries", only: [:index, :create], path: "einlass"
+  resources "exits", only: [:index, :create], path: "auslass"
 
-  get "/api/stats", to: "registrations#stats", as: "stats"
-  get "/api/log", to: "registrations#log", as: "log"
+  get  "/einlass/registrations/new/:ilsid", to: "registrations#new", as: "new_registration"
+  post "/einlass/registrations", to: "registrations#create", as: "registrations"
+
+  get "/api/stats", to: "application#stats", as: "stats"
+  get "/api/log", to: "application#log", as: "log"
 
   namespace :admin, path: "/admin" do
     get "/reset", to: "reset#index", as: "reset_index"
