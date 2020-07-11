@@ -13,7 +13,7 @@ class ExitsController < ApplicationController
         registration.exited_at = Time.zone.now
         registration.save!
 
-        flash[:success] = "Ok: #{ilsid}"
+        flash[:success] = "OK: #{ilsid}"
       else
         flash[:error] = "Ausweis-Nr. #{ilsid} wurde nicht am Einlass erfasst."
       end
