@@ -1,11 +1,5 @@
 .row
-  .col-md-8
-    .mb-3 = render "scan_form", form_path: exits_path, header_text: "Auslass", action_text: "Auslass"
+  .col-md-8.mb-3
+    = render "scan_form", form_path: exits_path, header_text: "Auslass", action_text: "Auslass"
   .col-md-4
-    .mb-3
-      div(data={"controller": "partial-poller", "partial-poller-url": stats_path})
-        div(data={"target": "partial-poller.output"})
-
-    .mb-3
-      div(data={"controller": "partial-poller", "partial-poller-url": log_path})
-        div(data={"target": "partial-poller.output"})
+    = render "stats_and_log"
