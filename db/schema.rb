@@ -16,13 +16,13 @@ ActiveRecord::Schema.define(version: 2020_07_11_140436) do
     t.string "ilsid", null: false
     t.datetime "entered_at", null: false
     t.datetime "exited_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.string "name"
     t.string "street"
     t.string "city"
     t.string "phone"
     t.string "email"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["entered_at"], name: "index_registrations_on_entered_at"
     t.index ["exited_at"], name: "index_registrations_on_exited_at"
     t.index ["ilsid"], name: "index_registrations_on_ilsid"

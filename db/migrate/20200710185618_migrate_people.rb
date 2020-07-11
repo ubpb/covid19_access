@@ -4,7 +4,7 @@ class MigratePeople < ActiveRecord::Migration[6.0]
 
   def up
     Person.all.each do |person|
-      Registration.new(person.attributes).save!
+      Registration.new(person.attributes).save!(validate: false)
     end
   end
 end
