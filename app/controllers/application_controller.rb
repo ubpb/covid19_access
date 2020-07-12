@@ -84,7 +84,7 @@ private
 
   def verify_bib_data(ilsid, bib_data)
     if bib_data.nil?
-      flash["error"] = "Ausweis #{ilsid} unbekannt."
+      flash["error"] = "Ausweis-Nr. #{ilsid} ist in Aleph unbekannt."
       redirect_to(entries_path) and return
     end
 

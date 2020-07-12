@@ -6,10 +6,13 @@
     ul.list-group.list-group-flush
       - last_registrations.each do |reg|
         li.list-group-item.bg-transparent
+          - mode = reg.exited_at.nil? ? :enter : :exit
           div
-            = "#{reg.exited_at.nil? ? "Einlass" : "Auslass"}:"
+            = "#{mode == :enter ? "Einlass" : "Auslass"}:"
             =< reg.ilsid
-          small = l(reg.updated_at, format: "%d.%m.%Y, %H:%M:%S")
+          small
+            - timestamp = mode == :enter ? reg.entered_at : reg.exited_at
+            = l(timestamp, format: "%d.%m.%Y, %H:%M:%S")
   - else
     .card-body
       ' Keine Daten
