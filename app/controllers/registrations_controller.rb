@@ -22,7 +22,7 @@ class RegistrationsController < ApplicationController
   def create
     # Permit params
     permitted_params = params.require(:registration).permit(
-      :ilsid, :name, :street, :city, :phone
+      :ilsid, :name, :street, :city, :phone, :email
     )
 
     ilsid = permitted_params[:ilsid]
