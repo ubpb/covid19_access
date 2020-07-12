@@ -1,7 +1,19 @@
-.row.justify-content-center
+.row
   .col-md-8
     .card
       .card-header
         h5.mb-0 = "Daten für Einlass bestätigen / vervollständigen"
       .card-body
         = render "form"
+  .col-md-4
+    - if @registration.ilsid =~ /\AP[AL]{1}/
+      .alert.alert-info.mb-3
+        ' PA / PL bla bla
+    - elsif @registration.ilsid =~ /\AP[EZPG]{1}/
+      .alert.alert-info.mb-3
+        ' PE/PZ/PP/PG bla bla
+    - elsif @registration.ilsid =~ /\AP[S]{1}/
+      .alert.alert-info.mb-3
+        ' PS bla bla
+
+    = link_to "Daten neu aus Aleph laden", new_registration_path(@registration.ilsid), class: "btn btn-secondary btn-block"
