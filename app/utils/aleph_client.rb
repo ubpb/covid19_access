@@ -23,6 +23,13 @@ class AlephClient
       bib_data[:phone] = aleph_xml.at_xpath("//z304/z304-telephone")&.text
       bib_data[:email] = aleph_xml.at_xpath("//z304/z304-email-address")&.text
 
+      # Handle edge cases
+      if ilsid =~ /\AP[AL]{1}/
+        bib_data[:street] = nil
+        bib_data[:city] = nil
+        bib_data[:phone] = nil
+      end
+
       bib_data
     end
   end
