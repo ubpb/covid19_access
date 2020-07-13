@@ -2,18 +2,23 @@
   .col-md-8
     .card
       .card-header
-        h5.mb-0 = "Daten für Einlass bestätigen / vervollständigen"
+        h5.mb-0 = "Daten für Einlass abgleichen / vervollständigen"
       .card-body
         = render "form"
   .col-md-4
     - if @registration.ilsid =~ /\AP[AL]{1}/
       .alert.alert-info.mb-3
-        ' PA / PL bla bla
+        div
+          ' Falsche Daten können in Aleph nicht geändert werden. In dem Fall korrekte Daten hier erfassen und den Nutzer bitten, die Daten in der Verwaltung korrigieren zu lassen.
     - elsif @registration.ilsid =~ /\AP[EZPG]{1}/
       .alert.alert-info.mb-3
-        ' PE/PZ/PP/PG bla bla
+        div
+          ' Falsche Daten können in Aleph geändert werden. Anschließend kann diese Maske über den Knopf "Daten aus Aleph neu laden" aktualisiert werden.
+
+      = link_to "Daten neu aus Aleph laden", new_registration_path(@registration.ilsid), class: "btn btn-secondary btn-block"
     - elsif @registration.ilsid =~ /\AP[S]{1}/
       .alert.alert-info.mb-3
-        ' PS bla bla
-
-    = link_to "Daten neu aus Aleph laden", new_registration_path(@registration.ilsid), class: "btn btn-secondary btn-block"
+        p
+          ' Falsche Adressdaten können in Aleph nicht geändert werden. In dem Fall korrekte Daten hier erfassen und den Nutzer bitten, die Daten über das Studentensekretariat korrigieren zu lassen.
+        p.mb-0
+          ' Die Telefonnummer kann für Studierende nicht in Aleph hinterglegt werden und muss bei jedem Zutritt neu erfasst werden.
