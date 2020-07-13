@@ -44,7 +44,7 @@ namespace :app do
               registration.street.presence || bib_data[:street],
               registration.city.presence   || bib_data[:city],
               registration.phone.presence  || bib_data[:phone],
-              registration.email.presence  || bib_data[:email]
+              bib_data[:email]
             ]
 
             style = p.workbook.styles.add_style(alignment: {wrap_text: true, vertical: :top})

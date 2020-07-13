@@ -8,7 +8,6 @@ class CreateRegistrations < ActiveRecord::Migration[6.0]
       t.string   :street,     null: true
       t.string   :city,       null: true
       t.string   :phone,      null: true
-      t.string   :email,      null: true
       t.timestamps
     end
   end

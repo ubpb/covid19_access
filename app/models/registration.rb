@@ -6,7 +6,6 @@ class Registration < ApplicationRecord
   validates :street, presence: true
   validates :city, presence: true
   validates :phone, presence: true
-  #validates :email, presence: true
 
   def self.number_of_people_entered
     self.where(exited_at: nil).count

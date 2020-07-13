@@ -18,7 +18,6 @@ class RegistrationsController < ApplicationController
           bib_data[:street] = previous_registration.street.presence || bib_data[:street]
           bib_data[:city]   = previous_registration.city.presence   || bib_data[:city]
           bib_data[:phone]  = previous_registration.phone.presence  || bib_data[:phone]
-          bib_data[:email]  = previous_registration.email.presence  || bib_data[:email]
         end
       end
 
@@ -27,7 +26,6 @@ class RegistrationsController < ApplicationController
       @registration.street = bib_data[:street]
       @registration.city   = bib_data[:city]
       @registration.phone  = bib_data[:phone]
-      @registration.email  = bib_data[:email]
     else
       redirect_to(entries_path)
     end
@@ -36,7 +34,7 @@ class RegistrationsController < ApplicationController
   def create
     # Permit params
     permitted_params = params.require(:registration).permit(
-      :ilsid, :name, :street, :city, :phone, :email
+      :ilsid, :name, :street, :city, :phone
     )
 
     ilsid = permitted_params[:ilsid]
