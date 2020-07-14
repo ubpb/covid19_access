@@ -4,13 +4,16 @@ namespace :app do
     task :cleanup => :environment do
       date = 4.weeks.ago
 
-      Person.where("created_at < ?", date).each do |p|
+      Registration.where("created_at < ?", date).each do |p|
         p.update_columns(
-          ilsid: p.ilsid[0..2].ljust(10, "*")
+          ilsid: p.ilsid[0..2].ljust(10, "*"),
+          name: nil,
+          street: nil,
+          city: nil,
+          phone: nil,
+          email: nil
         )
       end
-
-      AccessLog.where("created_at < ?", date).destroy_all
     end
   end
 end

@@ -10,6 +10,8 @@ export default class extends Controller {
     var that = this
     const interval = this.data.get("interval") || 5000
 
+    this.loadPartial()
+
     this.intervalId = setInterval(() => {
       this.loadPartial()
     }, interval);

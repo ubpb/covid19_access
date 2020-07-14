@@ -15,6 +15,7 @@ gem "rails-i18n",   "~> 6.0.0"
 gem "sass-rails",   ">= 6"
 gem "simple_form",  "~> 5.0.2"
 gem "slim",         "~> 4.0"
+gem "strip_attributes", "~> 1.11"
 gem "turbolinks",   "~> 5"
 gem "webpacker",    "~> 4.0"
 

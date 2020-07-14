@@ -1,0 +1,21 @@
+.row
+  .col-md-8
+    .card
+      .card-header
+        h5.mb-0 = "Daten für Einlass abgleichen / vervollständigen"
+      .card-body
+        = render "form"
+  .col-md-4
+    - if @registration.ilsid =~ /\AP[AL]{1}/
+      .alert.alert-info.mb-3
+        p.mb-0
+          ' Bitte private Anschrift und Telefonummer erfassen.
+    - elsif @registration.ilsid =~ /\AP[EZPG]{1}/
+      .alert.alert-info.mb-3
+        p.mb-0
+          ' Bei falscher Adresse bitte die Daten in Aleph ändern. Anschließend diese Maske über den Knopf "Daten aus Aleph neu laden" aktualisieren.
+      = link_to "Daten neu aus Aleph laden", new_registration_path(@registration.ilsid, reload_aleph_data: true), class: "btn btn-secondary btn-block"
+    - elsif @registration.ilsid =~ /\AP[S]{1}/
+      .alert.alert-info.mb-3
+        p.mb-0
+          ' Bei falscher Adresse ist hier die korrigierte Adresse zu erfassen. Anschließend den Nutzer bitten die Daten über das Studierendensekretariat korrigieren zu lassen.

@@ -1,0 +1,7 @@
+= simple_form_for @registration do |f|
+  = f.input :ilsid, label: "Bibliotheksausweisnummer", input_html: {class: "form-control-lg", autocomplete: "off"}, readonly: true
+  = f.input :name, label: "Name", input_html: {class: "form-control-lg", autocomplete: "off"}, readonly: true
+  = f.input :street, label: "Straße und Hausnummer", input_html: {class: "form-control-lg", autocomplete: "off"}
+  = f.input :city, label: "PLZ / Stadt", input_html: {class: "form-control-lg", autocomplete: "off"}
+  = f.input :phone, label: "Telefon", input_html: {class: "form-control-lg", autocomplete: "off"}
+  = f.button :submit, "Datenabgleich durchgeführt / Einlass bestätigen", class: "btn-lg btn-block"
