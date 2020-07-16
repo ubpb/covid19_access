@@ -30,6 +30,10 @@ class AlephClient
         bib_data[:phone] = nil
       end
 
+      if bib_data[:phone] == "-"
+        bib_data[:phone] = nil
+      end
+
       bib_data
     end
   end
