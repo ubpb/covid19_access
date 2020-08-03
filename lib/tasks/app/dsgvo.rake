@@ -10,8 +10,7 @@ namespace :app do
           name: nil,
           street: nil,
           city: nil,
-          phone: nil,
-          email: nil
+          phone: nil
         )
       end
     end
