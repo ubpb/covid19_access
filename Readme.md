@@ -49,10 +49,8 @@ Dateien die möglicherweise angepasst werden müssen:
 6. Datenbank anlegen
 
    `$ rails db:create`
-   
-   `$ rails db:schema:load`
 
-   (oder manuell anlegen)
+   `$ rails db:schema:load`
 
 7. Einstellungen: `config/application.yml` erstellen und anpassen.
 
