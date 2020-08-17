@@ -25,26 +25,20 @@ namespace :app do
             "Name",
             "Straße",
             "PLZ / Stadt",
-            "Telefon",
-            "E-Mail"
+            "Telefon"
           ]
 
           sheet.add_row(headers)
 
-          aleph_client = AlephClient.new
-
           registrations.each do |registration|
-            bib_data = aleph_client.get_bib_data_for(registration.ilsid) || {}
-
             values = [
               registration.ilsid,
               I18n.l(registration.entered_at),
               I18n.l(registration.exited_at),
-              registration.name.presence   || bib_data[:name],
-              registration.street.presence || bib_data[:street],
-              registration.city.presence   || bib_data[:city],
-              registration.phone.presence  || bib_data[:phone],
-              bib_data[:email]
+              registration.name.presence,
+              registration.street.presence,
+              registration.city.presence,
+              registration.phone.presence
             ]
 
             style = p.workbook.styles.add_style(alignment: {wrap_text: true, vertical: :top})
