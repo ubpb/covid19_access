@@ -14,7 +14,7 @@
       .alert.alert-info.mb-3
         p.mb-0
           ' Bei falscher Adresse bitte die Daten in Aleph ändern. Anschließend diese Maske über den Knopf "Daten aus Aleph neu laden" aktualisieren.
-      = link_to "Daten neu aus Aleph laden", new_registration_path(@registration.ilsid, reload_aleph_data: true), class: "btn btn-secondary btn-block"
+      = link_to "Daten neu aus Aleph laden", admin_new_registration_path(@registration.ilsid, reload_aleph_data: true), class: "btn btn-secondary btn-block"
     - elsif @registration.ilsid =~ /\AP[S]{1}/
       .alert.alert-info.mb-3
         p.mb-0
