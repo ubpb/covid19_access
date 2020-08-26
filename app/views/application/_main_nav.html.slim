@@ -1,0 +1,13 @@
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+  a.navbar-brand(href="/")
+    i.fas.fa-users.fa-lg
+    =< "Besucherregistrerung"
+
+  button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarContent")
+    span.navbar-toggler-icon
+
+  #navbarContent.collapse.navbar-collapse
+    ul.navbar-nav.mr-auto
+      li.nav-item(class=active_when(/admin\/checkin/))
+        = link_to "Platz reservieren", "#", class: "nav-link"
+

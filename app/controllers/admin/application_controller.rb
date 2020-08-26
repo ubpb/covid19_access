@@ -76,7 +76,7 @@ private
 
     if registration.present?
       flash["error"] = "Ausweis-Nr. #{ilsid} befindet sich bereits im Gebäude. Möglicherweise wurde die Auslassbuchung nicht erfasst."
-      redirect_to(admin_entries_path) and return
+      redirect_to(admin_checkin_index_path) and return
     end
 
     return true
@@ -85,7 +85,7 @@ private
   def verify_bib_data(ilsid, bib_data)
     if bib_data.nil?
       flash["error"] = "Ausweis-Nr. #{ilsid} ist in Aleph unbekannt."
-      redirect_to(admin_entries_path) and return
+      redirect_to(admin_checkin_index_path) and return
     end
 
     return true

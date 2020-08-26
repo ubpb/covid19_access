@@ -1,20 +1,21 @@
 nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
   a.navbar-brand(href="/")
     i.fas.fa-users.fa-lg
-    =< "COVID19 Zugang"
+    =< "Besucherregistrierung (Admin)"
 
   button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarContent")
     span.navbar-toggler-icon
 
   #navbarContent.collapse.navbar-collapse
     ul.navbar-nav.mr-auto
-      li.nav-item(class=active_when(/admin\/einlass/))
-        = link_to "Einlass", admin_entries_path , class: "nav-link"
-      li.nav-item(class=active_when(/admin\/auslass/))
-        = link_to "Auslass", admin_exits_path , class: "nav-link"
+      li.nav-item(class=active_when(/admin\/checkin/))
+        = link_to "Einlass", admin_checkin_index_path , class: "nav-link"
+      li.nav-item(class=active_when(/admin\/checkout/))
+        = link_to "Auslass", admin_checkout_index_path , class: "nav-link"
+    ul.navbar-nav
       li.nav-item.dropdown
         a.nav-link.dropdown-toggle(data-toggle="dropdown" href="#")
           = "Admin"
-        .dropdown-menu
+        .dropdown-menu.dropdown-menu-right
           = link_to "Reset", admin_reset_index_path , class: "dropdown-item"
 

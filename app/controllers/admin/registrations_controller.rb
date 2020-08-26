@@ -2,7 +2,7 @@ class Admin::RegistrationsController < Admin::ApplicationController
 
   def new
     if ilsid = get_filtered_ilsid(params[:ilsid]).presence
-      verify_ilsid(ilsid, admin_entries_path) or return
+      verify_ilsid(ilsid, admin_checkin_index_path) or return
       verify_registration_for(ilsid) or return
 
       # Load data from Aleph
@@ -27,7 +27,7 @@ class Admin::RegistrationsController < Admin::ApplicationController
       @registration.city   = bib_data[:city]
       @registration.phone  = bib_data[:phone]
     else
-      redirect_to(admin_entries_path)
+      redirect_to(admin_checkin_index_path)
     end
   end
 
@@ -45,7 +45,7 @@ class Admin::RegistrationsController < Admin::ApplicationController
 
     if @registration.save
       flash["success"] = "OK: #{@registration.ilsid}"
-      redirect_to(admin_entries_path)
+      redirect_to(admin_checkin_index_path)
     else
       render :new
     end
