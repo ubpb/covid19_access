@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
 
-  #root to: redirect("/einlass")
+  root to: "pages#homepage"
 
   # Redirect some "old" routes to "new" staff backend
   get "/einlass", to: redirect("/admin/checkin")
   get "/auslass", to: redirect("/admin/checkout")
+
+  # Authentication
+  post "/login",  to: "sessions#create", as: :session
+  get  "/login",  to: "sessions#new", as: :new_session
+  get  "/logout", to: "sessions#destroy", as: :logout
 
   # Staff Backend
   namespace :admin, path: "/admin" do
