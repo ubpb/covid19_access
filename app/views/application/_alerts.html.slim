@@ -4,20 +4,20 @@
   ruby:
     alert_class = case key.to_sym
       when :alert, :warning
-        "alert alert-warning flash"
+        "alert alert-warning animate__flash"
       when :error
-        "alert alert-danger flash"
+        "alert alert-danger animate__flash"
       when :notice, :info
-        "alert alert-info flipInX"
+        "alert alert-info animate__flipInX"
       when :success
-        "alert alert-success flipInX"
+        "alert alert-success animate__flipInX"
       else
-        "alert alert-primary flipInX"
+        "alert alert-primary animate__flipInX"
       end
 
     alert_class += " alert-global" if global
 
   - if message.is_a?(String)
     - flash.delete(key)
-    div(class="#{alert_class} animated" role="alert")
+    div(class="#{alert_class} animate__animated" role="alert")
       h5.text-center.mb-0 == message
