@@ -1,7 +1,14 @@
+- submit_text = local_assigns.fetch(:submit_text) { "Speichern" }
+
 = simple_form_for [:admin, @registration] do |f|
   = f.input :ilsid, label: "Bibliotheksausweisnummer", input_html: {class: "form-control-lg", autocomplete: "off"}, readonly: true
   = f.input :name, label: "Name", input_html: {class: "form-control-lg", autocomplete: "off"}, readonly: true
   = f.input :street, label: "Straße und Hausnummer", input_html: {class: "form-control-lg", autocomplete: "off"}
   = f.input :city, label: "PLZ / Stadt", input_html: {class: "form-control-lg", autocomplete: "off"}
   = f.input :phone, label: "Telefon", input_html: {class: "form-control-lg", autocomplete: "off"}
-  = f.button :submit, "Datenabgleich durchgeführt / Einlass bestätigen", class: "btn-lg btn-block"
+
+  - unless @registration.new_record?
+    = f.input :entered_at, label: "Einlass", input_html: {class: "form-control-lg"}
+    = f.input :exited_at, label: "Auslass", input_html: {class: "form-control-lg"}
+
+  = f.button :submit, submit_text, class: "btn-lg btn-block"

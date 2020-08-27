@@ -1,7 +1,16 @@
 class Admin::RegistrationsController < Admin::ApplicationController
 
+  def index
+    if @ilsid = get_filtered_ilsid(params.dig("scan_form", "ilsid")).presence
+      @filtered = true
+      @registrations = Registration.where(ilsid: @ilsid).order("entered_at desc")
+    end
+
+    @last_registrations = Registration.where(exited_at: nil).order("entered_at desc").limit(10)
+  end
+
   def new
-    if ilsid = get_filtered_ilsid(params[:ilsid]).presence
+    if params[:ilsid].present? && ilsid = get_filtered_ilsid(params[:ilsid]).presence
       verify_ilsid(ilsid, admin_checkin_index_path) or return
       verify_registration_for(ilsid) or return
 
@@ -48,6 +57,30 @@ class Admin::RegistrationsController < Admin::ApplicationController
       redirect_to(admin_checkin_index_path)
     else
       render :new
+    end
+  end
+
+  def show
+    @registration = Registration.find(params[:id])
+  end
+
+  def edit
+    @registration = Registration.find(params[:id])
+  end
+
+  def update
+    # Permit params
+    permitted_params = params.require(:registration).permit(
+      :ilsid, :name, :street, :city, :phone, :entered_at, :exited_at
+    )
+
+    @registration = Registration.find(params[:id])
+
+    if @registration.update_attributes(permitted_params)
+      flash[:success] = "Registrierung erfolgreich gespeichert."
+      redirect_to(admin_registration_path(@registration))
+    else
+      render :edit
     end
   end
 

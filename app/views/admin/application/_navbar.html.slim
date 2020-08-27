@@ -13,6 +13,8 @@ nav.navbar.navbar-dark.bg-dark.navbar-expand-lg
           = link_to "Einlass", admin_checkin_index_path , class: "nav-link"
         li.nav-item(class=active_when(/admin\/checkout/))
           = link_to "Auslass", admin_checkout_index_path , class: "nav-link"
+        li.nav-item(class=active_when(/admin\/registrations/))
+          = link_to "Registrierungen", admin_registrations_path , class: "nav-link"
       ul.navbar-nav
         li.nav-item.dropdown
           a.nav-link.dropdown-toggle(data-toggle="dropdown" href="#")

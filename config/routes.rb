@@ -30,8 +30,7 @@ Rails.application.routes.draw do
     post "checkout", to: "checkout#create", as: "checkout"
 
     # Registrations
-    get  "registrations/new/:ilsid", to: "registrations#new", as: "new_registration"
-    post "registrations", to: "registrations#create", as: "registrations"
+    resources :registrations, except: [:destroy]
 
     # Reset
     get "reset", to: "reset#index", as: "reset_index"

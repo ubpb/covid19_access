@@ -39,13 +39,15 @@ private
   end
 
   def get_filtered_ilsid(id)
-    filter_proc = ->(id) { id.gsub(/\s+/, "").upcase } # default filter proc
+    if id.present?
+      filter_proc = ->(id) { id.gsub(/\s+/, "").upcase } # default filter proc
 
-    if filter_proc_string = Rails.configuration.application.id_filter_proc
-      filter_proc = eval(filter_proc_string)
+      if filter_proc_string = Rails.configuration.application.id_filter_proc
+        filter_proc = eval(filter_proc_string)
+      end
+
+      filter_proc.(id)
     end
-
-    filter_proc.(id)
   end
 
   def setup_stats

@@ -1,0 +1,25 @@
+.row
+  .col-md-8.mb-3
+    .mb-3 = render "scan_form", form_path: admin_registrations_path, form_method: :get, header_text: "Registrierung suchen", action_text: "Suchen"
+
+    - if @filtered
+      .card
+        .card-header
+          h5.mb-0 = "Registrierungen für '#{@ilsid}'"
+
+        - if @registrations.present?
+          ul.list-group.list-group-flush
+            - @registrations.each do |reg|
+              li.list-group-item.bg-transparent
+                div
+                  = link_to reg.ilsid, admin_registration_path(reg)
+                small
+                  - timestamp = reg.entered_at
+                  = l(timestamp, format: "%d.%m.%Y, %H:%M:%S")
+        - else
+          .card-body
+            ' Keine Daten
+  .col-md-4
+    = render "log", last_registrations: @last_registrations
+
+
