@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  # Root path
   root to: "pages#homepage"
 
   # Redirect some "old" routes to "new" staff backend
@@ -11,8 +12,15 @@ Rails.application.routes.draw do
   get  "/login",  to: "sessions#new", as: :new_session
   get  "/logout", to: "sessions#destroy", as: :logout
 
+  # Static kickers
+  get "/datenschutz", to: redirect("https://www.ub.uni-paderborn.de/fileadmin/ub/Dokumente_Formulare/DSE_UB_001_COVID19_Access_v1.pdf"), as: "datenschutz"
+  get "/impressum", to: redirect("https://www.ub.uni-paderborn.de/ueber-uns/impressum/"), as: "impressum"
+
   # Staff Backend
   namespace :admin, path: "/admin" do
+    # Root path
+    root to: redirect("/admin/checkin")
+
     # Checkin
     get  "checkin", to: "checkin#index", as: "checkin_index"
     post "checkin", to: "checkin#create", as: "checkin"

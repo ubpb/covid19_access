@@ -18,7 +18,7 @@ html
       = render "header"
 
     #page
-      .container.mt-4
+      .container.mt-3
         = render "alerts", global: true
         = content_for?(:main) ? yield(:main) : yield
 
