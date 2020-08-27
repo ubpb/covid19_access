@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_11_140436) do
+ActiveRecord::Schema.define(version: 2020_08_27_103753) do
 
-  create_table "registrations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "registrations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "ilsid", null: false
     t.datetime "entered_at", null: false
     t.datetime "exited_at"
@@ -20,11 +20,19 @@ ActiveRecord::Schema.define(version: 2020_07_11_140436) do
     t.string "street"
     t.string "city"
     t.string "phone"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["entered_at"], name: "index_registrations_on_entered_at"
     t.index ["exited_at"], name: "index_registrations_on_exited_at"
     t.index ["ilsid"], name: "index_registrations_on_ilsid"
+  end
+
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "uid", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "email", null: false
+    t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
 end

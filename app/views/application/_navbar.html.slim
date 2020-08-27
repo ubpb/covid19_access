@@ -9,7 +9,7 @@ nav.navbar.navbar-dark.bg-dark.navbar-expand-lg
           = link_to root_path, class: "nav-link" do
             i.fas.fa-home
             =< "Start"
-        li.nav-item
+        /li.nav-item
           = link_to "#", class: "nav-link" do
             i.far.fa-lightbulb
             =< "Hilfe"
@@ -17,7 +17,7 @@ nav.navbar.navbar-dark.bg-dark.navbar-expand-lg
       - if current_user
         .ml-auto
           .btn-group.d-flex.ml-lg-4.mt-2.mt-lg-0
-            = link_to account_root_path, class: "btn btn-primary w-100" do
+            = link_to root_path, class: "btn btn-primary w-100" do
               i.far.fa-user
               =< current_user.name
             = link_to logout_path, class: "btn btn-outline-primary", data: {confirm: "Wirklich abmelden?"} do
