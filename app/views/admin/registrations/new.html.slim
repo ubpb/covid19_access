@@ -4,7 +4,7 @@
       .card-header
         h5.mb-0 = "Daten für Einlass abgleichen / vervollständigen"
       .card-body
-        = render "form", submit_text: "Datenabgleich durchgeführt / Einlass bestätigen"
+        = render "form"
   .col-md-4
     - if @registration.ilsid =~ /\AP[AL]{1}/
       .alert.alert-info.mb-3

@@ -1,0 +1,8 @@
+.card.card-primary.card-cutoff-corner
+  .card-header.d-flex.align-items-center
+    h5.mb-0 = "Ressourcen zuordnen?"
+  .card-body
+    h3 = "Möchten Sie einen Sitzplatz oder eine andere Ressource in Anspruch nehmen?"
+    .row
+      .col = link_to "JA", new_admin_registration_allocation_path(@registration), class: "btn btn-lg btn-primary btn-block"
+      .col = link_to "NEIN", admin_checkin_index_path, class: "btn btn-lg btn-primary btn-block"

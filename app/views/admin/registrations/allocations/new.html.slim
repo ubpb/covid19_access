@@ -1,0 +1,8 @@
+.card.card-primary.card-cutoff-corner
+  .card-header.d-flex.align-items-center
+    div
+      h5.mb-0 = "Neue Ressource zuordnen"
+      strong = "#{@registration.ilsid}, #{@registration.name}"
+
+  .card-body
+    = render "form"

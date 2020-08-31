@@ -1,0 +1,10 @@
+= simple_form_for [:admin, @registration, @allocation] do |f|
+
+  ruby:
+    label_method = -> (r) do
+      "#{r.resource_group.title} / #{r.resource_location.title} / #{r.title}"
+    end
+  = f.association :resource, collection: @resources, disabled: @allocated_resource_ids, label_method: label_method
+
+  = f.button :submit, "Speichern", class: "btn-lg"
+  = link_to "Abbrechen", admin_registration_allocations_path(@registration), class: "btn btn-lg btn-link"

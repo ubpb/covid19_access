@@ -1,25 +1,34 @@
-.card.card-primary.card-cutoff-corner
+.card.card-primary.card-cutoff-corner.mb-3
   .card-header.d-flex.align-items-center
-    h5.mb-0 = "Registrierungsdetails"
+    h5.mb-0 = "Details"
     .ml-auto
       = link_to "Bearbeiten", edit_admin_registration_path(@registration), class: "btn btn-primary"
   .card-body
-    dl
-      dt = "Einlass"
-      dd = l(@registration.entered_at, format: "%d.%m.%Y, %H:%M:%S")
-      dt = "Auslass"
-      dd = @registration.exited_at.present? ? l(@registration.exited_at, format: "%d.%m.%Y, %H:%M:%S") : "–"
+    .row
+      .col
+        - if @registration.closed?
+          h3
+            span.badge.badge-danger =< "Abgeschlossen"
 
-    dl
-      dt = "Bibliotheksausweisnummer"
-      dd = @registration.ilsid
-      dt = "Name"
-      dd = @registration.name
-      dt = "Anschrift"
-      dd = @registration.street
-      dt = "PLZ / Ort"
-      dd = @registration.city
+        dl
+          dt = "Einlass"
+          dd = l(@registration.entered_at, format: "%d.%m.%Y, %H:%M:%S")
+          dt = "Auslass"
+          dd
+            - if @registration.closed?
+              = l(@registration.exited_at, format: "%d.%m.%Y, %H:%M:%S")
+            - else
+              .mb-2 = "–"
+              = link_to "Person auschecken", admin_registration_path, method: :delete, data: {confirm: "Person wirklich auschecken?"}, class: "btn btn-sm btn-danger"
+      .col
+        dl
+          dt = "Bibliotheksausweisnummer"
+          dd = @registration.ilsid
+          dt = "Name"
+          dd = @registration.name
+          dt = "Anschrift"
+          dd = @registration.street
+          dt = "PLZ / Ort"
+          dd = @registration.city
 
-    dl.mb-0
-      dt = "Sitzplatz"
-      dd = "–"
+= render template: "admin/registrations/allocations/index"

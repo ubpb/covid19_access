@@ -53,8 +53,8 @@ class Admin::RegistrationsController < Admin::ApplicationController
     @registration.entered_at = Time.zone.now
 
     if @registration.save
-      flash["success"] = "OK: #{@registration.ilsid}"
-      redirect_to(admin_checkin_index_path)
+      flash["success"] = "Einlass OK für '#{@registration.name} (#{@registration.ilsid})'"
+      redirect_to(ask_for_resource_admin_registration_path(@registration))
     else
       render :new
     end
@@ -62,6 +62,8 @@ class Admin::RegistrationsController < Admin::ApplicationController
 
   def show
     @registration = Registration.find(params[:id])
+    @allocations = @registration.allocations.includes(resource: [:resource_group, :resource_location])
+    @released_allocations = @registration.released_allocations.includes(resource: [:resource_group, :resource_location])
   end
 
   def edit
@@ -82,6 +84,22 @@ class Admin::RegistrationsController < Admin::ApplicationController
     else
       render :edit
     end
+  end
+
+  def destroy
+    @registration = Registration.find(params[:id])
+
+    if @registration.close
+      flash[:success] = "Person erfolgreich ausgecheckt. Registrerung wurde geschlossen."
+    else
+      flash[:error] = "Es ist ein unbekannter Fehler aufgetreten."
+    end
+
+    redirect_to(admin_registration_path(@registration))
+  end
+
+  def ask_for_resource
+    @registration = Registration.find(params[:id])
   end
 
 end

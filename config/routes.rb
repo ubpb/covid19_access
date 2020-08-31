@@ -30,7 +30,13 @@ Rails.application.routes.draw do
     post "checkout", to: "checkout#create", as: "checkout"
 
     # Registrations
-    resources :registrations, except: [:destroy]
+    resources :registrations do
+      member do
+        get "ask-for-resource", to: "registrations#ask_for_resource", as: :ask_for_resource
+      end
+
+      resources :allocations, module: :registrations, only: [:index, :new, :create, :destroy]
+    end
 
     # Reset
     get "reset", to: "reset#index", as: "reset_index"
