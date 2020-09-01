@@ -21,7 +21,7 @@
     alert_class += " alert-global" if global
     alert_class += " animate__animated animate__flipInX" if animate
 
-  div(class=alert_class role="alert")
+  .d-print-none(class=alert_class role="alert")
     button(type="button" class="close" data-dismiss="alert" aria-label="Close")
       span(aria-hidden="true")
         ' &times;

@@ -1,0 +1,48 @@
+/ Visible only on screen
+.d-print-none
+  .card.card-primary.card-cutoff-corner.mb-3
+    .card-header.d-flex.align-items-center
+      h5.mb-0 = "Belegungsinformationen drucken"
+    .card-body
+      p Belegungsinformationen werden gedruckt...
+      .text-center
+        = link_to "Ausdruck bestätigen", admin_registration_allocations_path(@registration), class: "btn btn-lg btn-primary"
+
+/ Visible only on print
+.d-none.d-print-block
+  .mb-4
+    .d-flex.flex-row.align-items-center.justify-content-between
+      = image_tag("ub-logo.svg", height: "60", loading: "lazy")
+      = image_tag("app-logo.svg", height: "35", loading: "lazy")
+
+  p Folgende Ressourcen (Arbeitsplatz etc.) wurden Ihnen zur Nutzung zugeordnet. Im Sinne des Infektionsschutzes und möglicher Rückverfolgbarkeit von Infektionsketten bitten wir Sie nur genau diese Ressourcen zu nutzen. Beim Verlassen der Bibliothek (Check-Out) werden die Ressourcen wieder freigegeben und können anderen Nutzerinnen und Nutzern zur Verfügung gestellt werden. Möchten Sie die Bibliothek nur kurz verlassen (Rauchen, Mittagessen etc.), teilen Sie dies bitte dem Bibliothekspersonal am Check-Out mit und verzichten Sie auf die Check-Out-Buchung.
+
+  p.mb-4.font-weight-bold Bitte desinfizieren Sie Arbeitsplätze und Geräte vor der Nutzung selbst. Dazu stehen entsprechende Materialien bereit. Sollte etwas fehlen wenden Sie sich bitte an das Bibliothekspersonal.
+
+  dl
+    dt Name
+    dd = @registration.name
+    dt Bibliotheksausweisnummer
+    dd = @registration.ilsid
+
+  - if @allocations.present?
+    table.table
+      thead
+        tr
+          th(scope="col") = "Art"
+          th(scope="col") = "Bereich"
+          th(scope="col") = "Ressource"
+          th(scope="col") = "Belegt am"
+      tbody
+        - @allocations.each do |allocation|
+          tr
+            td = allocation.resource.resource_group.title
+            td = allocation.resource.resource_location.title
+            td = allocation.resource.title
+            td = l(allocation.created_at, format: "%d.%m.%Y, %H:%M:%S")
+  - else
+    .alert.alert-info
+      ' Ihnen wurden keine Ressourcen zugeordnet.
+
+javascript:
+  window.print()

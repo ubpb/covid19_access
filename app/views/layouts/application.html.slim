@@ -14,7 +14,7 @@ html
     = javascript_pack_tag "application", "data-turbolinks-track": "reload"
 
   body
-    #header
+    #header.d-print-none
       = render "header"
 
     #page
@@ -22,5 +22,5 @@ html
         = render "alerts", global: true
         = content_for?(:main) ? yield(:main) : yield
 
-    #footer
+    #footer.d-print-none
       = render "footer"

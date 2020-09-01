@@ -25,7 +25,7 @@ class Admin::Registrations::AllocationsController < Admin::Registrations::Applic
       flash[:error] = "Fehler: Ressource konnte nicht zugeordnet werden"
     end
 
-    redirect_to(admin_registration_allocations_path(@registration))
+    redirect_to(print_admin_registration_allocations_path(@registration))
   end
 
   def destroy
@@ -38,6 +38,10 @@ class Admin::Registrations::AllocationsController < Admin::Registrations::Applic
     end
 
     redirect_to(admin_registration_allocations_path(@registration))
+  end
+
+  def print
+    @allocations = @registration.allocations.includes(resource: [:resource_group, :resource_location])
   end
 
 private
