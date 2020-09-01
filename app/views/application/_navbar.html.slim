@@ -7,12 +7,12 @@ nav.navbar.navbar-dark.bg-dark.navbar-expand-lg
       ul.navbar-nav
         li.nav-item
           = link_to root_path, class: "nav-link" do
-            i.fas.fa-home
+            i.fas.fa-home.fa-lg
             =< "Start"
-        /li.nav-item
-          = link_to "#", class: "nav-link" do
-            i.far.fa-lightbulb
-            =< "Hilfe"
+        li.nav-item
+          = link_to statistics_path, class: "nav-link" do
+            i.fas.fa-chart-line.fa-lg
+            =< "Belegungsübersicht"
 
       - if current_user
         .ml-auto

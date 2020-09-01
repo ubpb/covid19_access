@@ -1,0 +1,6 @@
+de:
+  statistics:
+    people:
+      building:
+        one: "Im Moment befindet sich %{number_of_people_entered} von max. %{max_number_of_people} erlaubten Personen im Gebäude"
+        other: "Im Moment befinden sich %{number_of_people_entered} von max. %{max_number_of_people} erlaubten Personen im Gebäude"

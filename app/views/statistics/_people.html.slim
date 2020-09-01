@@ -1,0 +1,23 @@
+ruby:
+  x = @number_of_people_entered.fdiv(@max_number_of_people) * 100
+  bg_class = case x
+    when 0..89   then "bg-success"
+    when 90..99 then "bg-warning"
+    else "bg-danger"
+  end
+
+.card.card-cutoff-corner.text-white.mb-3(class=bg_class)
+  .card-header
+    h5.mb-0 = "Personen im Gebäude"
+  .card-body
+    .text-center
+      h5.mb-0
+        = "Im Moment befinden sich #{@number_of_people_entered} von max. #{@max_number_of_people} erlaubten Personen im Gebäude"
+
+.card.card-cutoff-corner.text-white.bg-info.mb-3
+  .card-header
+    h5.mb-0 = "Fluktuation"
+  .card-body
+    .text-center
+      h5.mb-0
+        = "In der letzten Stunde haben #{@number_of_people_entered_last_hour} Personen das Gebäude betreten und #{@number_of_people_exited_last_hour} Personen haben es verlassen."
