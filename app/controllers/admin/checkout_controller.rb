@@ -10,10 +10,11 @@ class Admin::CheckoutController < Admin::ApplicationController
       registration = Registration.find_by(ilsid: ilsid, exited_at: nil)
 
       if registration.present?
-        registration.exited_at = Time.zone.now
-        registration.save!
-
-        flash[:success] = "OK: #{ilsid}"
+        if registration.close
+          flash[:success] = "OK: #{ilsid}"
+        else
+          flash[:error] = "Fehler: Person konnte nicht ausgecheckt werden. Bitte Registrierung überprüfen."
+        end
       else
         flash[:error] = "Ausweis-Nr. #{ilsid} wurde nicht am Einlass erfasst."
       end
