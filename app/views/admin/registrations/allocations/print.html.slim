@@ -33,14 +33,19 @@
           th(scope="col") = "Art"
           th(scope="col") = "Bereich"
           th(scope="col") = "Ressource"
-          th(scope="col") = "Belegt am"
+          th(scope="col") = "Hinweise"
       tbody
         - @allocations.each do |allocation|
+          - todays_next_reservation = allocation.resource.todays_reservations.first
           tr
             td = allocation.resource.resource_group.title
             td = allocation.resource.resource_location.title
             td = allocation.resource.title
-            td = l(allocation.created_at, format: "%d.%m.%Y, %H:%M:%S")
+            td
+              - if todays_next_reservation.present?
+                == "Der Platz ist ab <strong>#{l(todays_next_reservation.begin_date, format: "%H:%M Uhr")}</strong> reserviert und muss ggf. freigegeben werden."
+              - else
+                = "–"
   - else
     .alert.alert-info
       ' Ihnen wurden keine Ressourcen zugeordnet.

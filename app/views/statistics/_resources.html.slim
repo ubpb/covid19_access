@@ -31,10 +31,19 @@
                   th(scope="col") = "Ressource"
               tbody
                 - resources.each do |resource|
-                  - allocated = resource.allocated?
-                  - row_class = allocated ? "table-danger" : "table-success"
+                  ruby:
+                    allocated = resource.allocated?
+                    todays_next_reservation = resource.todays_reservations.first
+                    row_class = allocated ? "table-danger" : (todays_next_reservation.present? ? "table-warning" : "table-success" )
+
                   tr(class=row_class)
-                    td = allocated ? "BELEGT" : "FREI"
+                    td
+                      - if allocated
+                        = "BELEGT"
+                      - elsif todays_next_reservation.present?
+                        = "RESERVIERT AB #{l(todays_next_reservation.begin_date, format: "%H:%M Uhr")}"
+                      - else
+                        = "FREI"
                     td = resource.resource_location.title
                     td = resource.title
         - else

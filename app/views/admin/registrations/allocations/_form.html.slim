@@ -2,7 +2,14 @@
 
   ruby:
     label_method = -> (r) do
-      "#{r.resource_group.title}: #{r.title}"
+      todays_next_reservation = r.todays_reservations.first
+      label = "#{r.resource_group.title}: #{r.title}"
+
+      if todays_next_reservation.present?
+        label += " (RESERVIERT AB #{l(todays_next_reservation.begin_date, format: "%H:%M Uhr")})"
+      end
+
+      label
     end
 
     group_label_method = -> (rl) do

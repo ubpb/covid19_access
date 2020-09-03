@@ -55,14 +55,21 @@
               th(scope="col") = "Bereich"
               th(scope="col") = "Ressource"
               th(scope="col") = "Belegt am"
+              th(scope="col") = "Hinweise"
               th(scope="col") = ""
           tbody
             - @allocations.each do |allocation|
+              - todays_next_reservation = allocation.resource.todays_reservations.first
               tr
                 td = allocation.resource.resource_group.title
                 td = allocation.resource.resource_location.title
                 td = allocation.resource.title
-                td = l(allocation.created_at, format: "%d.%m.%Y, %H:%M:%S")
+                td = l(allocation.created_at, format: "%d.%m.%Y, %H:%M Uhr")
+                td
+                  - if todays_next_reservation.present?
+                    == "Der Platz ist ab <strong>#{l(todays_next_reservation.begin_date, format: "%H:%M Uhr")}</strong> reserviert und muss ggf. freigegeben werden."
+                  - else
+                    = "–"
                 td.text-right
                   .btn-group
                     = link_to "Freigeben", admin_registration_allocation_path(@registration, allocation), method: :delete, data: {confirm: "Ressource wirklich freigeben?"}, class: "btn btn-sm btn-danger"
@@ -92,4 +99,3 @@
                 td = allocation.resource.title
                 td = l(allocation.created_at, format: "%d.%m.%Y, %H:%M:%S")
                 td = l(allocation.released_at, format: "%d.%m.%Y, %H:%M:%S")
-

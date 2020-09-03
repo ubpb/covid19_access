@@ -9,7 +9,7 @@ class Admin::RegistrationsController < Admin::ApplicationController
 
   def show
     @registration = Registration.find(params[:id])
-    @allocations = @registration.allocations.includes(resource: [:resource_group, :resource_location])
+    @allocations = @registration.allocations.includes(resource: [:resource_group, :resource_location, :reservations])
     @released_allocations = @registration.released_allocations.includes(resource: [:resource_group, :resource_location])
   end
 
