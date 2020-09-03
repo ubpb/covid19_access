@@ -34,10 +34,6 @@ Rails.application.routes.draw do
 
     # Registrations
     resources :registrations do
-      member do
-        get "ask-for-resource", as: :ask_for_resource
-      end
-
       resources :allocations, module: :registrations, only: [:index, :new, :create, :destroy] do
         collection do
           get "print"

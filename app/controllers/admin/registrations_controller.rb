@@ -54,7 +54,7 @@ class Admin::RegistrationsController < Admin::ApplicationController
 
     if @registration.save
       flash["success"] = "Einlass OK für '#{@registration.name} (#{@registration.ilsid})'"
-      redirect_to(ask_for_resource_admin_registration_path(@registration))
+      redirect_to(admin_registration_path(@registration))
     else
       render :new
     end
@@ -96,10 +96,6 @@ class Admin::RegistrationsController < Admin::ApplicationController
     end
 
     redirect_to(admin_registration_path(@registration))
-  end
-
-  def ask_for_resource
-    @registration = Registration.find(params[:id])
   end
 
 end
