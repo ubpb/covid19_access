@@ -2,7 +2,7 @@
   .card-header.d-flex.align-items-center
     div
       h5.mb-0 = "Neue Ressource zuordnen"
-      strong = "#{@registration.ilsid}, #{@registration.name}"
+      strong = "#{@registration.barcode}, #{@registration.name}"
 
   .card-body
     = render "form"

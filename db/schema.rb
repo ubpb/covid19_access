@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_28_094619) do
+ActiveRecord::Schema.define(version: 2020_09_03_133831) do
 
   create_table "allocations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "registration_id", null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2020_08_28_094619) do
   end
 
   create_table "registrations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "ilsid", null: false
+    t.string "barcode", null: false
     t.datetime "entered_at", null: false
     t.datetime "exited_at"
     t.string "name"
@@ -31,9 +31,10 @@ ActiveRecord::Schema.define(version: 2020_08_28_094619) do
     t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "uid", null: false
+    t.index ["barcode"], name: "index_registrations_on_barcode"
     t.index ["entered_at"], name: "index_registrations_on_entered_at"
     t.index ["exited_at"], name: "index_registrations_on_exited_at"
-    t.index ["ilsid"], name: "index_registrations_on_ilsid"
   end
 
   create_table "released_allocations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -45,6 +46,19 @@ ActiveRecord::Schema.define(version: 2020_08_28_094619) do
     t.index ["registration_id"], name: "index_released_allocations_on_registration_id"
     t.index ["released_at"], name: "index_released_allocations_on_released_at"
     t.index ["resource_id"], name: "index_released_allocations_on_resource_id"
+  end
+
+  create_table "reservations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "resource_id", null: false
+    t.datetime "begin_date", null: false
+    t.datetime "end_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["begin_date"], name: "index_reservations_on_begin_date"
+    t.index ["end_date"], name: "index_reservations_on_end_date"
+    t.index ["resource_id"], name: "index_reservations_on_resource_id"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
   create_table "resource_groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -81,6 +95,8 @@ ActiveRecord::Schema.define(version: 2020_08_28_094619) do
   add_foreign_key "allocations", "resources"
   add_foreign_key "released_allocations", "registrations"
   add_foreign_key "released_allocations", "resources"
+  add_foreign_key "reservations", "resources"
+  add_foreign_key "reservations", "users", on_delete: :cascade
   add_foreign_key "resources", "resource_groups"
   add_foreign_key "resources", "resource_locations"
 end

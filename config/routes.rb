@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   root to: "pages#homepage"
 
   # Redirect some "old" routes to "new" staff backend
-  get "/einlass", to: redirect("/admin/checkin")
-  get "/auslass", to: redirect("/admin/checkout")
+  get "/einlass", to: redirect("/admin/checkin/new")
+  get "/auslass", to: redirect("/admin/checkout/new")
 
   # Authentication
   post "/login",  to: "sessions#create", as: :session
@@ -22,18 +22,22 @@ Rails.application.routes.draw do
   # Staff Backend
   namespace :admin, path: "/admin" do
     # Root path
-    root to: redirect("/admin/checkin")
+    root to: redirect("/admin/checkin/new")
 
     # Checkin
-    get  "checkin", to: "checkin#index", as: "checkin_index"
+    get "checkin/new", to: "checkin#new", as: "new_checkin"
     post "checkin", to: "checkin#create", as: "checkin"
+    get "checkin/registration/new", to: "checkin#new_registration", as: "new_checkin_registration"
+    post "checkin/registration", to: "checkin#create_registration", as: "checkin_registration"
 
     # Checkout
-    get  "checkout", to: "checkout#index", as: "checkout_index"
+    get "checkout/new", to: "checkout#new", as: "new_checkout"
     post "checkout", to: "checkout#create", as: "checkout"
+    get "checkout/registration/:id", to: "checkout#show", as: "checkout_registration"
+    delete "checkout/registration/:id", to: "checkout#destroy", as: nil
 
     # Registrations
-    resources :registrations do
+    resources :registrations, only: [:index, :show, :edit, :update] do
       resources :allocations, module: :registrations, only: [:index, :new, :create, :destroy] do
         collection do
           get "print"

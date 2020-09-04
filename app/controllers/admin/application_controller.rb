@@ -38,15 +38,15 @@ private
     end
   end
 
-  def get_filtered_ilsid(id)
-    if id.present?
-      filter_proc = ->(id) { id.gsub(/\s+/, "").upcase } # default filter proc
+  def get_filtered_barcode(barcode)
+    if barcode.present?
+      filter_proc = ->(barcode) { barcode.gsub(/\s+/, "").upcase } # default filter proc
 
-      if filter_proc_string = Rails.configuration.application.id_filter_proc
+      if filter_proc_string = Rails.configuration.application.barcode_filter_proc
         filter_proc = eval(filter_proc_string)
       end
 
-      filter_proc.(id)
+      filter_proc.(barcode)
     end
   end
 
@@ -60,37 +60,6 @@ private
 
   def setup_log
     @last_registrations = Registration.order("updated_at desc").limit(10)
-  end
-
-  def verify_ilsid(ilsid, redirect_to)
-    matchers = Rails.configuration.application.valid_ids || []
-
-    if matchers.none?{|r| r.match(ilsid)}
-      flash["error"] = "Ausweis-Nr. #{ilsid} ist ungültig."
-      redirect_to(redirect_to) and return
-    end
-
-    return true
-  end
-
-  def verify_registration_for(ilsid)
-    registration = Registration.find_by(ilsid: ilsid, exited_at: nil)
-
-    if registration.present?
-      flash["error"] = "Ausweis-Nr. #{ilsid} befindet sich bereits im Gebäude. Möglicherweise wurde die Auslassbuchung nicht erfasst."
-      redirect_to(admin_checkin_index_path) and return
-    end
-
-    return true
-  end
-
-  def verify_bib_data(ilsid, bib_data)
-    if bib_data.nil?
-      flash["error"] = "Ausweis-Nr. #{ilsid} ist in Aleph unbekannt."
-      redirect_to(admin_checkin_index_path) and return
-    end
-
-    return true
   end
 
 end

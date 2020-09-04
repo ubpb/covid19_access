@@ -4,12 +4,12 @@ default: &default
   username: foo
   password: bar
 
-  id_filter_proc: >
+  barcode_filter_proc: >
     ->(id) {
       id.gsub(/\s+/, "").upcase
     }
 
-  valid_ids: # List of regexps
+  valid_barcodes: # List of regexps
     - !ruby/regexp /\AXX/
     - !ruby/regexp /\AXY/
 
