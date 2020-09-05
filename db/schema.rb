@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_03_133831) do
+ActiveRecord::Schema.define(version: 2020_09_04_133030) do
 
   create_table "allocations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "registration_id", null: false
@@ -48,15 +48,13 @@ ActiveRecord::Schema.define(version: 2020_09_03_133831) do
     t.index ["resource_id"], name: "index_released_allocations_on_resource_id"
   end
 
-  create_table "reservations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "reservations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "resource_id", null: false
     t.datetime "begin_date", null: false
-    t.datetime "end_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["begin_date"], name: "index_reservations_on_begin_date"
-    t.index ["end_date"], name: "index_reservations_on_end_date"
     t.index ["resource_id"], name: "index_reservations_on_resource_id"
     t.index ["user_id"], name: "index_reservations_on_user_id"
   end
