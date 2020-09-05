@@ -5,14 +5,14 @@
     - if @filtered
       .card
         .card-header
-          h5.mb-0 = "Registrierungen für '#{@ilsid}'"
+          h5.mb-0 = "Registrierungen für '#{@barcode}'"
 
         - if @registrations.present?
           ul.list-group.list-group-flush
             - @registrations.each do |reg|
               li.list-group-item.bg-transparent
                 div
-                  = link_to reg.ilsid, admin_registration_path(reg)
+                  = link_to reg.barcode, admin_registration_path(reg)
                 small
                   - timestamp = reg.entered_at
                   = l(timestamp, format: "%d.%m.%Y, %H:%M:%S")

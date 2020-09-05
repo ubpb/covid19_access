@@ -1,27 +1,37 @@
 class Admin::CheckoutController < Admin::ApplicationController
 
-  def index
+  def new
+    # noop
   end
 
   def create
-    if ilsid = get_filtered_ilsid(params[:scan_form][:ilsid]).presence
-      verify_ilsid(ilsid, admin_checkout_index_path) or return
-
-      registration = Registration.find_by(ilsid: ilsid, exited_at: nil)
-
-      if registration.present?
-        if registration.close
-          flash[:success] = "OK: #{ilsid}"
-        else
-          flash[:error] = "Fehler: Person konnte nicht ausgecheckt werden. Bitte Registrierung überprüfen."
-        end
+    if barcode = get_filtered_barcode(params[:scan_form][:barcode]).presence
+      if registration = Registration.find_by(barcode: barcode, exited_at: nil)
+        redirect_to(admin_checkout_registration_path(registration))
       else
-        flash[:error] = "Ausweis-Nr. #{ilsid} wurde nicht am Einlass erfasst."
+        flash[:error] = "Ausweis-Nr. #{barcode} wurde nicht am Einlass erfasst oder bereits ausgecheckt."
+        redirect_to(admin_new_checkout_path)
       end
-
-      redirect_to(admin_checkout_index_path)
     else
-      redirect_to(admin_checkin_index_path)
+      flash[:error] = "Bitte eine Ausweisnummer scannen oder eintippen."
+      redirect_to(admin_new_checkout_path)
+    end
+  end
+
+  def show
+    @registration = Registration.find(params[:id])
+    @has_allocations = @registration.allocations.exists?
+  end
+
+  def destroy
+    @registration = Registration.find(params[:id])
+
+    if @registration.close
+      flash[:success] = "Check-Out für Ausweis-Nr. #{@registration.barcode} erfolgreich."
+      redirect_to(admin_new_checkout_path)
+    else
+      flash[:error] = "Fehler: Check-Out konnte nicht abgeschlossen werden. Bitte überprüfen Sie die Registrierung."
+      redirect_to(admin_registration_path(@registration))
     end
   end
 

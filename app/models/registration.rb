@@ -7,7 +7,8 @@ class Registration < ApplicationRecord
   has_many :resources, through: :released_allocations
 
   # Validations
-  validates :ilsid, presence: true
+  validates :uid, presence: true
+  validates :barcode, presence: true
   validates :entered_at, presence: true
   validates :name, presence: true
   validates :street, presence: true

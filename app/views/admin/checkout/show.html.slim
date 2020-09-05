@@ -1,0 +1,18 @@
+.card.card-primary.card-cutoff-corner.mb-3
+  .card-header.d-flex.align-items-center
+    h5.mb-0 = "Auslass bestätigen"
+  .card-body
+    dl
+      dt = "Bibliotheksausweisnummer"
+      dd = @registration.barcode
+      dt = "Einlass"
+      dd = l(@registration.entered_at, format: "%d.%m.%Y, %H:%M:%S")
+
+    - if @has_allocations
+      .alert.alert-danger
+        strong
+          ' ACHTUNG: Die Person belegt Ressourcen. Diese werden beim Check-Out freigegeben. Check-Out nicht durchführen
+          ' wenn die Person das Gebäude nur für eine Pause verlassen möchte.
+
+    = link_to "Check-Out", admin_checkout_registration_path, method: :delete, class: "btn btn-lg btn-danger"
+    =< link_to "Abbrechen", admin_new_checkout_path, class: "btn btn-lg btn-link"

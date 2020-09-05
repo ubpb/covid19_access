@@ -19,11 +19,11 @@
               = l(@registration.exited_at, format: "%d.%m.%Y, %H:%M:%S")
             - else
               .mb-2 = "–"
-              = link_to "Person auschecken", admin_registration_path, method: :delete, data: {confirm: "Person wirklich auschecken?"}, class: "btn btn-sm btn-danger"
+              = link_to "Person auschecken", admin_checkout_registration_path(@registration), class: "btn btn-sm btn-danger"
       .col
         dl
           dt = "Bibliotheksausweisnummer"
-          dd = @registration.ilsid
+          dd = @registration.barcode
           dt = "Name"
           dd = @registration.name
           dt = "Anschrift"

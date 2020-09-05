@@ -21,28 +21,29 @@ class AlephClient
     end
   end
 
-  def get_bib_data_for(ilsid)
+  def get_bib_data_for(barcode)
     response = aleph_x_client.get(
       op: "bor_info",
-      bor_id: ilsid,
+      bor_id: barcode,
       cash: "N",
       loans: "N",
       hold: "N"
     )
     aleph_xml = Nokogiri.parse(response)
 
-    if aleph_xml.at_xpath("//error")&.text
+    if error = aleph_xml.at_xpath("//error")&.text
       nil
     else
       bib_data = {}
 
+      bib_data[:id] = aleph_xml.at_xpath("//z303/z303-id")&.text
       bib_data[:name] = aleph_xml.at_xpath("//z304/z304-address-0")&.text
       bib_data[:street] = aleph_xml.at_xpath("//z304/z304-address-1")&.text
       bib_data[:city] = aleph_xml.at_xpath("//z304/z304-address-2")&.text
       bib_data[:phone] = aleph_xml.at_xpath("//z304/z304-telephone")&.text
 
       # Handle edge cases
-      if ilsid =~ /\AP[AL]{1}/
+      if barcode =~ /\AP[AL]{1}/
         bib_data[:street] = nil
         bib_data[:city] = nil
         bib_data[:phone] = nil
