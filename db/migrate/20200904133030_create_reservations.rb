@@ -4,7 +4,6 @@ class CreateReservations < ActiveRecord::Migration[6.0]
       t.belongs_to :user, null: false, index: true, foreign_key: { on_delete: :cascade }
       t.belongs_to :resource, null: false, index: true, foreign_key: { on_delete: :restrict }
       t.datetime :begin_date, null: false, index: true
-      t.datetime :end_date, null: true, index: true
       t.timestamps
     end
   end
