@@ -25,7 +25,7 @@ class Registration < ApplicationRecord
 
   def close
     Registration.transaction do
-      update(exited_at: Time.zone.now)
+      update_column(:exited_at, Time.zone.now)
       allocations.each do |allocation|
         allocation.release
       end
