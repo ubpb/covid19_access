@@ -5,8 +5,6 @@ class Admin::RegistrationsController < Admin::ApplicationController
       @filtered = true
       @registrations = Registration.where(barcode: @barcode).order("entered_at desc")
     end
-
-    @last_registrations = Registration.where(exited_at: nil).order("entered_at desc").limit(10)
   end
 
   def show
