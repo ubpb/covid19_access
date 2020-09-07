@@ -31,4 +31,13 @@ class Resource < ApplicationRecord
     !allocated?
   end
 
+  def reserved_today?
+    todays_reservations.exists?
+  end
+
+  def todays_reservations
+    today = Time.zone.today
+    reservations.where(begin_date: (today.beginning_of_day..today.end_of_day)).order(begin_date: :asc)
+  end
+
 end
