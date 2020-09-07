@@ -9,7 +9,7 @@
       "–––– #{rl.title.upcase} ––––"
     end
 
-  = f.association :resource, collection: @resource_locations, disabled: @allocated_resource_ids, label_method: label_method, as: :grouped_select, group_method: :resources, group_label_method: group_label_method
+  = f.association :resource, collection: @resource_locations, disabled: @allocated_resource_ids, label_method: label_method, as: :grouped_select, group_method: :resources, group_label_method: group_label_method, label: false, prompt: "Bitte Ressource auswählen"
 
   = f.button :submit, "Speichern", class: "btn-lg"
   = link_to "Abbrechen", admin_registration_allocations_path(@registration), class: "btn btn-lg btn-link"
