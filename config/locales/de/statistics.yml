@@ -4,10 +4,10 @@ de:
       number_of_people_entered:
         zero: "Im Moment befindet sich <strong>keine Person</strong> im Gebäude."
         one: "Im Moment befindet sich <strong>eine Person</strong> im Gebäude."
-        other: "Im Moment befinden sich %{count} Personen im Gebäude."
+        other: "Im Moment befinden sich <strong>%{count} Personen</strong> im Gebäude."
       max_number_of_people:
-        zero: "Aktuell dürfen keine Personen im Gebäude sein."
-        one: "Max. darf eine Person gleichzeitig im Gebäude sein."
+        zero: "Aktuell dürfen <strong>keine Personen</strong> im Gebäude sein."
+        one: "Max. darf <strong>eine Person</strong> gleichzeitig im Gebäude sein."
         other: "Max. dürfen <strong>%{count} Personen</strong> gleichzeitig im Gebäude sein."
       number_of_people_entered_last_hour:
         zero: "In der letzten Stunde hat <strong>keine Person</strong> das Gebäude betreten."
