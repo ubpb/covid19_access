@@ -38,6 +38,7 @@ Rails.application.routes.draw do
 
     # Registrations
     resources :registrations, only: [:index, :show, :edit, :update] do
+      # Allocations
       resources :allocations, module: :registrations, only: [:index, :new, :create, :destroy] do
         collection do
           get "print"
