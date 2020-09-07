@@ -44,6 +44,13 @@ Rails.application.routes.draw do
           get "print"
         end
       end
+
+      # Reservations
+      resources :reservations, module: :registrations, only: [] do
+        member do
+          post "allocate"
+        end
+      end
     end
 
     # Reset
