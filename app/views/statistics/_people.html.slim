@@ -13,7 +13,8 @@ ruby:
       =< "Personen im Gebäude"
   .card-body
     .text-center
-      = "Im Moment befinden sich #{@number_of_people_entered} von max. #{@max_number_of_people} erlaubten Personen im Gebäude"
+      == t(".number_of_people_entered", count: @number_of_people_entered)
+      ==< t(".max_number_of_people", count: @max_number_of_people)
 
 .card.card-cutoff-corner.text-white.bg-info
   .card-header
@@ -22,4 +23,5 @@ ruby:
       =< "Fluktuation"
   .card-body
     .text-center
-      = "In der letzten Stunde haben #{@number_of_people_entered_last_hour} Personen das Gebäude betreten und #{@number_of_people_exited_last_hour} Personen haben es verlassen."
+      == t(".number_of_people_entered_last_hour", count: @number_of_people_entered_last_hour)
+      ==< t(".number_of_people_exited_last_hour", count: @number_of_people_exited_last_hour)
