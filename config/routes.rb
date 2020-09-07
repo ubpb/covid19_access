@@ -8,9 +8,9 @@ Rails.application.routes.draw do
   get "/auslass", to: redirect("/admin/checkout/new")
 
   # Authentication
-  post "/login",  to: "sessions#create", as: :session
-  get  "/login",  to: "sessions#new", as: :new_session
-  get  "/logout", to: "sessions#destroy", as: :logout
+  # post "/login",  to: "sessions#create", as: :session
+  # get  "/login",  to: "sessions#new", as: :new_session
+  # get  "/logout", to: "sessions#destroy", as: :logout
 
   # Stats
   get "/stats", to: "statistics#index", as: :statistics

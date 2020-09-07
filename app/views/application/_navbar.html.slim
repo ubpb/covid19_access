@@ -14,18 +14,18 @@ nav.navbar.navbar-dark.bg-dark.navbar-expand-lg
             i.fas.fa-chart-line.fa-lg
             =< "Belegungsübersicht"
 
-      - if current_user
-        .ml-auto
-          .btn-group.d-flex.ml-lg-4.mt-2.mt-lg-0
-            = link_to root_path, class: "btn btn-primary w-100" do
-              i.far.fa-user
-              =< current_user.name
-            = link_to logout_path, class: "btn btn-outline-primary", data: {confirm: "Wirklich abmelden?"} do
-              i.fas.fa-power-off
-      - else
-        .ml-auto
-          .d-flex.ml-lg-4.mt-2.mt-lg-0
-            = link_to new_session_path, class: "btn btn-primary w-100 w-lg-auto" do
-              i.far.fa-user
-              =< "Anmelden"
+      / - if current_user
+      /   .ml-auto
+      /     .btn-group.d-flex.ml-lg-4.mt-2.mt-lg-0
+      /       = link_to root_path, class: "btn btn-primary w-100" do
+      /         i.far.fa-user
+      /         =< current_user.name
+      /       = link_to logout_path, class: "btn btn-outline-primary", data: {confirm: "Wirklich abmelden?"} do
+      /         i.fas.fa-power-off
+      / - else
+      /   .ml-auto
+      /     .d-flex.ml-lg-4.mt-2.mt-lg-0
+      /       = link_to new_session_path, class: "btn btn-primary w-100 w-lg-auto" do
+      /         i.far.fa-user
+      /         =< "Anmelden"
 
