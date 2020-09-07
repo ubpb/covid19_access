@@ -27,10 +27,10 @@
                       span.badge.badge-success = "Aktiv"
                   td = reg.barcode
                   td = reg.name
-                  td = l(reg.entered_at, format: "%d.%m.%Y, %H:%M")
+                  td = l(reg.entered_at, format: "%d.%m.%Y, %H:%M Uhr")
                   td
                     - if reg.exited_at.present?
-                      = l(reg.exited_at, format: "%d.%m.%Y, %H:%M")
+                      = l(reg.exited_at, format: "%d.%m.%Y, %H:%M Uhr")
                     - else
                       = "–"
                   td.text-right
