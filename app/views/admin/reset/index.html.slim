@@ -2,7 +2,7 @@
   .card-header
     h5.mb-0 = "Reset durchführen"
   .card-body
-    .alert.alert-danger = "ACHTUNG: Beim Reset werden alle Personen, die noch eingebucht sind, ausgebucht."
+    .alert.alert-danger = "ACHTUNG: Beim Reset werden alle Personen, die noch eingebucht sind, ausgebucht und belegte Ressourcen werden freigegeben. Diese Funktion NUR außerhalb der Öffnungszeiten ausführen."
     = render "alerts"
     = simple_form_for :reset, url: admin_reset_path do |f|
       = f.button :submit, "Reset jetzt durchführen", class: "btn-lg btn-block"

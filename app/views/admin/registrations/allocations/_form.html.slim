@@ -2,9 +2,14 @@
 
   ruby:
     label_method = -> (r) do
-      "#{r.resource_group.title} / #{r.resource_location.title} / #{r.title}"
+      "#{r.resource_group.title}: #{r.title}"
     end
-  = f.association :resource, collection: @resources, disabled: @allocated_resource_ids, label_method: label_method
+
+    group_label_method = -> (rl) do
+      "–––– #{rl.title.upcase} ––––"
+    end
+
+  = f.association :resource, collection: @resource_locations, disabled: @allocated_resource_ids, label_method: label_method, as: :grouped_select, group_method: :resources, group_label_method: group_label_method
 
   = f.button :submit, "Speichern", class: "btn-lg"
   = link_to "Abbrechen", admin_registration_allocations_path(@registration), class: "btn btn-lg btn-link"

@@ -8,7 +8,7 @@ class Admin::Registrations::AllocationsController < Admin::Registrations::Applic
     can_create_allocation? or return
 
     @allocation = @registration.allocations.build
-    @resources = Resource.includes(:resource_group, :resource_location)
+    @resource_locations = ResourceLocation.includes(resources: [:resource_group])
     @allocated_resource_ids = Resource.joins(:allocation).pluck(:id)
   end
 
