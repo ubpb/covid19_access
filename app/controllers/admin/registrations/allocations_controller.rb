@@ -9,7 +9,7 @@ class Admin::Registrations::AllocationsController < Admin::Registrations::Applic
 
     @allocation = @registration.allocations.build
     @resources = Resource.includes(:resource_group, :resource_location)
-    @allocated_resource_ids = Resource.joins(:allocations).pluck(:id)
+    @allocated_resource_ids = Resource.joins(:allocation).pluck(:id)
   end
 
   def create
