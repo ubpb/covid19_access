@@ -1,1 +1,28 @@
-' HOMEPAGE
+.row
+  .col-md-8
+    .card.card-cutoff-corner.card-primary
+      /.card-header
+        h5.mb-0 = "Besucherregistrierung"
+      .card-body
+        p
+          strong Willkommen im Portal für die Besucherregistrierung der Universitätsbibliothek Paderborn.
+        p Durch die Vorgaben in der Verordnung zur Änderung von Rechtsverordnungen zum Schutz vor dem Coronavirus SARS-CoV-2 (CoronaSchVO) ist die Universitätsbibliothek Paderborn gehalten, eine Besucherregistrierung sowie eine Reglementierung der Besucherzahl umzusetzen.
+        p Aus diesem Grund müssen sich alle Personen bis auf Weiteres beim Betreten und Verlassen der Bibliothek mit ihrem Bibliotheksausweis ein- bzw. ausbuchen. Dabei werden die Bibliotheksausweisnummer, der Name, die Adresse, die Telefonnummer sowie der Zeitpunkt des Betretens bzw. Verlassens der Bibliothek gespeichert. Werden Arbeitsplätze innerhalb der Bibliothek in Anspruch genommen, wird dies ebenfalls protokolliert.
+        p
+          strong Möchten Sie einen Arbeitsplatz in Anspruch nehmen, informieren Sie sich bitte vorab über unsere <a href="#{statistics_path}">Belegungsübersicht</a> über den aktuellen Stand an freien Plätzen.
+        p.mb-0 Die Möglichkeit der Online-Reservierung eines Arbeitsplatzes besteht aktuell noch nicht, wird aber zu einem späteren Zeitpunkt über dieses Portal möglich sein.
+
+  .col-md-4
+    .mb-3 = render "statistics/people"
+
+    .card.card-cutoff-corner.text-white.bg-secondary
+      .card-header
+        h5.mb-0
+          i.fas.fa-chart-line
+          =< "Belegungsübersicht"
+      .card-body
+        p
+          ' Prüfe unsere Belegungsübersicht für aktuell freie bzw. belegte
+          ' Arbeitsplätze.
+        = link_to "Zur Übersicht", statistics_path, class: "btn btn-block btn-light"
+
