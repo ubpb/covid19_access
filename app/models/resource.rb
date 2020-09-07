@@ -4,8 +4,8 @@ class Resource < ApplicationRecord
   belongs_to :resource_group
   belongs_to :resource_location
 
-  has_many :allocations
-  has_many :registrations, through: :allocations
+  has_one  :allocation
+  has_one  :registration, through: :allocation
   has_many :released_allocations
   has_many :registrations, through: :released_allocations
 
@@ -14,7 +14,7 @@ class Resource < ApplicationRecord
 
 
   def allocated?
-    allocations.exists?
+    allocation.present?
   end
 
   def available?
