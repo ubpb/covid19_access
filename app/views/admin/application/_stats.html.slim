@@ -6,7 +6,7 @@ ruby:
     else "bg-danger"
   end
 
-.card.text-white.mb-3(class=bg_class)
+.card.card-cutoff-corner.text-white.mb-3(class=bg_class)
   .card-header
     h5.mb-0 = "# Personen im Gebäude"
   .card-body
@@ -16,7 +16,7 @@ ruby:
         =<> "/"
         = max_number_of_people
 
-.card.text-white.bg-info.mb-3
+.card.card-cutoff-corner.text-white.bg-info.mb-3
   .card-header
     h5.mb-0 = "# Personen in der letzten Stunde"
   .card-body
