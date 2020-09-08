@@ -8,9 +8,9 @@ Rails.application.routes.draw do
   get "/auslass", to: redirect("/admin/checkout/new")
 
   # Authentication
-  # post "/login",  to: "sessions#create", as: :session
-  # get  "/login",  to: "sessions#new", as: :new_session
-  # get  "/logout", to: "sessions#destroy", as: :logout
+  post "/login",  to: "sessions#create", as: :session
+  get  "/login",  to: "sessions#new", as: :new_session
+  delete "/logout", to: "sessions#destroy", as: :logout
 
   # Stats
   get "/stats", to: "statistics#index", as: :statistics
@@ -18,6 +18,16 @@ Rails.application.routes.draw do
   # Static kickers
   get "/datenschutz", to: redirect("https://www.ub.uni-paderborn.de/fileadmin/ub/Dokumente_Formulare/DSE_UB_001_COVID19_Access_v1.pdf"), as: "datenschutz"
   get "/impressum", to: redirect("https://www.ub.uni-paderborn.de/ueber-uns/impressum/"), as: "impressum"
+
+  # User Backend
+  namespace :account, path: "/account" do
+    root to: redirect("/account/reservations")
+
+    resources :reservations, only: [:index, :new, :create, :destroy] do
+      get "select-date", on: :collection
+    end
+
+  end
 
   # Staff Backend
   namespace :admin, path: "/admin" do

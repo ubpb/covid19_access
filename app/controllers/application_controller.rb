@@ -10,6 +10,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
+private
+
   def authenticate!
     redirect_to(new_session_path) unless current_user
   end

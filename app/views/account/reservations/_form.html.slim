@@ -1,0 +1,6 @@
+= simple_form_for [:account, @reservation] do |f|
+  = f.input_field :resource_id, as: :hidden
+  = f.input_field :selected_date, as: :hidden, value: @selected_date
+  = f.input :begin_date, as: :time, label: "Uhrzeit", minute_step: 15, prompt: false
+  = f.button :submit, "Jetzt reservieren", class: "btn-lg"
+  = link_to "Abbrechen", account_reservations_path, class: "btn btn-lg btn-link"

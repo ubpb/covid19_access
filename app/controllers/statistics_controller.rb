@@ -29,8 +29,4 @@ class StatisticsController < ApplicationController
     @number_of_people_exited_last_hour = Registration.where(exited_at: (now - 1.hour)..now).count
   end
 
-private
-
-
-
 end
