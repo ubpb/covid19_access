@@ -65,7 +65,7 @@ class Account::ReservationsController < Account::ApplicationController
 
 private
 
-  def set_and_check_dates(selected_date: selected_date)
+  def set_and_check_dates(selected_date:)
     # Set reservable dates
     @reservable_dates = Reservation.next_reservable_dates
 
@@ -95,7 +95,7 @@ private
     end
   end
 
-  def set_and_check_resource(resource_id: resource_id)
+  def set_and_check_resource(resource_id:)
     if resource_id.blank?
       flash[:error] = "Sie müssen eine Ressource auswählen."
       redirect_to(new_account_reservation_path)
