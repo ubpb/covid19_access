@@ -2,4 +2,29 @@
   .card-header.d-flex.align-items-center
     h5.mb-0 = "Neue Reservierung"
   .card-body
+    .alert.alert-info
+      ' Bitte wählen Sie die Uhrzeit für die Reservierung. Die Reservierungszeit darf nicht außerhalb der
+      ' Öffnungszeiten liegen. Die späteste Reservierungszeit ist 1 Stunde vor Ende der Öffnungszeit.
+      ' Bei einer Reservierung am gleichen Tag ist die frühste Reservierungszeit in einer Stunde.
+
+    .row
+      .col
+        dl
+          dt = "Tag der Reservierung"
+          dd
+            - d = @selected_date
+            - if d == Date.today
+              = l(d, format: "%d.%m.%Y")
+              br
+              = "#{l(d, format: "%A")} (Heute)"
+            - else
+              = l(d, format: "%d.%m.%Y")
+              br
+              = l(d, format: "%A")
+      .col
+        dl
+          dt = "Unsere Öffnungszeiten an diesem Tag"
+          dd = "#{l(@opening_time, format: "%H:%M Uhr")} – #{l(@closing_time, format: "%H:%M Uhr")}"
+
+    = render "alerts"
     = render "form"

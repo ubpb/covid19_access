@@ -5,60 +5,41 @@ class Account::ReservationsController < Account::ApplicationController
   end
 
   def select_date
-    @reservable_dates = [Date.today, Date.today + 1.day, Date.today + 2.days, Date.today + 3.days] # TODO: Check Öffnungszeiten
-    @selected_date = if params[:date].present?
-      begin
-        Date.parse(params[:date])
-      rescue
-        nil
-      end
-    end
+    set_and_check_dates(selected_date: params[:date]) or return
 
-    if @selected_date && @reservable_dates.include?(@selected_date)
-      @resources = Resource
-        .joins(:resource_group, :resource_location)
-        .order("resource_groups.title, resource_locations.title, resources.title")
-    else
-      redirect_to(select_date_account_reservations_path(date: @reservable_dates.first))
-    end
+    @resources = Resource
+      .joins(:resource_group, :resource_location)
+      .order("resource_groups.title, resource_locations.title, resources.title")
   end
 
   def new
-    @reservable_dates = [Date.today, Date.today + 1.day, Date.today + 2.days, Date.today + 3.days] # TODO: Check Öffnungszeiten
-    @selected_date = if params[:date].present? # TODO: Check Öffnungszeiten
-      begin
-        Date.parse(params[:date])
-      rescue
-        nil
-      end
-    end
+    Resource.transaction do
+      set_and_check_dates(selected_date: params[:date]) or return
+      set_and_check_resource(resource_id: params[:resource_id]) or return
+      check_users_existing_reservations or return
 
-    if @selected_date && @reservable_dates.include?(@selected_date) && params[:resource_id].present?
-      @resource = Resource.includes(:resource_group, :resource_location).find(params[:resource_id])
       @reservation = current_user.reservations.build
       @reservation.resource = @resource
-    else
-      redirect_to(select_date_account_reservations_path)
+      @opening_time, @closing_time = Reservation.get_opening_and_closing_times(@selected_date)
     end
   end
 
   def create
-    permitted_params = params.require(:reservation).permit(:begin_date)
+    Resource.transaction do
+      set_and_check_dates(selected_date: params.dig(:reservation, :selected_date)) or return
+      set_and_check_resource(resource_id: params.dig(:reservation, :resource_id)) or return
+      check_users_existing_reservations or return
 
-    @reservable_dates = [Date.today, Date.today + 1.day, Date.today + 2.days, Date.today + 3.days] # TODO: Check Öffnungszeiten
-    @selected_date = if params.dig(:reservation, :selected_date).present? # TODO: Check Öffnungszeiten
-      begin
-        Date.parse(params.dig(:reservation, :selected_date))
+      permitted_params = params.require(:reservation).permit(:begin_date)
+      @reservation = current_user.reservations.build(permitted_params)
+      @reservation.resource = @resource
+      @reservation.begin_date = begin
+        Time.zone.parse("#{@selected_date.strftime("%d.%m.%Y")} #{@reservation.begin_date.strftime("%H:%M")}")
       rescue
         nil
       end
-    end
 
-    if @selected_date && @reservable_dates.include?(@selected_date)
-      @resource = Resource.includes(:resource_group, :resource_location).find(params.dig(:reservation, :resource_id))
-      @reservation = current_user.reservations.build(permitted_params)
-      @reservation.resource = @resource
-      @reservation.begin_date = Time.zone.parse("#{@selected_date.strftime("%d.%m.%Y")} #{@reservation.begin_date.strftime("%H:%M")}")
+      check_reservation_begin_date(@reservation.begin_date) or return
 
       if @reservation.save
         flash[:success] = "Reservierung gespeichert."
@@ -67,8 +48,6 @@ class Account::ReservationsController < Account::ApplicationController
         flash[:error] = "Fehler: Reservierung konnte nicht gespeichert werden."
         redirect_to(account_reservations_path)
       end
-    else
-      redirect_to(select_date_account_reservations_path)
     end
   end
 
@@ -82,6 +61,101 @@ class Account::ReservationsController < Account::ApplicationController
     end
 
     redirect_to(account_reservations_path)
+  end
+
+private
+
+  def set_and_check_dates(selected_date: selected_date)
+    # Set reservable dates
+    @reservable_dates = Reservation.next_reservable_dates
+
+    # Set selected date
+    @selected_date = if selected_date.present?
+      begin
+        Date.parse(selected_date)
+      rescue
+        nil
+      end
+    end
+
+    # Check dates
+    if @reservable_dates.blank?
+      flash[:error] = "Aktuell können keine Reservierungen vorgenommen werden."
+      redirect_to(account_reservations_path)
+      return false
+    elsif @selected_date.blank?
+      redirect_to(select_date_account_reservations_path(date: @reservable_dates.first))
+      return false
+    elsif !@reservable_dates.include?(@selected_date)
+      flash[:error] = "An dem gewählten Datum kann keine Reservierung vorgenommen werden."
+      redirect_to(select_date_account_reservations_path(date: @reservable_dates.first))
+      return false
+    else
+      return true
+    end
+  end
+
+  def set_and_check_resource(resource_id: resource_id)
+    if resource_id.blank?
+      flash[:error] = "Sie müssen eine Ressource auswählen."
+      redirect_to(new_account_reservation_path)
+      return false
+    else
+      @resource = Resource
+        .includes(:resource_group, :resource_location, :allocation, :reservations)
+        .find(resource_id)
+
+      if (@selected_date == Time.zone.today && @resource.allocated?) || @resource.reserved_today?(@selected_date)
+        flash[:error] = "Bitte wählen Sie eine freie Ressource aus. Die gewählte Ressource ist bereits belegt oder reserviert."
+        redirect_to(select_date_account_reservations_path(date: @selected_date))
+        return false
+      else
+        return true
+      end
+    end
+  end
+
+  def check_users_existing_reservations
+    if current_user.has_reservations_today?(@selected_date)
+      flash[:error] = "Für den gewählten Tag haben Sie bereits eine Reservierung. Sie können pro Tag max. eine Reservierung anlegen."
+      redirect_to(select_date_account_reservations_path(date: @selected_date))
+      return false
+    else
+      return true
+    end
+  end
+
+  def check_reservation_begin_date(begin_date)
+    today = Time.zone.today
+    now = Time.zone.now
+
+    opening_time, closing_time = Reservation.get_opening_and_closing_times(begin_date)
+    during_opening_hours = opening_time.seconds_since_midnight < now.seconds_since_midnight &&
+      closing_time.seconds_since_midnight > now.seconds_since_midnight
+
+    if begin_date < now
+      flash[:error] = "Die Reservierung darf nicht in der Vergangenheit liegen. Bitte wählen Sie eine passende Reservierungszeit."
+      redirect_to(new_account_reservation_path(date: begin_date, resource_id: @resource.id))
+      return false
+    elsif begin_date.to_date == today && during_opening_hours && begin_date < (now + 1.hour)
+      flash[:error] = "Die Reservierung muss min. 1 Stunde in der Zukunft liegen."
+      redirect_to(new_account_reservation_path(date: begin_date, resource_id: @resource.id))
+      return false
+    elsif begin_date.seconds_since_midnight < opening_time.seconds_since_midnight
+      flash[:error] = "Die Reservierung darf nicht vor dem Beginn der Öffungszeit liegen."
+      redirect_to(new_account_reservation_path(date: begin_date, resource_id: @resource.id))
+      return false
+    elsif begin_date.seconds_since_midnight > closing_time.seconds_since_midnight
+      flash[:error] = "Die Reservierung darf nicht nach dem Ende der Öffungszeit liegen."
+      redirect_to(new_account_reservation_path(date: begin_date, resource_id: @resource.id))
+      return false
+    elsif begin_date.seconds_since_midnight > (closing_time - 1.hour).seconds_since_midnight
+      flash[:error] = "Die Reservierung muss min. 1 Stunde vor dem Ende der Öffungszeit liegen."
+      redirect_to(new_account_reservation_path(date: begin_date, resource_id: @resource.id))
+      return false
+    else
+      return true
+    end
   end
 
 end

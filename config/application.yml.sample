@@ -16,6 +16,19 @@ default: &default
   aleph_x_services_url: http://localhost:8991/X
   aleph_user_library: "XXX50"
 
+  opening_hours:
+    monday: 09:00-18:00
+    tuesday: 09:00-18:00
+    wednesday: 09:00-18:00
+    thursday: 09:00-18:00
+    friday: 09:00-18:00
+    saturday: null
+    sunday: null
+
+  special_closing_dates:
+    - 2020-12-24
+    - 2021-01-01
+
 development:
   <<: *default
 
