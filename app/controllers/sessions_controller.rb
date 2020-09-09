@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
         session[:current_user_id] = user.id
 
         flash[:success] = t(".success")
-        redirect_to(root_path)
+        redirect_to(account_root_path)
       else
         flash[:error] = t(".error")
         redirect_to(new_session_path)

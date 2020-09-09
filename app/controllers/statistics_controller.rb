@@ -5,7 +5,7 @@ class StatisticsController < ApplicationController
     now = Time.zone.now
 
     ResourceGroup.includes(:resources).order(:title).each do |rg|
-      resources = rg.resources.joins(:resource_location).includes(:allocation).order("resource_locations.title, resources.title").to_a
+      resources = rg.resources.joins(:resource_location).includes(:allocation, :reservations).order("resource_locations.title, resources.title").to_a
       num_total = resources.count
       num_allocated = Allocation.joins(:resource).where("resources.resource_group": rg).count
       number_of_allocations_last_hour = Allocation.joins(:resource).where("resources.resource_group": rg).where(created_at: (now - 1.hour)..now).count +
@@ -28,9 +28,5 @@ class StatisticsController < ApplicationController
     @number_of_people_entered_last_hour = Registration.where(entered_at: (now - 1.hour)..now).count
     @number_of_people_exited_last_hour = Registration.where(exited_at: (now - 1.hour)..now).count
   end
-
-private
-
-
 
 end

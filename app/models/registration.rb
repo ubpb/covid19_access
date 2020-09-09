@@ -34,4 +34,17 @@ class Registration < ApplicationRecord
     true
   end
 
+  def todays_reservations
+    if self.uid.present?
+      today = Time.zone.today
+      Reservation
+        .joins(:user)
+        .includes(resource: [:resource_group, :resource_location])
+        .where("users.uid": self.uid, begin_date: (today.beginning_of_day..today.end_of_day))
+        .order(begin_date: :asc)
+    else
+      []
+    end
+  end
+
 end

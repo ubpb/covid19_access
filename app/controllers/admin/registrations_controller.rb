@@ -11,6 +11,7 @@ class Admin::RegistrationsController < Admin::ApplicationController
     @registration = Registration.find(params[:id])
     @allocations = @registration.allocations.includes(resource: [:resource_group, :resource_location])
     @released_allocations = @registration.released_allocations.includes(resource: [:resource_group, :resource_location])
+    @todays_reservations = @registration.todays_reservations
   end
 
   def edit
