@@ -2,7 +2,7 @@
   .alert.alert-danger.text-center
     ' PERSON HAT RESERVIERUNGEN!
 
-.card.card-primary.card-cutoff-corner.mb-3
+.card.card-cutoff-corner.mb-3
   .card-header.d-flex.align-items-center
     h5.mb-0 = "Registrierungsdetails"
     .ml-auto
@@ -60,9 +60,13 @@
                 td = res.resource.resource_location.title
                 td = res.resource.title
                 td.text-right
-                  = link_to allocate_admin_registration_reservation_path(@registration, res), class: "btn btn-primary btn-sm", method: :post do
-                    i.fas.fa-check
-                    =< "Zuweisen"
+                  - if res.allocateable?
+                    = link_to allocate_admin_registration_reservation_path(@registration, res), class: "btn btn-primary btn-sm", method: :post do
+                      i.fas.fa-check
+                      =< "Zuteilen"
+                  - else
+                    ' Zuteilung erst ab #{l(res.begin_date - 15.minutes, format: "%H:%M Uhr")} möglich
+
     - else
       .alert.alert-info.mb-0
         = "Person hat heute keine (weiteren) Reservierungen"
@@ -110,7 +114,7 @@
                     = link_to "Freigeben", admin_registration_allocation_path(@registration, allocation), method: :delete, data: {confirm: "Ressource wirklich freigeben?"}, class: "btn btn-sm btn-danger"
     - else
       .alert.alert-info.mb-0
-        = "Der Person sind aktuell keine Ressourcen zugeordnet."
+        = "Die Person belegt aktuell keine Ressourcen."
 
 - if @released_allocations.present?
   .card.card-cutoff-corner
