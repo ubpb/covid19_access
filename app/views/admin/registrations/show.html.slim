@@ -67,6 +67,10 @@
                   - else
                     ' Zuteilung erst ab #{l(res.begin_date - 15.minutes, format: "%H:%M Uhr")} möglich
 
+                  =< link_to admin_registration_reservation_path(@registration, res), class: "btn btn-danger btn-sm", method: :delete, data: {confirm: "Reservierung wirklich löschen?"} do
+                      i.fas.fa-trash
+                      =< "Löschen"
+
     - else
       .alert.alert-info.mb-0
         = "Person hat heute keine (weiteren) Reservierungen"

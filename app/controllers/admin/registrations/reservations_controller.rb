@@ -29,4 +29,18 @@ class Admin::Registrations::ReservationsController < Admin::Registrations::Appli
     end
   end
 
+  def destroy
+    Resource.transaction do
+      reservation = @registration.todays_reservations.find(params[:id])
+
+      if reservation.destroy
+        flash[:success] = "Reservierung erfolgreich gelöscht"
+      else
+        flash[:error] = "Fehler: Reservierung konnte nicht gelöscht werden."
+      end
+
+      redirect_to(admin_registration_path(@registration))
+    end
+  end
+
 end

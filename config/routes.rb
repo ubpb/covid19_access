@@ -56,7 +56,7 @@ Rails.application.routes.draw do
       end
 
       # Reservations
-      resources :reservations, module: :registrations, only: [] do
+      resources :reservations, module: :registrations, only: [:destroy] do
         member do
           post "allocate"
         end
