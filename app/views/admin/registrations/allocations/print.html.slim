@@ -16,36 +16,31 @@
       = image_tag("ub-logo.svg", height: "60", loading: "lazy")
       = image_tag("app-logo.svg", height: "35", loading: "lazy")
 
-  p Folgende Ressourcen (Arbeitsplatz etc.) wurden Ihnen zur Nutzung zugeordnet. Im Sinne des Infektionsschutzes und möglicher Rückverfolgbarkeit von Infektionsketten bitten wir Sie nur genau diese Ressourcen zu nutzen. Beim Verlassen der Bibliothek (Check-Out) werden die Ressourcen wieder freigegeben und können anderen Nutzerinnen und Nutzern zur Verfügung gestellt werden. Möchten Sie die Bibliothek nur kurz verlassen (Rauchen, Mittagessen etc.), teilen Sie dies bitte dem Bibliothekspersonal am Check-Out mit und verzichten Sie auf die Check-Out-Buchung.
+  p Folgende Ressourcen (Arbeitsplatz etc.) wurden Ihnen zur Nutzung zugeordnet. Im Sinne des Infektionsschutzes und möglicher Rückverfolgbarkeit von Infektionsketten bitten wir Sie nur genau diese Ressourcen zu nutzen.
 
-  p.mb-4.font-weight-bold Bitte desinfizieren Sie Arbeitsplätze und Geräte vor der Nutzung selbst. Dazu stehen entsprechende Materialien bereit. Sollte etwas fehlen wenden Sie sich bitte an das Bibliothekspersonal.
+  p
+    strong Beim Verlassen der Bibliothek (Check-Out) werden die Ressourcen wieder freigegeben und können durch andere Nutzerinnen und Nutzern belegt werden. Möchten Sie die Bibliothek nur kurz verlassen (Pause, Rauchen, Mittagessen etc.), teilen Sie dies bitte dem Bibliothekspersonal am Check-Out mit und verzichten Sie auf die Check-Out-Buchung.
+
+  .alert.alert-secondary
+    strong Bitte desinfizieren Sie Arbeitsplätze und Geräte vor der Nutzung selbst. Dazu stehen entsprechende Materialien bereit. Sollte etwas fehlen wenden Sie sich bitte an das Bibliothekspersonal.
 
   dl
-    dt Name
-    dd = @registration.name
     dt Bibliotheksausweisnummer
-    dd = @registration.barcode
+    dd = @registration.barcode[-4..-1].rjust(10, '*')
 
   - if @allocations.present?
-    table.table
-      thead
-        tr
-          th(scope="col") = "Art"
-          th(scope="col") = "Bereich"
-          th(scope="col") = "Ressource"
-          th(scope="col") = "Hinweise"
-      tbody
-        - @allocations.each do |allocation|
-          - todays_next_reservation = allocation.resource.todays_reservations.first
-          tr
-            td = allocation.resource.resource_group.title
-            td = allocation.resource.resource_location.title
-            td = allocation.resource.title
-            td
+    .row.row-cols-2
+      - @allocations.each do |allocation|
+        - todays_next_reservation = allocation.resource.todays_reservations.first
+        .col.border
+          .card.mb-3
+            .card-body
+              div = allocation.resource.resource_group.title
+              h1.mb-0 = allocation.resource.resource_location.title
+              h1.mb-0 = allocation.resource.title
               - if todays_next_reservation.present?
-                == "Der Platz ist ab <strong>#{l(todays_next_reservation.begin_date, format: "%H:%M Uhr")}</strong> reserviert und muss ggf. freigegeben werden."
-              - else
-                = "–"
+                div
+                  i == "Der Platz ist ab <strong>#{l(todays_next_reservation.begin_date, format: "%H:%M Uhr")}</strong> reserviert und muss ggf. freigegeben werden."
   - else
     .alert.alert-info
       ' Ihnen wurden keine Ressourcen zugeordnet.
