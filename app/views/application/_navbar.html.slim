@@ -13,11 +13,10 @@ nav.navbar.navbar-dark.bg-dark.navbar-expand-lg
           = link_to statistics_path, class: "nav-link" do
             i.fas.fa-chart-line.fa-lg
             =< "Belegungsübersicht"
-        - if current_user
-          li.nav-item
-            = link_to account_reservations_path, class: "nav-link" do
-              i.fas.fa-calendar-check.fa-lg
-              =< "Reservierungen"
+        li.nav-item
+          = link_to account_reservations_path, class: "nav-link" do
+            i.fas.fa-calendar-check.fa-lg
+            =< "Reservierungen"
 
       - if current_user
         .ml-auto
