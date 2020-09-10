@@ -52,15 +52,17 @@ class Account::ReservationsController < Account::ApplicationController
   end
 
   def destroy
-    reservation = current_user.reservations.find(params[:id])
+    Resource.transaction do
+      reservation = current_user.reservations.find(params[:id])
 
-    if reservation.destroy
-      flash[:success] = "Reservierung gelöscht."
-    else
-      flash[:error] = "Fehler: Reservierung konnte nicht gelöscht werden."
+      if reservation.destroy
+        flash[:success] = "Reservierung gelöscht."
+      else
+        flash[:error] = "Fehler: Reservierung konnte nicht gelöscht werden."
+      end
+
+      redirect_to(account_reservations_path)
     end
-
-    redirect_to(account_reservations_path)
   end
 
 private
@@ -130,29 +132,29 @@ private
     now = Time.zone.now
 
     opening_time, closing_time = Reservation.get_opening_and_closing_times(begin_date)
-    during_opening_hours = opening_time.seconds_since_midnight < now.seconds_since_midnight &&
-      closing_time.seconds_since_midnight > now.seconds_since_midnight
+    #during_opening_hours = opening_time.seconds_since_midnight < now.seconds_since_midnight &&
+    #  closing_time.seconds_since_midnight > now.seconds_since_midnight
 
     if begin_date < now
       flash[:error] = "Die Reservierung darf nicht in der Vergangenheit liegen. Bitte wählen Sie eine passende Reservierungszeit."
       redirect_to(new_account_reservation_path(date: begin_date, resource_id: @resource.id))
       return false
-    elsif begin_date.to_date == today && during_opening_hours && begin_date < (now + 1.hour)
-      flash[:error] = "Die Reservierung muss min. 1 Stunde in der Zukunft liegen."
-      redirect_to(new_account_reservation_path(date: begin_date, resource_id: @resource.id))
-      return false
+    # elsif begin_date.to_date == today && during_opening_hours && begin_date < (now + 1.hour)
+    #   flash[:error] = "Die Reservierung muss min. 1 Stunde in der Zukunft liegen."
+    #   redirect_to(new_account_reservation_path(date: begin_date, resource_id: @resource.id))
+    #   return false
     elsif begin_date.seconds_since_midnight < opening_time.seconds_since_midnight
       flash[:error] = "Die Reservierung darf nicht vor dem Beginn der Öffungszeit liegen."
       redirect_to(new_account_reservation_path(date: begin_date, resource_id: @resource.id))
       return false
-    elsif begin_date.seconds_since_midnight > closing_time.seconds_since_midnight
+    elsif begin_date.seconds_since_midnight >= closing_time.seconds_since_midnight
       flash[:error] = "Die Reservierung darf nicht nach dem Ende der Öffungszeit liegen."
       redirect_to(new_account_reservation_path(date: begin_date, resource_id: @resource.id))
       return false
-    elsif begin_date.seconds_since_midnight > (closing_time - 1.hour).seconds_since_midnight
-      flash[:error] = "Die Reservierung muss min. 1 Stunde vor dem Ende der Öffungszeit liegen."
-      redirect_to(new_account_reservation_path(date: begin_date, resource_id: @resource.id))
-      return false
+    # elsif begin_date.seconds_since_midnight > (closing_time - 1.hour).seconds_since_midnight
+    #   flash[:error] = "Die Reservierung muss min. 1 Stunde vor dem Ende der Öffungszeit liegen."
+    #   redirect_to(new_account_reservation_path(date: begin_date, resource_id: @resource.id))
+    #   return false
     else
       return true
     end

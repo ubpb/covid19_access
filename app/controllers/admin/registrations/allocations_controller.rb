@@ -5,39 +5,53 @@ class Admin::Registrations::AllocationsController < Admin::Registrations::Applic
   end
 
   def new
-    can_create_allocation? or return
+    Resource.transaction do
+      can_create_allocation? or return
 
-    @allocation = @registration.allocations.build
-    @resource_locations = ResourceLocation.includes(resources: [:resource_group, :reservations])
-    @allocated_resource_ids = Resource.joins(:allocation).pluck(:id)
+      @allocation = @registration.allocations.build
+      @resource_locations = ResourceLocation.includes(resources: [:resource_group, :reservations])
+      @allocated_resource_ids = Resource.joins(:allocation).pluck(:id)
+    end
   end
 
   def create
-    can_create_allocation? or return
+    Resource.transaction do
+      can_create_allocation? or return
 
-    permitted_params = params.require(:allocation).permit(:resource_id)
-    @allocation = @registration.allocations.build(permitted_params)
-    @allocation.created_at = Time.zone.now
+      permitted_params = params.require(:allocation).permit(:resource_id)
 
-    if @allocation.save
-      flash[:success] = "Ressource erfolgreich zugeordnet"
-    else
-      flash[:error] = "Fehler: Ressource konnte nicht zugeordnet werden"
+      was_reserved = params[:allocation][:was_reserved]
+      resource = Resource.find(permitted_params[:resource_id])
+      if resource.reserved_today? && was_reserved == "false"
+        flash[:error] = "Die Ressource wurde in der Zwischenzeit reserviert. Bitte Auswahl prüfen."
+        redirect_to(new_admin_registration_allocation_path(@registration))
+      else
+        @allocation = @registration.allocations.build(permitted_params)
+        @allocation.created_at = Time.zone.now
+
+        if @allocation.save
+          flash[:success] = "Ressource erfolgreich zugeordnet"
+          redirect_to(print_admin_registration_allocations_path(@registration))
+        else
+          flash[:error] = "Ressource wurde in der Zwischenzeit belegt. Bitte einen anderen Platz auswählen."
+          redirect_to(new_admin_registration_allocation_path(@registration))
+        end
+      end
     end
-
-    redirect_to(print_admin_registration_allocations_path(@registration))
   end
 
   def destroy
-    allocation = @registration.allocations.find(params[:id])
+    Resource.transaction do
+      allocation = @registration.allocations.find(params[:id])
 
-    if allocation && allocation.release
-      flash[:success] = "Ressource erfolgreich freigegeben"
-    else
-      flash[:error] = "Fehler: Ressource konnte nicht freigegeben werden"
+      if allocation && allocation.release
+        flash[:success] = "Ressource erfolgreich freigegeben"
+      else
+        flash[:error] = "Fehler: Ressource konnte nicht freigegeben werden"
+      end
+
+      redirect_to(admin_registration_allocations_path(@registration))
     end
-
-    redirect_to(admin_registration_allocations_path(@registration))
   end
 
   def print
