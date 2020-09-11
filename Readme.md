@@ -2,27 +2,19 @@
 
 Durch die Vorgaben in der Verordnung zum Schutz vor Neuinfizierungen mit dem Coronavirus SARS-CoV-2 (CoronaSchVO) sind Bibliotheken gehalten, eine Benutzerregistrierung sowie eine Reglementierung der Besucherzahl umzusetzen.
 
-Aus diesem Grund müssen sich alle Personen bis auf Weiteres beim Betreten und Verlassen der Bibliothek mit ihrem Bibliotheksausweis ein- bzw. ausbuchen. Zudem werden beim Betreten der Bibliothek Name, Adresse und Telefonummer aller Personen erfasst und für einen Zeitraum von vier Wochen gespeichert. 
+Aus diesem Grund müssen sich alle Personen bis auf Weiteres beim Betreten und Verlassen der Bibliothek mit ihrem Bibliotheksausweis ein- bzw. ausbuchen. Dabei werden die Bibliotheksausweisnummer, der Name, die Adresse, die Telefonnummer sowie der Zeitpunkt des Betretens bzw. Verlassens der Bibliothek gespeichert. Werden Arbeitsplätze innerhalb der Bibliothek in Anspruch genommen, wird dies ebenfalls protokolliert um die Regelungen der besonderen Rückverfolgbarkeit im Sinne der CoronaSchVO gewährleisten zu können.
 
-Weitere Informationen dazu finden Sie in unserer [Datenschutzerklärung](https://www.ub.uni-paderborn.de/fileadmin/ub/Dokumente_Formulare/DSE_UB_001_COVID19_Access_v1.pdf).
+Um diese Vorgaben effizient umsetzen zu können wurde an der UB Paderborn diese Software entwickelt die folgende Funktionsbereiche abdeckt:
+
+* Besucherregistrierung: Check-In mit Registrierung der Nutzerdaten und Check-Out.
+* Ressourcenverwaltung: Ressourcen (z.B. Arbeitsplätze) können im System verwaltet und Personen zur Nutzung zugeteilt werden. Zeitpunkt von Belegung und Freigabe wird protokolliert. Damit wird die besondere Rückverfolgbarkeit im Sinne der CoronaSchVO sichergestellt. Eine öffentliche Auslastungsübersicht erlaubt Informationen über die Auslastung der UB in Echtzeit.
+* Reservierungen: Ressourcen (z.B. Arbeitsplätze) können vorab durch Nutzerinnen und Nutzer online reserviert werden. Reservierte Plätze können vor Ort bis zum Zeitpunkt der Reservierung von anderen Personen belegt werden. Dies ist vergleichbar mit der Reservierung von Sitzplätzen in der Bahn (Reserviert ab Köln). Erscheint die Person mit der Reservierung muss der Platz freigemacht werden. Reservierungen verfallen automatisch 30 Minuten nach der Reservierungszeit, sofern diese vor Ort nicht in Anspruch genommen werden. Dies erlaubt eine optimale Auslastung der Arbeitsplätze in Zeiten hoher Nachfrage. Jede Nutzerin, jeder Nutzer (Anmeldung über das Bibliothekskonto) darf pro Tag eine Reservierung machen und max. drei Tage im Voraus.
 
 ## Nachnutzung
 
-Die Anwendung ist für den Einsatz an der UB Paderborn entwickelt und optimiert. Grundsätzlich ist eine Nachnutzung für andere Bibliotheken möglich. Dazu sind ggf. kleine Anpassungen am Quellcode erforderlich. Dies betrifft insb. den Datenabzug aus dem Bibliothekssystem (hier Aleph).
+Die Anwendung ist für den Einsatz an der UB Paderborn entwickelt und optimiert. Grundsätzlich ist eine Nachnutzung für andere Bibliotheken möglich. Dazu sind  Anpassungen am Quellcode erforderlich, da nicht alle Details parametriert sind. Dies betrifft insb. den Datenabzug aus dem Bibliothekssystem (hier Aleph).
 
 Es ist in jedem Fall ratsam einen Fork des Codes zu erstellen.
-
-Dateien die möglicherweise angepasst werden müssen:
-
-1. `app/utils/aleph_client.rb`
-
-   In dieser Datei werden Daten aus Aleph geladen. Hier sind ggf. mappings anzupassen.
-
-2. `app/controllers/registrations_controller.rb`
-
-   In dieser Datei ist die komplette Logik für die Nutzerregsistrierung. Hier wird auch der Aleph Client angesprochen. Ist ein Abgleich mit dem Bibliothekssystem nicht gewünscht kann dies hier abgestellt werden. 
-
-   Wir versuchen so viele Daten wie möglich zu aus dem Biblieothekssystem zu laden um die Menge der manuell zu erfassenen Daten zu minimieren. Es ist jedoch nicht erforderlich dies zu tun.
 
 ## Installation
 
@@ -34,9 +26,9 @@ Dateien die möglicherweise angepasst werden müssen:
 
 1. Installation von Ruby. Es gibt viele Möglichkeiten Ruby zu installieren. Wir empfehlen RVM (https://rvm.io). Die Anwdenung nutzt aktuell Ruby Version `2.6.5`. Grundsätzlich sollte auch `2.7.x` funktionieren. In dem Fall muss die Datei `.ruby-version` entsprechend angepasst werden.
 
-2. Node.js (https://nodejs.org) installieren
+2. node.js (https://nodejs.org) installieren
 
-3. yarn 1.x (https://classic.yarnpkg.com) installieren
+3. yarn 1.x (https://classic.yarnpkg.com) installieren. yarn 2.x sollte auch funktionieren, wurde aber noch nicht getestet.
 
 4. Programm-Abhängigkeiten installieren
 
@@ -44,7 +36,7 @@ Dateien die möglicherweise angepasst werden müssen:
 
    `$ yarn install`
 
-5. Datenbank-Settings: `config/database.yml` anpassen.
+5. Datenbank-Settings: `config/database.yml` anpassen. Wir nutzen MySQL. PostgreSQL sollte ebenfalls funktionieren, wurde aber nicht getestet.
 
 6. Datenbank anlegen
 
@@ -64,4 +56,6 @@ Dateien die möglicherweise angepasst werden müssen:
 
 ### Auf einem Produktionsserver
 
-TBD.
+Deployment via `capistrano` (https://capistranorb.com). Die Dateien `config/deploy.rb` und `config/deploy/*.rb` sind entsprechend der eigenen Serverinfrastruktur im Fork anzupassen.
+
+Für den Betrieb auf dem Server ist `nginx` (https://nginx.org) mit `passenger` (https://www.phusionpassenger.com) empfohlen.
