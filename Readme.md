@@ -48,11 +48,22 @@ Es ist in jedem Fall ratsam einen Fork des Codes zu erstellen.
 
    `$ cp config/application.yml.sample config/application.yml`
 
-7. Anwendung starten
+8. Anwendung starten
 
    `$ rails s -p 3000`
 
    Die Anwendung ist jetzt unter `http://localhost:3000` erreichbar. Die Anwendung wird per HTTP BASIC AUTH geschützt. Das PW kann in `config/application.yml` gesetzt werden.
+
+9. Hinweis: Background Tasks
+
+   Unter `lib/tasks` finden sich Background Worker die auf einem Produktionssystem via Cronjob auszuführen sind.
+
+   * `rails app:dsgvo:cleanup` Dieser Task löscht alle personenbezogenen Daten die älter sind als 4 Wochen. Sollte auf einem Produktionssystem täglich laufen.
+   * `rails app:reservations:cleanup` Dieser Task löscht alle nicht in Anspruch genommenen Reservierungen. Sollte auf einem Produktionssystem ca. alle 5 Minuten laufen.
+
+   Ein zusätzlicher Task ist bei Bedarf manuell auszuführen
+
+   * `rails app:report:create` Dieser Task erstellt eine Excel Datei für eine Meldung an die Behörden.
 
 ### Auf einem Produktionsserver
 
