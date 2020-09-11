@@ -16,17 +16,21 @@
       = image_tag("ub-logo.svg", height: "60", loading: "lazy")
       = image_tag("app-logo.svg", height: "35", loading: "lazy")
 
-  p Folgende Ressourcen (Arbeitsplatz etc.) wurden Ihnen zur Nutzung zugeordnet. Im Sinne des Infektionsschutzes und möglicher Rückverfolgbarkeit von Infektionsketten bitten wir Sie nur genau diese Ressourcen zu nutzen.
+  p Folgende Arbeitsplätze wurden Ihnen zur Nutzung zugeordnet. Im Sinne des Infektionsschutzes und möglicher Rückverfolgbarkeit von Infektionsketten bitten wir Sie nur genau diese zu nutzen.
 
   p
-    strong Beim Verlassen der Bibliothek (Check-Out) werden die Ressourcen wieder freigegeben und können durch andere Nutzerinnen und Nutzern belegt werden. Möchten Sie die Bibliothek nur kurz verlassen (Pause, Rauchen, Mittagessen etc.), teilen Sie dies bitte dem Bibliothekspersonal am Check-Out mit und verzichten Sie auf die Check-Out-Buchung.
+    strong Beim Verlassen der Bibliothek (Check-Out) werden die Arbeitsplätze wieder freigegeben und können durch andere Nutzerinnen und Nutzer belegt werden. Möchten Sie die Bibliothek nur kurz verlassen (Pause, Rauchen, Mittagessen etc.), teilen Sie dies bitte dem Bibliothekspersonal am Ausgang mit und verzichten Sie auf die Check-Out-Buchung.
 
   .alert.alert-secondary
     strong Bitte desinfizieren Sie Arbeitsplätze und Geräte vor der Nutzung selbst. Dazu stehen entsprechende Materialien bereit. Sollte etwas fehlen wenden Sie sich bitte an das Bibliothekspersonal.
 
-  dl
-    dt Bibliotheksausweisnummer
-    dd = @registration.barcode[-4..-1].rjust(10, '*')
+  .d-flex.justify-content-between
+    dl
+      dt Bibliotheksausweisnummer
+      dd = mask_barcode(@registration.barcode)
+    dl
+      dt Datum
+      dd = l(Time.zone.now, format: "%d.%m.%Y, %H:%M Uhr")
 
   - if @allocations.present?
     .row.row-cols-2
