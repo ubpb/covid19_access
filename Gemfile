@@ -5,6 +5,7 @@ ruby IO.read(".ruby-version").strip
 
 gem "bcrypt",       "~> 3.1.7"
 gem "caxlsx",       "~> 3.0.1"
+gem "csv",          "~> 3.0"
 gem "highline",     "~> 2.0.3"
 gem "jbuilder",     "~> 2.7"
 gem "mysql2",       ">= 0.4.4"
