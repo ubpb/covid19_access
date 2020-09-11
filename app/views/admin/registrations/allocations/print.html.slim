@@ -21,7 +21,7 @@
   p
     strong Beim Verlassen der Bibliothek (Check-Out) werden die Arbeitsplätze wieder freigegeben und können durch andere Nutzerinnen und Nutzer belegt werden. Möchten Sie die Bibliothek nur kurz verlassen (Pause, Rauchen, Mittagessen etc.), teilen Sie dies bitte dem Bibliothekspersonal am Ausgang mit und verzichten Sie auf die Check-Out-Buchung.
 
-  .alert.alert-secondary
+  p.mb-5
     strong Bitte desinfizieren Sie Arbeitsplätze und Geräte vor der Nutzung selbst. Dazu stehen entsprechende Materialien bereit. Sollte etwas fehlen wenden Sie sich bitte an das Bibliothekspersonal.
 
   .d-flex.justify-content-between
@@ -33,11 +33,11 @@
       dd = l(Time.zone.now, format: "%d.%m.%Y, %H:%M Uhr")
 
   - if @allocations.present?
-    .row.row-cols-2
+    .row.row-cols-2.mb-4
       - @allocations.each do |allocation|
         - todays_next_reservation = allocation.resource.todays_reservations.first
-        .col.border
-          .card.mb-3
+        .col
+          .card.mb-3.border
             .card-body
               div = allocation.resource.resource_group.title
               h1.mb-0 = allocation.resource.resource_location.title
@@ -45,6 +45,12 @@
               - if todays_next_reservation.present?
                 div
                   i == "Der Platz ist ab <strong>#{l(todays_next_reservation.begin_date, format: "%H:%M Uhr")}</strong> reserviert und muss ggf. freigegeben werden."
+    div
+      div: strong Wo finde ich meinen Platz?
+      div = image_tag("ub-location-qr-code.jpg", height: "80", loading: "lazy")
+      i = "https://www.ub.uni-paderborn.de/lernort/arbeitsplaetze-waehrend-der-corona-pandemie"
+
+
   - else
     .alert.alert-info
       ' Ihnen wurden keine Ressourcen zugeordnet.
