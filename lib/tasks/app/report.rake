@@ -19,6 +19,7 @@ namespace :app do
       Axlsx::Package.new do |p|
         p.workbook.add_worksheet(name: "Report") do |sheet|
           headers = [
+            "Bib. interne ID",
             "Bib. Ausweis Nr.",
             "Einlass",
             "Auslass",
@@ -32,7 +33,8 @@ namespace :app do
 
           registrations.each do |registration|
             values = [
-              registration.ilsid,
+              registration.uid,
+              registration.barcode,
               I18n.l(registration.entered_at),
               I18n.l(registration.exited_at),
               registration.name.presence,

@@ -1,0 +1,53 @@
+/ Visible only on screen
+.d-print-none
+  .card.card-primary.card-cutoff-corner.mb-3
+    .card-header.d-flex.align-items-center
+      h5.mb-0 = "Quittung drucken"
+    .card-body
+      .text-center
+        button.btn.btn-lg.btn-secondary(type="button" onclick="window.print()")
+          = "Drucken"
+        =< link_to "Ausdruck bestätigen", admin_registration_allocations_path(@registration), class: "btn btn-lg btn-primary"
+
+/ Visible only on print
+.d-none.d-print-block
+  .mb-4
+    .d-flex.flex-row.align-items-center.justify-content-between
+      = image_tag("ub-logo.svg", height: "60", loading: "lazy")
+      = image_tag("app-logo.svg", height: "35", loading: "lazy")
+
+  p Folgende Arbeitsplätze wurden Ihnen zur Nutzung zugeordnet. Im Sinne des Infektionsschutzes und möglicher Rückverfolgbarkeit von Infektionsketten bitten wir Sie nur genau diese zu nutzen.
+
+  p
+    strong Beim Verlassen der Bibliothek (Check-Out) werden die Arbeitsplätze wieder freigegeben und können durch andere Nutzerinnen und Nutzer belegt werden. Möchten Sie die Bibliothek nur kurz verlassen (Pause, Rauchen, Mittagessen etc.), teilen Sie dies bitte dem Bibliothekspersonal am Ausgang mit und verzichten Sie auf die Check-Out-Buchung.
+
+  .alert.alert-secondary
+    strong Bitte desinfizieren Sie Arbeitsplätze und Geräte vor der Nutzung selbst. Dazu stehen entsprechende Materialien bereit. Sollte etwas fehlen wenden Sie sich bitte an das Bibliothekspersonal.
+
+  .d-flex.justify-content-between
+    dl
+      dt Bibliotheksausweisnummer
+      dd = mask_barcode(@registration.barcode)
+    dl
+      dt Datum
+      dd = l(Time.zone.now, format: "%d.%m.%Y, %H:%M Uhr")
+
+  - if @allocations.present?
+    .row.row-cols-2
+      - @allocations.each do |allocation|
+        - todays_next_reservation = allocation.resource.todays_reservations.first
+        .col.border
+          .card.mb-3
+            .card-body
+              div = allocation.resource.resource_group.title
+              h1.mb-0 = allocation.resource.resource_location.title
+              h1.mb-0 = allocation.resource.title
+              - if todays_next_reservation.present?
+                div
+                  i == "Der Platz ist ab <strong>#{l(todays_next_reservation.begin_date, format: "%H:%M Uhr")}</strong> reserviert und muss ggf. freigegeben werden."
+  - else
+    .alert.alert-info
+      ' Ihnen wurden keine Ressourcen zugeordnet.
+
+javascript:
+  window.print()

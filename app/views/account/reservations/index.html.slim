@@ -1,0 +1,35 @@
+.card.card-cutoff-corner.card-primary
+  .card-header.d-flex.align-items-center
+    h5.mb-0 = "Meine Reservierungen"
+    .ml-auto
+      = link_to new_account_reservation_path, class: "btn btn-primary" do
+        i.fas.fa-plus
+        =< "Neue Reservierung"
+  .card-body
+    - if @reservations.present?
+      .alert.alert-warning
+        i.fas.fa-exclamation-triangle
+        =< "Reservierungen können vor Ort erst ab der reservierten Uhrzeit in Anspruch genommen werden. Nicht in Anspruch genommene Reservierungen verfallen automatisch 30 Minuten nach der reservierten Uhrzeit. Bitte löschen Sie Reservierungen selbstständig, wenn absehbar ist, dass Sie sie nicht mehr in Anspruch nehmen können."
+
+      .table-responsive
+        table.table.mb-0
+          thead
+            tr
+              th(scope="col") = "Datum"
+              th(scope="col") = "Art"
+              th(scope="col") = "Bereich"
+              th(scope="col") = "Ressource"
+              th(scope="col") = ""
+          tbody
+            - @reservations.each do |res|
+              tr
+                td = l(res.begin_date, format: "%d.%m.%Y, %H:%M Uhr")
+                td = res.resource.resource_group.title
+                td = res.resource.resource_location.title
+                td = res.resource.title
+                td.text-right
+                  = link_to "Löschen", account_reservation_path(res), method: :delete, data: {confirm: "Reservierung wirklich löschen?"}, class: "btn btn-sm btn-danger"
+
+    - else
+      .alert.alert-info.mb-0
+        = "Sie haben aktuell keine Reservierungen"

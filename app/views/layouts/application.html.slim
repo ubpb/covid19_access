@@ -6,7 +6,7 @@ html
     meta(name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no")
     meta(name="msapplication-config" content="none")
 
-    title = @page_title.present? ? "COVID19 Access - #{@page_title}" : "COVID19 Access"
+    title = @page_title.present? ? "UB Paderborn / Besucherregistrierung / #{@page_title}" : "UB Paderborn / Besucherregistrierung"
 
     = csrf_meta_tags
     = csp_meta_tag
@@ -14,6 +14,15 @@ html
     = javascript_pack_tag "application", "data-turbolinks-track": "reload"
 
   body
-    .mb-3 = render "main_nav"
-    .container
-      = yield
+    .d-print-none = render "test_server_warning"
+
+    #header.d-print-none
+      = render "header"
+
+    #page
+      .container.mt-3
+        = render "alerts", global: true
+        = content_for?(:main) ? yield(:main) : yield
+
+    #footer.d-print-none
+      = render "footer"

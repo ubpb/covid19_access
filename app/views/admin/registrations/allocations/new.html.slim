@@ -1,0 +1,11 @@
+.card.card-primary.card-cutoff-corner
+  .card-header.d-flex.align-items-center.justify
+    div
+      h5.mb-0 = "Neue Ressource zuordnen"
+      strong = "#{@registration.barcode}, #{@registration.name}"
+    .ml-auto
+      = link_to "Abbrechen", admin_registration_path(@registration), class: "btn btn-primary"
+  .card-body
+    - @resource_locations.each do |rl|
+      h5 = rl.title
+      = render "listing", resources: rl.resources

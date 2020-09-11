@@ -1,0 +1,61 @@
+.card.card-cutoff-corner
+  .card-header.d-flex.align-items-center
+    h5.mb-0 = "Neue Reservierung - Datum wählen"
+  .card-body
+    .alert.alert-info
+      i.fas.fa-info-circle
+      =< "Bitte wählen Sie zuerst den Tag für Ihre Reservierung und wählen anschließend einen freien Platz. Sie können aktuell max. drei Tage im Voraus reservieren. Es werden nur Tage angezeigt an denen die Bibliothek geöffnet ist. Sie können pro Tag max. eine Reservierung machen."
+
+    = render "alerts"
+
+    .btn-group.mb-3
+      - @reservable_dates.each do |d|
+        - active_class = d == @selected_date ? "active" : ""
+        = link_to select_date_account_reservations_path(date: d), class: "btn btn-secondary #{active_class}" do
+          - if d == Date.today
+            = l(d, format: "%d.%m")
+            br
+            = "#{l(d, format: "%A")} (Heute)"
+          - else
+            = l(d, format: "%d.%m")
+            br
+            = l(d, format: "%A")
+
+    - if @resources.present?
+      - if current_user.has_reservations_today?(@selected_date)
+        .alert.alert-danger.mb-0.text-center
+          ' Für den gewählten Tag haben Sie bereits eine Reservierung. Sie können pro Tag max. eine Reservierung anlegen.
+      - else
+        .table-responsive
+          table.table.table-sm.mb-0
+            thead
+              tr
+                th(scope="col") = "Status"
+                th(scope="col") = "Art"
+                th(scope="col") = "Bereich"
+                th(scope="col") = "Ressource"
+                th(scope="col") = ""
+            tbody
+              - @resources.each do |resource|
+                ruby:
+                  allocated = @selected_date == Time.zone.today && resource.allocated?
+                  todays_reservation = resource.todays_reservations(@selected_date).first
+                  row_class = allocated ? "table-danger" : (todays_reservation ? "table-warning" : "table-success" )
+
+                tr(class=row_class)
+                  td
+                    - if allocated
+                      = "BELEGT"
+                    - elsif todays_reservation
+                      = "RESERVIERT AB #{l(todays_reservation.begin_date, format: "%H:%M Uhr")}"
+                    - else
+                      = "FREI"
+                  td = resource.resource_group.title
+                  td = resource.resource_location.title
+                  td = resource.title
+                  td.text-right
+                    - if !allocated && todays_reservation.blank?
+                      = link_to "Jetzt reservieren", new_account_reservation_path(date: @selected_date, resource_id: resource.id), class: "btn btn-sm btn-primary"
+    - else
+      .alert.alert-info.mb-0
+        ' Keine Ressourcen verfügbar

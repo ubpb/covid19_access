@@ -1,0 +1,18 @@
+.card.card-cutoff-corner.text-white.bg-info
+  .card-header
+    h5.mb-0 = "Log"
+
+  - if last_registrations.present?
+    ul.list-group.list-group-flush
+      - last_registrations.each do |reg|
+        li.list-group-item.bg-transparent
+          - mode = reg.exited_at.nil? ? :enter : :exit
+          div
+            = "#{mode == :enter ? "Einlass" : "Auslass"}:"
+            =< link_to reg.barcode, admin_registration_path(reg), class: "text-white"
+          small
+            - timestamp = mode == :enter ? reg.entered_at : reg.exited_at
+            = l(timestamp, format: "%d.%m.%Y, %H:%M:%S")
+  - else
+    .card-body
+      ' Keine Daten

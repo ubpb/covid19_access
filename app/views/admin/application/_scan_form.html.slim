@@ -1,0 +1,11 @@
+- form_method = local_assigns.fetch(:form_method) { :post }
+
+.card.card-cutoff-corner.card-primary
+  .card-header
+    h5.mb-0 = header_text
+  .card-body
+    = render "alerts"
+
+    = simple_form_for :scan_form, url: form_path, method: form_method do |f|
+      = f.input :barcode, label: false, placeholder: "Bibliotheksausweisnummer", input_html: {class: "form-control-lg", autocomplete: "off"}, autofocus: true
+      = f.button :submit, action_text, class: "btn-lg btn-block"

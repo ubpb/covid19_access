@@ -1,0 +1,31 @@
+.table-responsive
+  table.table.table-sm.mb-4
+    thead
+      tr
+        th(scope="col" width="130") = "Status"
+        th(scope="col") = "Art"
+        th(scope="col") = "Ressource"
+        th(scope="col") = ""
+    tbody
+      - resources.each do |resource|
+        ruby:
+          allocated = resource.allocated?
+          todays_next_reservation = resource.todays_reservations.first
+          row_class = allocated ? "table-danger" : (todays_next_reservation.present? ? "table-warning" : "table-success" )
+
+        tr(class=row_class)
+          td
+            - if allocated
+              = "BELEGT"
+            - elsif todays_next_reservation.present?
+              = "RESERVIERT AB #{l(todays_next_reservation.begin_date, format: "%H:%M Uhr")}"
+            - else
+              = "FREI"
+          td = resource.resource_group.title
+          td = resource.title
+          td.text-right
+            - unless resource.allocated?
+              = simple_form_for [:admin, @registration, @allocation] do |f|
+                = f.input_field :resource_id, as: :hidden, value: resource.id
+                = f.input_field :was_reserved, as: :hidden, value: resource.reserved_today?
+                = f.button :submit, "Belegen", class: "btn btn-sm btn-primary"

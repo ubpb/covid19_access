@@ -1,0 +1,24 @@
+nav.navbar.navbar-dark.bg-dark.navbar-expand-lg
+  .container
+    a.navbar-brand(href="/")
+      i.fas.fa-users.fa-lg
+      =< "ADMIN"
+
+    button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarContent")
+      span.navbar-toggler-icon
+
+    #navbarContent.collapse.navbar-collapse
+      ul.navbar-nav.mr-auto
+        li.nav-item(class=active_when(/admin\/checkin/))
+          = link_to "Einlass", admin_new_checkin_path , class: "nav-link"
+        li.nav-item(class=active_when(/admin\/checkout/))
+          = link_to "Auslass", admin_new_checkout_path , class: "nav-link"
+        li.nav-item(class=active_when(/admin\/registrations/))
+          = link_to "Registrierungen", admin_registrations_path , class: "nav-link"
+      ul.navbar-nav
+        li.nav-item.dropdown
+          a.nav-link.dropdown-toggle(data-toggle="dropdown" href="#")
+            i.fas.fa-cogs.fa-lg
+          .dropdown-menu.dropdown-menu-right
+            = link_to "Reset", admin_reset_index_path , class: "dropdown-item"
+

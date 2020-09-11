@@ -1,0 +1,19 @@
+de:
+  statistics:
+    people:
+      number_of_people_entered:
+        zero: "Im Moment befindet sich <strong>keine Person</strong> im Gebäude."
+        one: "Im Moment befindet sich <strong>eine Person</strong> im Gebäude."
+        other: "Im Moment befinden sich <strong>%{count} Personen</strong> im Gebäude."
+      max_number_of_people:
+        zero: "Aktuell dürfen <strong>keine Personen</strong> im Gebäude sein."
+        one: "Max. darf <strong>eine Person</strong> gleichzeitig im Gebäude sein."
+        other: "Max. dürfen <strong>%{count} Personen</strong> gleichzeitig im Gebäude sein."
+      number_of_people_entered_last_hour:
+        zero: "In der letzten Stunde hat <strong>keine Person</strong> das Gebäude betreten."
+        one: "In der letzten Stunde hat <strong>eine Person</strong> das Gebäude betreten."
+        other: "In der letzten Stunde haben <strong>%{count} Personen</strong> das Gebäude betreten."
+      number_of_people_exited_last_hour:
+        zero: "<strong>Keine Person</strong> hat es verlassen."
+        one: "<strong>Eine Person</strong> hat es verlassen."
+        other: "<strong>%{count} Personen</strong> haben es verlassen."

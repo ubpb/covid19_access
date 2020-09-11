@@ -1,0 +1,56 @@
+- if @resource_statistics.present?
+  - @resource_statistics.each do |resource_stats|
+    - resource_group = resource_stats[:resource_group]
+    - resources = resource_stats[:resources]
+
+    .card.card-cutoff-corner.mb-3
+      .card-header.d-flex.align-items-center
+        h5.mb-0 = "Belegungsübersicht: #{resource_group.title}"
+      .card-body
+        - if resources.present?
+          .row
+            .col
+              dl
+                dt Auslastung aktuell
+                dd = number_to_percentage(resource_stats[:utilization])
+            .col
+              dl
+                dt Belegungen in der letzten Stunde
+                dd = resource_stats[:number_of_allocations_last_hour]
+            .col
+              dl
+                dt Freigaben in der letzten Stunde
+                dd = resource_stats[:number_of_released_allocations_last_hour]
+
+          .table-responsive
+            table.table.table-sm.mb-0
+              thead
+                tr
+                  th(scope="col") = "Status"
+                  th(scope="col") = "Bereich"
+                  th(scope="col") = "Ressource"
+              tbody
+                - resources.each do |resource|
+                  ruby:
+                    allocated = resource.allocated?
+                    todays_next_reservation = resource.todays_reservations.first
+                    row_class = allocated ? "table-danger" : (todays_next_reservation.present? ? "table-warning" : "table-success" )
+
+                  tr(class=row_class)
+                    td
+                      - if allocated
+                        = "BELEGT"
+                      - elsif todays_next_reservation.present?
+                        = "RESERVIERT AB #{l(todays_next_reservation.begin_date, format: "%H:%M Uhr")}"
+                      - else
+                        = "FREI"
+                    td = resource.resource_location.title
+                    td = resource.title
+        - else
+          .alert.alert-info.mb-0
+            = "Aktuell keine Daten verfügbar"
+- else
+  .alert.alert-info.mb-0
+    = "Aktuell keine Daten verfügbar"
+
+

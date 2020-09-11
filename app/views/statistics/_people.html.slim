@@ -1,0 +1,27 @@
+ruby:
+  x = @number_of_people_entered.fdiv(@max_number_of_people) * 100
+  bg_class = case x
+    when 0..89   then "bg-success"
+    when 90..99 then "bg-warning"
+    else "bg-danger"
+  end
+
+.card.card-cutoff-corner.text-white.mb-3(class=bg_class)
+  .card-header
+    h5.mb-0
+      i.fas.fa-users
+      =< "Personen im Gebäude"
+  .card-body
+    .text-center
+      == t(".number_of_people_entered", count: @number_of_people_entered)
+      ==< t(".max_number_of_people", count: @max_number_of_people)
+
+.card.card-cutoff-corner.text-white.bg-info
+  .card-header
+    h5.mb-0
+      i.fas.fa-people-arrows
+      =< "Fluktuation"
+  .card-body
+    .text-center
+      == t(".number_of_people_entered_last_hour", count: @number_of_people_entered_last_hour)
+      ==< t(".number_of_people_exited_last_hour", count: @number_of_people_exited_last_hour)

@@ -1,0 +1,35 @@
+nav.navbar.navbar-dark.bg-dark.navbar-expand-lg
+  .container.justify-content-end
+    button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarContent")
+      span.navbar-toggler-icon
+
+    #navbarContent.collapse.navbar-collapse
+      ul.navbar-nav
+        li.nav-item
+          = link_to root_path, class: "nav-link" do
+            i.fas.fa-home.fa-lg
+            =< "Start"
+        li.nav-item
+          = link_to statistics_path, class: "nav-link" do
+            i.fas.fa-chart-line.fa-lg
+            =< "Belegungsübersicht"
+        li.nav-item
+          = link_to account_reservations_path, class: "nav-link" do
+            i.fas.fa-calendar-check.fa-lg
+            =< "Reservierungen"
+
+      - if current_user
+        .ml-auto
+          .btn-group.d-flex.ml-lg-4.mt-2.mt-lg-0
+            = link_to account_root_path, class: "btn btn-primary w-100", data: { turbolinks: false } do
+              i.far.fa-user
+              =< current_user.name
+            = link_to logout_path, class: "btn btn-outline-primary", data: {confirm: "Wirklich abmelden?"}, method: :delete do
+              i.fas.fa-power-off
+      - else
+        .ml-auto
+          .d-flex.ml-lg-4.mt-2.mt-lg-0
+            = link_to new_session_path, class: "btn btn-primary w-100 w-lg-auto" do
+              i.far.fa-user
+              =< "Anmelden"
+

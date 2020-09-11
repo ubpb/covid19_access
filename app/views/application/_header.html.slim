@@ -1,0 +1,10 @@
+header
+  .container.pb-3.pt-3
+    .d-flex.flex-row.align-items-center.justify-content-between
+      = link_to "http://www.ub.uni-paderborn.de" do
+        = image_tag("ub-logo.svg", height: "60", loading: "lazy")
+
+      = link_to "/" do
+        = image_tag("app-logo.svg", height: "35", loading: "lazy")
+
+  = render "navbar"

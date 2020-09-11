@@ -1,0 +1,40 @@
+.mb-3 = render "scan_form", form_path: admin_registrations_path, form_method: :get, header_text: "Registrierung suchen", action_text: "Suchen"
+
+- if @filtered
+  .card
+    .card-header
+      h5.mb-0 = "Registrierungen für '#{@barcode}'"
+
+    .card-body
+      - if @registrations.present?
+        .table-responsive
+          table.table
+            thead
+              tr
+                th(scope="col") = "Status"
+                th(scope="col") = "Ausweis Nr."
+                th(scope="col") = "Name"
+                th(scope="col") = "Einlass"
+                th(scope="col") = "Auslass"
+                th(scope="col") = ""
+            tbody
+              - @registrations.each do |reg|
+                tr
+                  td
+                    - if reg.closed?
+                      span.badge.badge-danger = "Abgeschlossen"
+                    - else
+                      span.badge.badge-success = "Aktiv"
+                  td = reg.barcode
+                  td = reg.name
+                  td = l(reg.entered_at, format: "%d.%m.%Y, %H:%M Uhr")
+                  td
+                    - if reg.exited_at.present?
+                      = l(reg.exited_at, format: "%d.%m.%Y, %H:%M Uhr")
+                    - else
+                      = "–"
+                  td.text-right
+                    = link_to "Details", admin_registration_path(reg), class: "btn btn-sm btn-primary"
+      - else
+        .alert.alert-info
+          == "Keine Registrierungen für <strong>#{@barcode}</strong> gefunden."
