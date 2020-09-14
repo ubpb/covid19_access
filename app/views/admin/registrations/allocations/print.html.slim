@@ -13,8 +13,8 @@
 .d-none.d-print-block
   .mb-4
     .d-flex.flex-row.align-items-center.justify-content-between
-      = image_tag("ub-logo.svg", height: "60", loading: "lazy")
-      = image_tag("app-logo.svg", height: "35", loading: "lazy")
+      = image_tag("ub-logo.svg", height: "60")
+      = image_tag("app-logo.svg", height: "35")
 
   p Folgende Arbeitsplätze wurden Ihnen zur Nutzung zugeordnet. Im Sinne des Infektionsschutzes und möglicher Rückverfolgbarkeit von Infektionsketten bitten wir Sie nur genau diese zu nutzen.
 
@@ -47,7 +47,7 @@
                   i == "Der Platz ist ab <strong>#{l(todays_next_reservation.begin_date, format: "%H:%M Uhr")}</strong> reserviert und muss ggf. freigegeben werden."
     div
       div: strong Wo finde ich meinen Platz?
-      div = image_tag("ub-location-qr-code.jpg", height: "80", loading: "lazy")
+      div = image_tag("ub-location-qr-code.jpg", height: "80")
       i = "https://www.ub.uni-paderborn.de/lernort/arbeitsplaetze-waehrend-der-corona-pandemie"
 
 
