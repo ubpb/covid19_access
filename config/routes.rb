@@ -50,7 +50,7 @@ Rails.application.routes.draw do
     resources :registrations, only: [:index, :show, :edit, :update] do
       # Allocations
       resources :allocations, module: :registrations, only: [:index, :new, :create, :destroy] do
-        collection do
+        member do
           get "print"
         end
       end

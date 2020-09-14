@@ -32,7 +32,7 @@ class Admin::Registrations::AllocationsController < Admin::Registrations::Applic
 
         if @allocation.save
           flash[:success] = "Ressource erfolgreich zugeordnet"
-          redirect_to(print_admin_registration_allocations_path(@registration))
+          redirect_to(print_admin_registration_allocation_path(@registration, @allocation))
         else
           flash[:error] = "Ressource wurde in der Zwischenzeit belegt. Bitte einen anderen Platz auswählen."
           redirect_to(new_admin_registration_allocation_path(@registration))
@@ -56,7 +56,7 @@ class Admin::Registrations::AllocationsController < Admin::Registrations::Applic
   end
 
   def print
-    @allocations = @registration.allocations.includes(resource: [:resource_group, :resource_location, :reservations])
+    @allocation = @registration.allocations.includes(resource: [:resource_group, :resource_location, :reservations]).find(params[:id])
   end
 
 private

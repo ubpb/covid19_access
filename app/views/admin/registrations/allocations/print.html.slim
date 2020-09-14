@@ -16,44 +16,39 @@
       = image_tag("ub-logo.svg", height: "60")
       = image_tag("app-logo.svg", height: "35")
 
-  p Folgende Arbeitsplätze wurden Ihnen zur Nutzung zugeordnet. Im Sinne des Infektionsschutzes und möglicher Rückverfolgbarkeit von Infektionsketten bitten wir Sie nur genau diese zu nutzen.
+  p: strong Folgender Arbeitsplatz wurden Ihnen zur Nutzung zugeordnet. Nutzen Sie ausschließlich den Ihnen zugeordneten Arbeitsplatz. Nur so ist gewährleistet, dass der Infektionsschutz eingehalten und Infektionsketten zurück verfolgt werden können.
 
-  p
-    strong Beim Verlassen der Bibliothek (Check-Out) werden die Arbeitsplätze wieder freigegeben und können durch andere Nutzerinnen und Nutzer belegt werden. Möchten Sie die Bibliothek nur kurz verlassen (Pause, Rauchen, Mittagessen etc.), teilen Sie dies bitte dem Bibliothekspersonal am Ausgang mit und verzichten Sie auf die Check-Out-Buchung.
+  p: strong Während der Belegung des Arbeitsplatzes legen Sie bitte diesen Zettel gut sichtbar auf den Tisch.
 
-  p.mb-5
-    strong Bitte desinfizieren Sie Arbeitsplätze und Geräte vor der Nutzung selbst. Dazu stehen entsprechende Materialien bereit. Sollte etwas fehlen wenden Sie sich bitte an das Bibliothekspersonal.
+  p: strong Beim Verlassen der Bibliothek wird der Arbeitsplatz wieder freigegeben und kann durch andere Nutzerinnen und Nutzer belegt werden. Möchten Sie die Bibliothek nur kurz verlassen (Pause, Rauchen, Mittagessen etc.), teilen Sie dies bitte dem Bibliothekspersonal am Ausgang mit.
 
-  .d-flex.justify-content-between
-    dl
+  p: strong Desinfizieren/reinigen Sie Ihren Arbeitsplatz vor der Nutzung und nach Freigabe des Arbeitsplatzes selbst. Im Eingangsbereich jeder Ebene stehen entsprechende Materialien an Reinigungsstationen bereit. Sollte etwas fehlen, wenden Sie sich bitte an das Bibliothekspersonal.
+
+  p.mb-5: strong Wenden Sie sich gerne bei Fragen an das Bibliothekspersonal.
+
+  .d-flex.justify-content-between.mb-2
+    dl.mb-0
       dt Bibliotheksausweisnummer
       dd = mask_barcode(@registration.barcode)
-    dl
+    dl.mb-0
       dt Datum
       dd = l(Time.zone.now, format: "%d.%m.%Y, %H:%M Uhr")
 
-  - if @allocations.present?
-    .row.row-cols-2.mb-4
-      - @allocations.each do |allocation|
-        - todays_next_reservation = allocation.resource.todays_reservations.first
-        .col
-          .card.mb-3.border
-            .card-body
-              div = allocation.resource.resource_group.title
-              h1.mb-0 = allocation.resource.resource_location.title
-              h1.mb-0 = allocation.resource.title
-              - if todays_next_reservation.present?
-                div
-                  i == "Der Platz ist ab <strong>#{l(todays_next_reservation.begin_date, format: "%H:%M Uhr")}</strong> reserviert und muss ggf. freigegeben werden."
-    div
-      div: strong Wo finde ich meinen Platz?
-      div = image_tag("ub-location-qr-code.jpg", height: "80")
-      i = "https://www.ub.uni-paderborn.de/lernort/arbeitsplaetze-waehrend-der-corona-pandemie"
+  .card.mb-5.border
+    .card-body
+      div = @allocation.resource.resource_group.title
+      h1.mb-0 = @allocation.resource.resource_location.title
+      h1.mb-0 = @allocation.resource.title
+      - todays_next_reservation = @allocation.resource.todays_reservations.first
+      - if todays_next_reservation.present?
+        div
+          i == "Der Platz ist ab <strong>#{l(todays_next_reservation.begin_date, format: "%H:%M Uhr")}</strong> reserviert und muss ggf. freigegeben werden."
 
+  div
+    div: strong Wo finde ich meinen Platz?
+    div = image_tag("ub-location-qr-code.jpg", height: "80")
+    i = "https://www.ub.uni-paderborn.de/lernort/arbeitsplaetze-waehrend-der-corona-pandemie"
 
-  - else
-    .alert.alert-info
-      ' Ihnen wurden keine Ressourcen zugeordnet.
 
 javascript:
   window.print()

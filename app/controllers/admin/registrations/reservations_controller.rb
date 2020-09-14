@@ -18,7 +18,7 @@ class Admin::Registrations::ReservationsController < Admin::Registrations::Appli
 
         if allocation.save && reservation.destroy
           flash[:success] = "Reservierung erfolgreich zugeteilt"
-          redirect_to(print_admin_registration_allocations_path(@registration))
+          redirect_to(print_admin_registration_allocation_path(@registration, allocation))
         else
           flash[:error] = "Fehler: Reservierung konnte nicht in eine Belegung umgewandelt werden"
         end
