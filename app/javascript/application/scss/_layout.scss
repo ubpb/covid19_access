@@ -21,6 +21,24 @@ header {
   background-color: $white;
 }
 
+#header-ub-logo {
+  height: 60px;
+}
+
+#header-app-logo {
+  height: 35px;
+}
+
+@include media-breakpoint-down(sm) {
+  #header-ub-logo {
+    height: 50px;
+  }
+
+  #header-app-logo {
+    height: 28px;
+  }
+}
+
 #page {
   background-color: $page-background-color;
   padding: $spacer 0;

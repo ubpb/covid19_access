@@ -8,7 +8,7 @@
 
     = render "alerts"
 
-    .btn-group.mb-3
+    .btn-group.flex-wrap.mb-3
       - @reservable_dates.each do |d|
         - active_class = d == @selected_date ? "active" : ""
         = link_to select_date_account_reservations_path(date: d), class: "btn btn-secondary #{active_class}" do
