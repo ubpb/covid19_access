@@ -10,7 +10,7 @@ module ApplicationHelper
   end
 
   def mask_barcode(barcode)
-    barcode.dup.tap { |p| r = (3..p.size-3) ; p[r] = r.size.times.map{'*'}.join }
+    barcode.dup.tap { |p| r = (4..p.size-3) ; p[r] = r.size.times.map{'*'}.join }
   end
 
 end
