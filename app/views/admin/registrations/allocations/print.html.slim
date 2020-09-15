@@ -11,28 +11,32 @@
 
 / Visible only on print
 .d-none.d-print-block
-  .mb-4
+  .mb-2
     .d-flex.flex-row.align-items-center.justify-content-between
       = image_tag("ub-logo.svg", height: "60")
       = image_tag("app-logo.svg", height: "35")
+  hr.mb-5
 
-  p: strong Folgender Arbeitsplatz wurde Ihnen zur Nutzung zugeordnet. Nutzen Sie ausschließlich den Ihnen zugeordneten Arbeitsplatz. Nur so ist gewährleistet, dass der Infektionsschutz eingehalten und Infektionsketten zurück verfolgt werden können.
+  .mb-3
+    .d-flex.justify-content-between
+      dl.mb-0
+        dt Bibliotheksausweisnummer
+        dd.mb-0 = mask_barcode(@registration.barcode)
+      dl.mb-0
+        dt Datum
+        dd.mb-0 = l(Time.zone.now, format: "%d.%m.%Y, %H:%M Uhr")
 
-  p: strong Während der Belegung des Arbeitsplatzes legen Sie bitte diesen Zettel gut sichtbar auf den Tisch.
+  .callout.callout-dark.mb-3
+    h4 Wichtige Hinweise
+    p: strong Folgender Arbeitsplatz wurde Ihnen zur Nutzung zugeordnet. Nutzen Sie ausschließlich den Ihnen zugeordneten Arbeitsplatz. Nur so ist gewährleistet, dass der Infektionsschutz eingehalten und Infektionsketten zurück verfolgt werden können.
 
-  p: strong Beim Verlassen der Bibliothek wird der Arbeitsplatz wieder freigegeben und kann durch andere Nutzerinnen und Nutzer belegt werden. Möchten Sie die Bibliothek nur kurz verlassen (Pause, Rauchen, Mittagessen etc.), teilen Sie dies bitte dem Bibliothekspersonal am Ausgang mit.
+    p: strong Während der Belegung des Arbeitsplatzes legen Sie bitte diesen Zettel gut sichtbar auf den Tisch.
 
-  p.mb-5: strong Desinfizieren/reinigen Sie Ihren Arbeitsplatz vor der Nutzung und nach Freigabe des Arbeitsplatzes selbst. Im Eingangsbereich jeder Ebene stehen entsprechende Materialien an Reinigungsstationen bereit. Sollte etwas fehlen, wenden Sie sich bitte an das Bibliothekspersonal.
+    p: strong Beim Verlassen der Bibliothek wird der Arbeitsplatz wieder freigegeben und kann durch andere Nutzerinnen und Nutzer belegt werden. Möchten Sie die Bibliothek nur kurz verlassen (Pause, Rauchen, Mittagessen etc.), teilen Sie dies bitte dem Bibliothekspersonal am Ausgang mit.
 
-  .d-flex.justify-content-between.mb-2
-    dl.mb-0
-      dt Bibliotheksausweisnummer
-      dd = mask_barcode(@registration.barcode)
-    dl.mb-0
-      dt Datum
-      dd = l(Time.zone.now, format: "%d.%m.%Y, %H:%M Uhr")
+    p.mb-0: strong Desinfizieren/reinigen Sie Ihren Arbeitsplatz vor der Nutzung und nach Freigabe des Arbeitsplatzes selbst. Im Eingangsbereich jeder Ebene stehen entsprechende Materialien an Reinigungsstationen bereit. Sollte etwas fehlen, wenden Sie sich bitte an das Bibliothekspersonal.
 
-  .card.mb-5.border
+  .card.border.mb-3
     .card-body
       div = @allocation.resource.resource_group.title
       h1.mb-0 = @allocation.resource.resource_location.title
