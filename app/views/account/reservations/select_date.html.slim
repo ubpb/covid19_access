@@ -8,6 +8,8 @@
 
     = render "alerts"
 
+    = render "screen_rotation_hint"
+
     .btn-group.flex-wrap.mb-3
       - @reservable_dates.each do |d|
         - active_class = d == @selected_date ? "active" : ""
