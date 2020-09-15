@@ -1,0 +1,16 @@
+.table-responsive
+  table.table.mb-0
+    thead
+      tr
+        th(scope="col") = "Titel"
+        th(scope="col") = "# Ressourcen"
+        th(scope="col") = ""
+    tbody
+      - resource_locations.each do |rl|
+        tr
+          td = rl.title
+          td = rl.resources.count
+          td.text-right
+            = link_to "Bearbeiten", edit_admin_resource_location_path(rl), class: "btn btn-primary btn-sm"
+            - unless rl.resources.exists?
+              =< link_to "Löschen", admin_resource_location_path(rl), class: "btn btn-danger btn-sm", method: :delete, data: {confirm: "Wirklich löschen?"}

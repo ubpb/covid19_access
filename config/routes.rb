@@ -64,6 +64,8 @@ Rails.application.routes.draw do
 
     # Resource management
     resources :resource_groups, path: "resource-groups"
+    resources :resource_locations, path: "resource-locations"
+
     # Reset
     get "reset", to: "reset#index", as: "reset_index"
     post "reset", to: "reset#create", as: "reset"
