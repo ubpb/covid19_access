@@ -38,12 +38,10 @@ class Admin::ResourceGroupsController < Admin::ApplicationController
     Resource.transaction do
       @resource_group = ResourceGroup.find(params[:id])
 
-      if @resource_group.resources.exists?
-        flash[:error] = "Ressource-Gruppe kann nicht gelöscht werden, weil Ressourcen zugeordnet sind."
-      elsif @resource_group.destroy
-        flash[:success] = "Ressource-Gruppe gelöscht."
+      if @resource_group.deleteable? && @resource_group.destroy
+        flash[:success] = "Ressource-Bereich gelöscht."
       else
-        flash[:success] = "Fehler: Ressource-Gruppe konnte nicht gelöscht werden."
+        flash[:error] = "Fehler: Ressource-Bereich konnte nicht gelöscht werden."
       end
 
       redirect_to(admin_resource_groups_path)

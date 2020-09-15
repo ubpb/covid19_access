@@ -38,12 +38,10 @@ class Admin::ResourceLocationsController < Admin::ApplicationController
     Resource.transaction do
       @resource_location = ResourceLocation.find(params[:id])
 
-      if @resource_location.resources.exists?
-        flash[:error] = "Ressource-Bereich kann nicht gelöscht werden, weil Ressourcen zugeordnet sind."
-      elsif @resource_location.destroy
+      if @resource_location.deleteable? && @resource_location.destroy
         flash[:success] = "Ressource-Bereich gelöscht."
       else
-        flash[:success] = "Fehler: Ressource-Bereich konnte nicht gelöscht werden."
+        flash[:error] = "Fehler: Ressource-Bereich konnte nicht gelöscht werden."
       end
 
       redirect_to(admin_resource_locations_path)

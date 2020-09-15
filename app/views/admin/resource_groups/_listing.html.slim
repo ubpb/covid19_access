@@ -12,5 +12,5 @@
           td = rg.resources.count
           td.text-right
             = link_to "Bearbeiten", edit_admin_resource_group_path(rg), class: "btn btn-primary btn-sm"
-            - unless rg.resources.exists?
+            - if rg.deleteable?
               =< link_to "Löschen", admin_resource_group_path(rg), class: "btn btn-danger btn-sm", method: :delete, data: {confirm: "Wirklich löschen?"}
