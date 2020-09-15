@@ -60,6 +60,9 @@
                 td = res.resource.resource_location.title
                 td = res.resource.title
                 td.text-right
+                  - if res.resource.allocated?
+                    div.text-danger: strong Ressource ist aktuell belegt (muss auf Nachfrage freigegeben werden)
+
                   - if res.allocateable?
                     = link_to allocate_admin_registration_reservation_path(@registration, res), class: "btn btn-primary btn-sm", method: :post do
                       i.fas.fa-check
