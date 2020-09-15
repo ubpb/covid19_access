@@ -6,4 +6,9 @@ class ResourceLocation < ApplicationRecord
   # Validations
   validates :title, presence: true
 
+
+  def deleteable?
+    !self.resources.exists?
+  end
+
 end

@@ -1,0 +1,4 @@
+= simple_form_for [:admin, resource_group] do |f|
+  = f.input :title, label: "Titel", input_html: {class: "", autocomplete: "off"}
+  = f.button :submit, "Speichern", class: "btn btn-primary"
+  = link_to "Abbrechen", admin_resource_groups_path, class: "btn btn-link"

@@ -1,0 +1,11 @@
+.card.card-cutoff-corner.mb-3
+  .card-header.d-flex.align-items-center
+    h5.mb-0 = "Ressource-Bereiche"
+    .ml-auto
+      = link_to "Hinzufügen", new_admin_resource_location_path, class: "btn btn-primary"
+  .card-body
+    - if @resource_locations.present?
+      = render "listing", resource_locations: @resource_locations
+    - else
+      .alert.alert-info.mb-0
+        ' Keine Ressource-Bereiche verfügbar.

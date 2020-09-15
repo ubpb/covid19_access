@@ -26,7 +26,6 @@ Rails.application.routes.draw do
     resources :reservations, only: [:index, :new, :create, :destroy] do
       get "select-date", on: :collection
     end
-
   end
 
   # Staff Backend
@@ -62,6 +61,11 @@ Rails.application.routes.draw do
         end
       end
     end
+
+    # Resource management
+    resources :resource_groups, path: "resource-groups"
+    resources :resource_locations, path: "resource-locations"
+    resources :resources
 
     # Reset
     get "reset", to: "reset#index", as: "reset_index"

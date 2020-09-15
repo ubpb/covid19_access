@@ -30,4 +30,8 @@ class Resource < ApplicationRecord
     todays_reservations(today).exists?
   end
 
+  def deleteable?
+    self.allocation.blank? && !self.released_allocations.exists? && !self.reservations.exists?
+  end
+
 end

@@ -1,0 +1,11 @@
+.card.card-cutoff-corner.mb-3
+  .card-header.d-flex.align-items-center
+    h5.mb-0 = "Ressourcen"
+    .ml-auto
+      = link_to "Hinzufügen", new_admin_resource_path, class: "btn btn-primary"
+  .card-body
+    - if @resources.present?
+      = render "listing", resources: @resources
+    - else
+      .alert.alert-info.mb-0
+        ' Keine Ressourcen verfügbar.

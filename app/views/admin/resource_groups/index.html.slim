@@ -1,0 +1,11 @@
+.card.card-cutoff-corner.mb-3
+  .card-header.d-flex.align-items-center
+    h5.mb-0 = "Ressource-Gruppen"
+    .ml-auto
+      = link_to "Hinzufügen", new_admin_resource_group_path, class: "btn btn-primary"
+  .card-body
+    - if @resource_groups.present?
+      = render "listing", resource_groups: @resource_groups
+    - else
+      .alert.alert-info.mb-0
+        ' Keine Ressource-Gruppen verfügbar.

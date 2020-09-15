@@ -1,0 +1,19 @@
+.table-responsive
+  table.table.mb-0
+    thead
+      tr
+        th(scope="col") = "Art"
+        th(scope="col") = "Bereich"
+        th(scope="col") = "Titel"
+        th(scope="col") = ""
+    tbody
+      - resources.each do |r|
+        tr
+          td = r.resource_group.title
+          td = r.resource_location.title
+          td = r.title
+          td.text-right
+            = link_to "Bearbeiten", edit_admin_resource_path(r), class: "btn btn-primary btn-sm"
+            - if r.deleteable?
+              =< link_to "Löschen", admin_resource_path(r), class: "btn btn-danger btn-sm", method: :delete, data: {confirm: "Wirklich löschen?"}
+
