@@ -60,7 +60,11 @@ class Reservation < ApplicationRecord
   end
 
   def allocateable?
-    self.begin_date - 15.minutes <= Time.zone.now
+    earliest_allocateable_date <= Time.zone.now
+  end
+
+  def earliest_allocateable_date
+    self.begin_date - 15.minutes
   end
 
 end
