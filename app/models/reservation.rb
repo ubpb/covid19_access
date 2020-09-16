@@ -23,11 +23,10 @@ class Reservation < ApplicationRecord
       is_generally_open = opening_hours[dayname].present?
 
       # In case we are open, check if already closed due to current time.
-      # We only allow reservations if at least one hour until closing.
       already_closed = false
       if day == Time.zone.today
         opening_time, closing_time = self.get_opening_and_closing_times(day)
-        already_closed = true if now > (closing_time - 1.hour)
+        already_closed = true if now >= closing_time
       end
 
       # Check if the tested day is a special closing day
