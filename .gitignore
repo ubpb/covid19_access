@@ -24,6 +24,8 @@
 /config/master.key
 # Ignore application config
 /config/application.yml
+# Ignore db dumps
+/db/dumps/*
 
 /public/packs
 /public/packs-test
