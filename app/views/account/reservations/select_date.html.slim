@@ -15,11 +15,11 @@
         - active_class = d == @selected_date ? "active" : ""
         = link_to select_date_account_reservations_path(date: d), class: "btn btn-secondary #{active_class}" do
           - if d == Date.today
-            = l(d, format: "%d.%m")
+            = l(d, format: "%d.%m.")
             br
             = "#{l(d, format: "%A")} (Heute)"
           - else
-            = l(d, format: "%d.%m")
+            = l(d, format: "%d.%m.")
             br
             = l(d, format: "%A")
 
