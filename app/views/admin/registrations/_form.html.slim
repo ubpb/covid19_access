@@ -6,5 +6,5 @@
   = f.input :phone, label: "Telefon", input_html: {class: "form-control-lg", autocomplete: "off"}
   = f.input :entered_at, label: "Einlass", input_html: {class: "form-control-lg"}, prompt: true
   = f.input :exited_at, label: "Auslass", input_html: {class: "form-control-lg"}, prompt: true
-  = f.button :submit, "Speichern", class: "btn btn-lg"
+  = f.button :submit, "Speichern", class: "btn btn-primary btn-lg"
   = link_to "Abbrechen", admin_registration_path(@registration), class: "btn btn-lg btn-link"

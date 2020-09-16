@@ -8,4 +8,4 @@
 
     = simple_form_for :scan_form, url: form_path, method: form_method do |f|
       = f.input :barcode, label: false, placeholder: "Bibliotheksausweisnummer", input_html: {class: "form-control-lg", autocomplete: "off"}, autofocus: true
-      = f.button :submit, action_text, class: "btn-lg btn-block"
+      = f.button :submit, action_text, class: "btn btn-primary btn-lg btn-block"
