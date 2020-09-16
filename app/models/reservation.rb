@@ -40,7 +40,7 @@ class Reservation < ApplicationRecord
       # Check / Setup the loop
       day += 1.day
       tries += 1
-      break if reservable_dates.count >= 4
+      break if reservable_dates.include?(Time.zone.today) ? reservable_dates.count >= 4 : reservable_dates.count >= 3
       break if tries >= 100
     end
 
