@@ -1,0 +1,11 @@
+.card.card-cutoff-corner
+  .card-header
+    h5.mb-0
+      i.fas.fa-clock
+      =< "Öffnungszeiten heute"
+  .card-body
+    .text-center
+      - if @opening_time && @closing_time
+        = "#{l(@opening_time, format: "%H:%M Uhr")} – #{l(@closing_time, format: "%H:%M Uhr")}"
+      - else
+        = "Heute geschlossen"
