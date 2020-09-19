@@ -9,11 +9,9 @@ class Reservation < ApplicationRecord
 
 
   def self.next_reservable_dates
-    opening_hours = Rails.application.config.application.opening_hours || {}
-    special_closing_dates = Rails.application.config.application.special_closing_dates || []
-
     day = Time.zone.today
     now = Time.zone.now
+    special_closing_dates = Rails.application.config.application.special_closing_dates || []
     reservable_dates = []
     tries = 0 # To protect against infinite loop due to improper config
 
