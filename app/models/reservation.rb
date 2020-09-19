@@ -26,7 +26,9 @@ class Reservation < ApplicationRecord
       already_closed = false
       if day == Time.zone.today
         opening_time, closing_time = self.get_opening_and_closing_times(day)
-        already_closed = true if now >= closing_time
+        if closing_time
+          already_closed = true if now >= closing_time
+        end
       end
 
       # Check if the tested day is a special closing day
@@ -51,11 +53,11 @@ class Reservation < ApplicationRecord
   def self.get_opening_and_closing_times(date)
     opening_hours = Rails.application.config.application.opening_hours || {}
     dayname = date.strftime("%A").downcase.to_sym
-    open_time_string, close_time_string = opening_hours[dayname].split("-")
-    open_time = Time.zone.parse(open_time_string)
-    close_time = Time.zone.parse(close_time_string)
+    opening_time_string, closing_time_string = opening_hours[dayname]&.split("-")
+    opening_time = opening_time_string ? Time.zone.parse(opening_time_string) : nil
+    closing_time = closing_time_string ? Time.zone.parse(closing_time_string) : nil
 
-    [open_time, close_time]
+    [opening_time, closing_time]
   end
 
   def allocateable?
