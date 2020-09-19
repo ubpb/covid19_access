@@ -20,16 +20,11 @@ class Reservation < ApplicationRecord
     loop do
       # Check if generally open the tested day
       dayname = day.strftime("%A").downcase.to_sym
-      is_generally_open = opening_hours[dayname].present?
+      opening_time, closing_time = self.get_opening_and_closing_times(day)
+      is_generally_open = opening_time.present? && closing_time.present?
 
-      # In case we are open, check if already closed due to current time.
-      already_closed = false
-      if day == Time.zone.today
-        opening_time, closing_time = self.get_opening_and_closing_times(day)
-        if closing_time
-          already_closed = true if now >= closing_time
-        end
-      end
+      # In case we are open today, check if already closed due to current time.
+      already_closed = is_generally_open && day == Time.zone.today && now >= closing_time
 
       # Check if the tested day is a special closing day
       is_special_closing_day = special_closing_dates.include?(day)
@@ -51,13 +46,31 @@ class Reservation < ApplicationRecord
   end
 
   def self.get_opening_and_closing_times(date)
-    opening_hours = Rails.application.config.application.opening_hours || {}
+    opening_hours         = Rails.application.config.application.opening_hours || {}
+    special_opening_hours = Rails.application.config.application.special_opening_hours || []
+    special_closing_dates = Rails.application.config.application.special_closing_dates || []
     dayname = date.strftime("%A").downcase.to_sym
-    opening_time_string, closing_time_string = opening_hours[dayname]&.split("-")
-    opening_time = opening_time_string ? Time.zone.parse(opening_time_string) : nil
-    closing_time = closing_time_string ? Time.zone.parse(closing_time_string) : nil
 
-    [opening_time, closing_time]
+    unless special_closing_dates.include?(date) # Ignore days that are listed as closed
+      # Regular times
+      opening_time_string, closing_time_string = opening_hours[dayname]&.to_s&.split("-")
+
+      # Check for special times
+      if special_hours = special_opening_hours.find{ |t| t[:date] == date}
+        opening_time_string, closing_time_string = special_hours&.to_s&.split("-")
+      end
+
+      # If times are present, try to parse them
+      if opening_time_string.present? && closing_time_string.present?
+        begin
+          opening_time = Time.zone.parse(opening_time_string)
+          closing_time = Time.zone.parse(closing_time_string)
+          [opening_time, closing_time]
+        rescue ArgumentError # error parsing date
+          nil
+        end
+      end
+    end
   end
 
   def allocateable?

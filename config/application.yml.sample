@@ -25,6 +25,10 @@ default: &default
     saturday: null
     sunday: null
 
+  special_opening_hours:
+    - date: 2020-09-19
+      hours: 09:00-14:00
+
   special_closing_dates:
     - 2020-12-24
     - 2021-01-01
