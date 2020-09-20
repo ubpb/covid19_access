@@ -24,6 +24,10 @@ gem "bootsnap", ">= 1.4.2", require: false
 
 gem "aleph_api", "~> 0.3.0", path: "vendor/gems/aleph_api"
 
+group :production do
+  gem "newrelic_rpm", ">= 4.5.0"
+end
+
 group :development, :test do
   gem "pry-byebug", ">= 3.9", platform: :mri
   gem "pry-rails",  ">= 0.3", platform: :mri
