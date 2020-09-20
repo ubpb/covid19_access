@@ -1,5 +1,17 @@
 namespace :app do
-  namespace :util do
+  namespace :utils do
+    desc "Checks out all 'open' registrations. WARNING: Do not run during opening hours."
+    task :checkout_open_registrations => :environment do
+      Registration.transaction do
+        Registration.where(exited_at: nil).each do |reg|
+          reg.update_column(:exited_at, reg.entered_at.end_of_day)
+          reg.allocations.each do |allocation|
+            allocation.release
+          end
+        end
+      end
+    end
+
     desc "Import resources"
     task :import_resources => :environment do
       filename = "db/resources.csv"
