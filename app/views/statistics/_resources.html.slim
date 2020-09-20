@@ -8,6 +8,10 @@
         h5.mb-0 = "Belegungsübersicht: #{resource_group.title}"
       .card-body
         - if resources.present?
+          - if resource_stats[:has_reservations]
+            .alert.alert-info
+              i.fas.fa-info-circle
+              =< "Reservierte Plätze können vor Ort bis zur reservierten Zeit belegt werden."
           .row
             .col
               dl

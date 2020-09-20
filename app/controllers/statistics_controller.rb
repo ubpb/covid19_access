@@ -16,6 +16,7 @@ class StatisticsController < ApplicationController
       @resource_statistics << {
         resource_group: rg,
         resources: resources,
+        has_reservations: resources.any?{|r| r.reserved_today?},
         num_total: num_total,
         num_allocated: num_allocated,
         utilization: num_allocated.fdiv(num_total) * 100,
