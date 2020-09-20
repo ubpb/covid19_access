@@ -1,8 +1,10 @@
 # COVID19 Access
 
-Durch die Vorgaben in der Verordnung zum Schutz vor Neuinfizierungen mit dem Coronavirus SARS-CoV-2 (CoronaSchVO) sind Bibliotheken gehalten, eine Benutzerregistrierung sowie eine Reglementierung der Besucherzahl umzusetzen.
+Durch die Vorgaben in der Verordnung zum Schutz vor Neuinfizierungen mit dem Coronavirus SARS-CoV-2 (CoronaSchVO) ist die Universitätsbibliothek Paderborn gehalten, eine Besucherregistrierung sowie eine Regle- mentierung der Besucherzahl umzusetzen.
 
-Aus diesem Grund müssen sich alle Personen bis auf Weiteres beim Betreten und Verlassen der Bibliothek mit ihrem Bibliotheksausweis ein- bzw. ausbuchen. Dabei werden die Bibliotheksausweisnummer, der Name, die Adresse, die Telefonnummer sowie der Zeitpunkt des Betretens bzw. Verlassens der Bibliothek gespeichert. Werden Arbeitsplätze innerhalb der Bibliothek in Anspruch genommen, wird dies ebenfalls protokolliert um die Regelungen der besonderen Rückverfolgbarkeit im Sinne der CoronaSchVO gewährleisten zu können.
+Aus diesem Grund dürfen nur Personen mit einem gültigen Bibliotheksausweis die Bibliothek betreten und müssen sich alle Personen bis auf Weiteres beim Betreten und Verlassen der Bibliothek mit ihrem Bibliotheksausweis ein- bzw. ausbuchen. Dabei werden die Bibliotheksausweisnummer, der Name, die Adresse, die Telefonnummer sowie der Zeitpunkt des Betretens bzw. Verlassens der Bibliothek gespeichert.
+
+Werden Arbeitsplätze innerhalb der Bibliothek in Anspruch genommen, wird dies ebenfalls protokolliert um die Regelungen der besonderen Rückverfolgbarkeit im Sinne der CoronaSchVO gewährleisten zu können.
 
 Um diese Vorgaben effizient umsetzen zu können wurde an der UB Paderborn diese Software entwickelt die folgende Funktionsbereiche abdeckt:
 
