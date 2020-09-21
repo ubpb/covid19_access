@@ -9,7 +9,9 @@ class Admin::Registrations::AllocationsController < Admin::Registrations::Applic
       can_create_allocation? or return
 
       @allocation = @registration.allocations.build
-      @resource_locations = ResourceLocation.includes(resources: [:resource_group, :reservations]).order(:title)
+      @resource_locations = ResourceLocation.eager_load(
+        resources: [:resource_group, :allocation, :reservations]
+      ).order(:title)
       @allocated_resource_ids = Resource.joins(:allocation).pluck(:id)
     end
   end
