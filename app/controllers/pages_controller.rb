@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
 
   def homepage
-    set_global_stats
+    load_global_stats
   end
 
 end

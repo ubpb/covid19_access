@@ -2,4 +2,5 @@
   .col-md-8.mb-3
     = render "scan_form", form_path: admin_checkin_path, header_text: "Einlass", action_text: "Einlass"
   .col-md-4
-    = render "stats_and_log"
+    .mb-3 = render "statistics/people"
+    = render "log"

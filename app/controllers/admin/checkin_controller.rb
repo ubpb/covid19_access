@@ -1,7 +1,8 @@
 class Admin::CheckinController < Admin::ApplicationController
 
   def new
-    # noop
+    load_global_stats
+    load_last_registrations
   end
 
   def create
@@ -63,6 +64,10 @@ class Admin::CheckinController < Admin::ApplicationController
   end
 
 private
+
+  def load_last_registrations
+    @last_registrations = Registration.order("updated_at desc").limit(10)
+  end
 
   def check_for_valid_barcode(barcode)
     matchers = Rails.configuration.application.valid_barcodes || []

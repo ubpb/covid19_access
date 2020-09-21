@@ -3,7 +3,7 @@ class StatisticsController < ApplicationController
   def index
     @resource_statistics = []
     now = Time.zone.now
-    set_global_stats(now)
+    load_global_stats(now)
 
     ResourceGroup.includes(:resources).order(:title).each do |rg|
       resources = rg.resources.joins(:resource_location).includes(:allocation, :reservations).order("resource_locations.title, resources.title").to_a
