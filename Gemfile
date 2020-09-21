@@ -31,6 +31,7 @@ end
 group :development, :test do
   gem "pry-byebug", ">= 3.9", platform: :mri
   gem "pry-rails",  ">= 0.3", platform: :mri
+  gem "scout_apm",   ">= 2.6"
 end
 
 group :development do
