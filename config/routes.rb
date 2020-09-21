@@ -70,10 +70,6 @@ Rails.application.routes.draw do
     # Reset
     get "reset", to: "reset#index", as: "reset_index"
     post "reset", to: "reset#create", as: "reset"
-
-    # API for stats and last log
-    get "api/stats", to: "application#stats", as: "stats"
-    get "api/log", to: "application#log", as: "log"
   end
 
 end
