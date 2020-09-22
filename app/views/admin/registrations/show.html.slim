@@ -44,7 +44,7 @@
   .card-body
     - if @todays_reservations.present?
       .table-responsive
-        table.table
+        table.table.mb-0
           thead
             tr
               th(scope="col") = "Uhrzeit"
@@ -91,7 +91,7 @@
   .card-body
     - if @allocations.present?
       .table-responsive
-        table.table
+        table.table.mb-0
           thead
             tr
               th(scope="col") = "Art"
@@ -131,7 +131,7 @@
       h5.mb-0 = "Freigegebene Ressourcen"
     .card-body
       .table-responsive
-        table.table
+        table.table.mb-0
           thead
             tr
               th(scope="col") = "Art"
