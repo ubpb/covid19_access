@@ -17,6 +17,14 @@ class Admin::Registrations::ReservationsController < Admin::Registrations::Appli
         allocation.created_at = Time.zone.now
 
         if allocation.save && reservation.destroy
+          ReservationStatRecord.create!(
+            action: ReservationStatRecord::ACTIONS[:assigned],
+            uid: reservation.user.uid,
+            begin_date: reservation.begin_date,
+            resource_group: reservation.resource.resource_group,
+            resource_location: reservation.resource.resource_location
+          )
+
           flash[:success] = "Reservierung erfolgreich zugeteilt"
           redirect_to(print_admin_registration_allocation_path(@registration, allocation))
         else
@@ -34,6 +42,14 @@ class Admin::Registrations::ReservationsController < Admin::Registrations::Appli
       reservation = @registration.todays_reservations.find(params[:id])
 
       if reservation.destroy
+        ReservationStatRecord.create!(
+          action: ReservationStatRecord::ACTIONS[:deleted_by_staff],
+          uid: reservation.user.uid,
+          begin_date: reservation.begin_date,
+          resource_group: reservation.resource.resource_group,
+          resource_location: reservation.resource.resource_location
+        )
+
         flash[:success] = "Reservierung erfolgreich gelöscht"
       else
         flash[:error] = "Fehler: Reservierung konnte nicht gelöscht werden."
