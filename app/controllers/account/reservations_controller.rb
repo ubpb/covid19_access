@@ -42,6 +42,14 @@ class Account::ReservationsController < Account::ApplicationController
       check_reservation_begin_date(@reservation.begin_date) or return
 
       if @reservation.save
+        ReservationStatRecord.create!(
+          action: ReservationStatRecord::ACTIONS[:created_by_user],
+          uid: current_user.uid,
+          begin_date: @reservation.begin_date,
+          resource_group: @resource.resource_group,
+          resource_location: @resource.resource_location
+        )
+
         flash[:success] = "Reservierung gespeichert."
         redirect_to(account_reservations_path)
       else
@@ -56,6 +64,14 @@ class Account::ReservationsController < Account::ApplicationController
       reservation = current_user.reservations.find(params[:id])
 
       if reservation.destroy
+        ReservationStatRecord.create!(
+          action: ReservationStatRecord::ACTIONS[:deleted_by_user],
+          uid: current_user.uid,
+          begin_date: reservation.begin_date,
+          resource_group: reservation.resource.resource_group,
+          resource_location: reservation.resource.resource_location
+        )
+
         flash[:success] = "Reservierung gelöscht."
       else
         flash[:error] = "Fehler: Reservierung konnte nicht gelöscht werden."

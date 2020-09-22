@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_04_133030) do
+ActiveRecord::Schema.define(version: 2020_09_22_082355) do
 
-  create_table "allocations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "allocations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "registration_id", null: false
     t.bigint "resource_id", null: false
     t.datetime "created_at", null: false
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2020_09_04_133030) do
     t.index ["exited_at"], name: "index_registrations_on_exited_at"
   end
 
-  create_table "released_allocations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "released_allocations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "registration_id", null: false
     t.bigint "resource_id", null: false
     t.datetime "created_at", null: false
@@ -48,40 +48,55 @@ ActiveRecord::Schema.define(version: 2020_09_04_133030) do
     t.index ["resource_id"], name: "index_released_allocations_on_resource_id"
   end
 
-  create_table "reservations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "reservation_stat_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "action", null: false
+    t.string "uid", null: false
+    t.datetime "begin_date", null: false
+    t.bigint "resource_group_id"
+    t.bigint "resource_location_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["action"], name: "index_reservation_stat_records_on_action"
+    t.index ["begin_date"], name: "index_reservation_stat_records_on_begin_date"
+    t.index ["resource_group_id"], name: "index_reservation_stat_records_on_resource_group_id"
+    t.index ["resource_location_id"], name: "index_reservation_stat_records_on_resource_location_id"
+    t.index ["uid"], name: "index_reservation_stat_records_on_uid"
+  end
+
+  create_table "reservations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "resource_id", null: false
     t.datetime "begin_date", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["begin_date"], name: "index_reservations_on_begin_date"
     t.index ["resource_id"], name: "index_reservations_on_resource_id"
     t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
-  create_table "resource_groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "resource_groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "resource_locations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "resource_locations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "resources", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "resources", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "resource_group_id", null: false
     t.bigint "resource_location_id", null: false
     t.string "title", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["resource_group_id"], name: "index_resources_on_resource_group_id"
     t.index ["resource_location_id"], name: "index_resources_on_resource_location_id"
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "uid", null: false
     t.string "first_name", null: false
     t.string "last_name", null: false
@@ -93,6 +108,8 @@ ActiveRecord::Schema.define(version: 2020_09_04_133030) do
   add_foreign_key "allocations", "resources"
   add_foreign_key "released_allocations", "registrations"
   add_foreign_key "released_allocations", "resources"
+  add_foreign_key "reservation_stat_records", "resource_groups", on_delete: :nullify
+  add_foreign_key "reservation_stat_records", "resource_locations", on_delete: :nullify
   add_foreign_key "reservations", "resources"
   add_foreign_key "reservations", "users", on_delete: :cascade
   add_foreign_key "resources", "resource_groups"
