@@ -1,4 +1,4 @@
-# COVID19 Access
+# Besucherregistrierung @ UB Paderborn
 
 Durch die Vorgaben in der Verordnung zum Schutz vor Neuinfizierungen mit dem Coronavirus SARS-CoV-2 (CoronaSchVO) ist die Universitätsbibliothek Paderborn gehalten, eine Besucherregistrierung sowie eine Regle- mentierung der Besucherzahl umzusetzen.
 
@@ -8,7 +8,7 @@ Werden Arbeitsplätze innerhalb der Bibliothek in Anspruch genommen, wird dies e
 
 Um diese Vorgaben effizient umsetzen zu können wurde an der UB Paderborn diese Software entwickelt die folgende Funktionsbereiche abdeckt:
 
-* Besucherregistrierung: Check-In mit Registrierung der Nutzerdaten und Check-Out.
+* Besucherregistrierung: Check-In mit Registrierung der Kontaktdaten und Check-Out.
 * Ressourcenverwaltung: Ressourcen (z.B. Arbeitsplätze) können im System verwaltet und Personen zur Nutzung zugeteilt werden. Zeitpunkt von Belegung und Freigabe wird protokolliert. Damit wird die besondere Rückverfolgbarkeit im Sinne der CoronaSchVO sichergestellt. Eine öffentliche Auslastungsübersicht erlaubt Informationen über die Auslastung der UB in Echtzeit.
 * Reservierungen: Ressourcen (z.B. Arbeitsplätze) können vorab durch Nutzerinnen und Nutzer online reserviert werden. Reservierte Plätze können vor Ort bis zum Zeitpunkt der Reservierung von anderen Personen belegt werden. Dies ist vergleichbar mit der Reservierung von Sitzplätzen in der Bahn (Reserviert ab Köln). Erscheint die Person mit der Reservierung muss der Platz freigemacht werden. Reservierungen verfallen automatisch 30 Minuten nach der Reservierungszeit, sofern diese vor Ort nicht in Anspruch genommen werden. Dies erlaubt eine optimale Auslastung der Arbeitsplätze in Zeiten hoher Nachfrage. Jede Nutzerin, jeder Nutzer (Anmeldung über das Bibliothekskonto) darf pro Tag eine Reservierung machen und max. drei Tage im Voraus.
 
