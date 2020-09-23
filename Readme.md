@@ -22,7 +22,7 @@ Um diese Vorgaben effizient umsetzen zu können wurde an der UB Paderborn diese 
 
 <img src="/etc/screenshots/reservierung-1.jpg?raw=true" width="310"> <img src="/etc/screenshots/reservierung-2.jpg?raw=true" width="310"> <img src="/etc/screenshots/meine-reservierungen.jpg?raw=true" width="310">
 
-### Admin / UB Mitarbeiter
+### Admin für UB Mitarbeitende
 
 <img src="/etc/screenshots/einlass-1.jpg?raw=true" width="310"> <img src="/etc/screenshots/einlass-2.jpg?raw=true" width="310"> <img src="/etc/screenshots/registrierungsdetails-1.jpg?raw=true" width="310">
 <img src="/etc/screenshots/belegungsquittung.jpg?raw=true" width="310"> <img src="/etc/screenshots/registrierungsdetails-2.jpg?raw=true" width="310"> <img src="/etc/screenshots/manuelle-zuweisung.jpg?raw=true" width="310">
