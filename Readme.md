@@ -1,8 +1,8 @@
 # Besucherregistrierung @ UB Paderborn
 
-Durch die Vorgaben in der Verordnung zum Schutz vor Neuinfizierungen mit dem Coronavirus SARS-CoV-2 (CoronaSchVO) ist die Universitätsbibliothek Paderborn gehalten, eine Besucherregistrierung sowie eine Regle- mentierung der Besucherzahl umzusetzen.
+Durch die Vorgaben in der Verordnung zum Schutz vor Neuinfizierungen mit dem Coronavirus SARS-CoV-2 (CoronaSchVO) ist die Universitätsbibliothek Paderborn gehalten, eine Besucherregistrierung sowie eine Regle- mentierung der Besucherzahl umzusetzen.
 
-Aus diesem Grund dürfen nur Personen mit einem gültigen Bibliotheksausweis die Bibliothek betreten und müssen sich alle Personen bis auf Weiteres beim Betreten und Verlassen der Bibliothek mit ihrem Bibliotheksausweis ein- bzw. ausbuchen. Dabei werden die Bibliotheksausweisnummer, der Name, die Adresse, die Telefonnummer sowie der Zeitpunkt des Betretens bzw. Verlassens der Bibliothek gespeichert.
+Aus diesem Grund dürfen nur Personen mit einem gültigen Bibliotheksausweis die Bibliothek betreten und müssen sich alle Personen bis auf Weiteres beim Betreten und Verlassen der Bibliothek mit ihrem Bibliotheksausweis ein- bzw. ausbuchen. Dabei werden die Bibliotheksausweisnummer, der Name, die Adresse, die Telefonnummer sowie der Zeitpunkt des Betretens bzw. Verlassens der Bibliothek gespeichert.
 
 Werden Arbeitsplätze innerhalb der Bibliothek in Anspruch genommen, wird dies ebenfalls protokolliert um die Regelungen der besonderen Rückverfolgbarkeit im Sinne der CoronaSchVO gewährleisten zu können.
 
@@ -11,6 +11,21 @@ Um diese Vorgaben effizient umsetzen zu können wurde an der UB Paderborn diese 
 * Besucherregistrierung: Check-In mit Registrierung der Kontaktdaten und Check-Out.
 * Ressourcenverwaltung: Ressourcen (z.B. Arbeitsplätze) können im System verwaltet und Personen zur Nutzung zugeteilt werden. Zeitpunkt von Belegung und Freigabe wird protokolliert. Damit wird die besondere Rückverfolgbarkeit im Sinne der CoronaSchVO sichergestellt. Eine öffentliche Auslastungsübersicht erlaubt Informationen über die Auslastung der UB in Echtzeit.
 * Reservierungen: Ressourcen (z.B. Arbeitsplätze) können vorab durch Nutzerinnen und Nutzer online reserviert werden. Reservierte Plätze können vor Ort bis zum Zeitpunkt der Reservierung von anderen Personen belegt werden. Dies ist vergleichbar mit der Reservierung von Sitzplätzen in der Bahn (Reserviert ab Köln). Erscheint die Person mit der Reservierung muss der Platz freigemacht werden. Reservierungen verfallen automatisch 30 Minuten nach der Reservierungszeit, sofern diese vor Ort nicht in Anspruch genommen werden. Dies erlaubt eine optimale Auslastung der Arbeitsplätze in Zeiten hoher Nachfrage. Jede Nutzerin, jeder Nutzer (Anmeldung über das Bibliothekskonto) darf pro Tag eine Reservierung machen und max. drei Tage im Voraus.
+
+## Screenshots
+
+### Öffentliche Infos
+
+<img src="/etc/screenshots/homepage.jpg?raw=true" width="310"> <img src="/etc/screenshots/stats.jpg?raw=true" width="310">
+
+### Reservierungen
+
+<img src="/etc/screenshots/reservierung-1.jpg?raw=true" width="310"> <img src="/etc/screenshots/reservierung-2.jpg?raw=true" width="310"> <img src="/etc/screenshots/meine-reservierungen.jpg?raw=true" width="310">
+
+### Admin / UB Mitarbeiter
+
+<img src="/etc/screenshots/einlass-1.jpg?raw=true" width="310"> <img src="/etc/screenshots/einlass-2.jpg?raw=true" width="310"> <img src="/etc/screenshots/registrierungsdetails-1.jpg?raw=true" width="310">
+<img src="/etc/screenshots/belegungsquittung.jpg?raw=true" width="310"> <img src="/etc/screenshots/registrierungsdetails-2.jpg?raw=true" width="310"> <img src="/etc/screenshots/manuelle-zuweisung.jpg?raw=true" width="310">
 
 ## Nachnutzung
 
