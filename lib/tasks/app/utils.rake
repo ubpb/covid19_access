@@ -12,6 +12,24 @@ namespace :app do
       end
     end
 
+    desc "Checks out all registrations that took a too long break."
+    task :checkout_overdue_registrations => :environment do
+      Registration.transaction do
+        Registration.where("exited_at is null and current_break_started_at <= ?", 60.minutes.ago).each do |reg|
+          reg.update_columns(
+            exited_at: reg.entered_at.end_of_day,
+            current_break_started_at: nil,
+            last_break_started_at: reg.current_break_started_at,
+            last_break_ended_at: nil # indicates that the person did not return in time
+          )
+
+          reg.allocations.each do |allocation|
+            allocation.release
+          end
+        end
+      end
+    end
+
     desc "Import resources"
     task :import_resources => :environment do
       filename = "db/resources.csv"

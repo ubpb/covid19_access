@@ -4,16 +4,17 @@
 
 .card.card-cutoff-corner.mb-3
   .card-header.d-flex.align-items-center
-    h5.mb-0 = "Registrierungsdetails"
+    h5.mb-0
+      = "Registrierungsdetails"
+      - if @registration.closed?
+        span.badge.badge-danger =< "Abgeschlossen"
+      - if @registration.in_break?
+        span.badge.badge-warning =< "In Pause"
     .ml-auto
       = link_to "Bearbeiten", edit_admin_registration_path(@registration), class: "btn btn-primary"
   .card-body
     .row
       .col
-        - if @registration.closed?
-          h3
-            span.badge.badge-danger =< "Abgeschlossen"
-
         dl
           dt = "Bibliotheksausweisnummer"
           dd = @registration.barcode
@@ -36,6 +37,16 @@
           dd = @registration.city
           dt = "Telefon"
           dd = @registration.phone
+      .col
+        dl
+          - if @registration.in_break?
+            dt = "In Pause seit"
+            dd = l(@registration.current_break_started_at, format: "%H:%M Uhr")
+          - else
+            dt = "Letzte Pause - Begin"
+            dd = @registration.last_break_started_at ? l(@registration.last_break_started_at, format: "%H:%M Uhr") : "–"
+            dt = "Letzte Pause - Ende"
+            dd = @registration.last_break_ended_at ? l(@registration.last_break_ended_at, format: "%H:%M Uhr") : "–"
 
 
 .card.card-cutoff-corner.mb-3
@@ -114,11 +125,10 @@
                   - else
                     = "–"
                 td.text-right
-                  .btn-group
-                    = link_to print_admin_registration_allocation_path(@registration, allocation), data: {turbolinks: false}, class: "btn btn-secondary btn-sm" do
-                      i.fas.fa-print
-                      =< "Drucken"
-                    = link_to "Freigeben", admin_registration_allocation_path(@registration, allocation), method: :delete, data: {confirm: "Ressource wirklich freigeben?"}, class: "btn btn-sm btn-danger"
+                  = link_to print_admin_registration_allocation_path(@registration, allocation), data: {turbolinks: false}, class: "btn btn-secondary btn-sm" do
+                    i.fas.fa-print
+                    =< "Drucken"
+                  =< link_to "Freigeben", admin_registration_allocation_path(@registration, allocation), method: :delete, data: {confirm: "Ressource wirklich freigeben?"}, class: "btn btn-sm btn-danger"
 
 
     - else

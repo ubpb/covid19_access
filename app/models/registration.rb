@@ -35,6 +35,10 @@ class Registration < ApplicationRecord
     true
   end
 
+  def in_break?
+    self.current_break_started_at.present?
+  end
+
   def todays_reservations
     if self.uid.present?
       today = Time.zone.today

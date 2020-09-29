@@ -25,6 +25,8 @@
                       span.badge.badge-danger = "Abgeschlossen"
                     - else
                       span.badge.badge-success = "Aktiv"
+                    - if reg.in_break?
+                      span.badge.badge-warning =< "In Pause"
                   td = reg.barcode
                   td = reg.name
                   td = l(reg.entered_at, format: "%d.%m.%Y, %H:%M Uhr")
