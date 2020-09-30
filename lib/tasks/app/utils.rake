@@ -1,31 +1,19 @@
 namespace :app do
   namespace :utils do
-    desc "Checks out all 'open' registrations. WARNING: Do not run during opening hours."
-    task :checkout_open_registrations => :environment do
+    desc "Reset/closes all 'open' registrations. WARNING: Do not run during opening hours."
+    task :reset_open_registrations => :environment do
       Registration.transaction do
         Registration.where(exited_at: nil).each do |reg|
-          reg.update_column(:exited_at, reg.entered_at.end_of_day)
-          reg.allocations.each do |allocation|
-            allocation.release
-          end
+          reg.close(reset: true)
         end
       end
     end
 
-    desc "Checks out all registrations that took a too long break."
-    task :checkout_overdue_registrations => :environment do
+    desc "Reset/closes all registrations that took a too long break."
+    task :reset_overdue_registrations => :environment do
       Registration.transaction do
         Registration.where("exited_at is null and current_break_started_at <= ?", 60.minutes.ago).each do |reg|
-          reg.update_columns(
-            exited_at: reg.entered_at.end_of_day,
-            current_break_started_at: nil,
-            last_break_started_at: reg.current_break_started_at,
-            last_break_ended_at: nil # indicates that the person did not return in time
-          )
-
-          reg.allocations.each do |allocation|
-            allocation.release
-          end
+          reg.close(reset: true)
         end
       end
     end
