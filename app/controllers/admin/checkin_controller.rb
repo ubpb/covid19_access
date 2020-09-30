@@ -85,9 +85,24 @@ private
     registration = Registration.find_by(barcode: barcode, exited_at: nil)
 
     if registration.present?
-      flash["error"] = "Ausweis-Nr. #{barcode} befindet sich bereits im Gebäude. Möglicherweise wurde die Auslassbuchung nicht erfasst."
-      redirect_to(admin_new_checkin_path)
-      return false
+      if registration.in_break?
+        now = Time.zone.now
+
+        registration.update_columns(
+          last_break_started_at: registration.current_break_started_at,
+          last_break_ended_at: now,
+          current_break_started_at: nil,
+          updated_at: now
+        )
+
+        flash["warning"] = "OK: Ausweis-Nr. #{barcode} war in der Pause. Die Pause wurde nun aufgehoben."
+        redirect_to(admin_new_checkin_path)
+        return false
+      else
+        flash["error"] = "Ausweis-Nr. #{barcode} befindet sich bereits im Gebäude. Möglicherweise wurde die Auslassbuchung nicht erfasst."
+        redirect_to(admin_new_checkin_path)
+        return false
+      end
     end
 
     return true

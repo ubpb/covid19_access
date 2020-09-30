@@ -9,10 +9,13 @@
       dd = l(@registration.entered_at, format: "%d.%m.%Y, %H:%M:%S")
 
     - if @has_allocations
-      .alert.alert-danger
-        strong
-          ' ACHTUNG: Die Person belegt Ressourcen. Diese werden beim Check-Out freigegeben. Check-Out nicht durchführen
+      .callout.callout-danger
+        p: strong
+          ' ACHTUNG: Die Person belegt einen Arbeitsplatz. Dieser wird beim Check-Out freigegeben. Check-Out nicht durchführen
           ' wenn die Person das Gebäude nur für eine Pause verlassen möchte.
+        p.mb-0: strong
+          ' Pause endet in 60 Minuten. Die Person muss bis dahin wieder am Einlass eingebucht werden, sonst wird der Arbeitsplatz
+          ' automatisch freigegeben.
 
     = link_to "Check-Out", admin_checkout_registration_path, method: :delete, class: "btn btn-lg btn-danger"
-    =< link_to "Person macht Pause", admin_new_checkout_path, class: "btn btn-lg btn-secondary"
+    =< link_to "Person macht Pause", admin_break_registration_path, method: :put, class: "btn btn-lg btn-secondary"

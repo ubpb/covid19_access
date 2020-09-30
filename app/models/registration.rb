@@ -20,19 +20,33 @@ class Registration < ApplicationRecord
   end
 
   def closed?
-    exited_at.present?
+    self.exited_at.present?
   end
 
-  def close
+  def close(reset: false)
     Registration.transaction do
       now = Time.zone.now
-      update_columns(exited_at: now, updated_at: now)
+      exited_at = reset ? self.entered_at.end_of_day : now
+      update_columns(exited_at: exited_at, updated_at: now)
+
+      if in_break?
+        update_columns(
+          current_break_started_at: nil,
+          last_break_started_at: self.current_break_started_at,
+          last_break_ended_at: nil # indicates that the person did not return in time
+        )
+      end
+
       allocations.each do |allocation|
         allocation.release
       end
     end
 
     true
+  end
+
+  def in_break?
+    self.current_break_started_at.present?
   end
 
   def todays_reservations

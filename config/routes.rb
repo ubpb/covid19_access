@@ -44,6 +44,7 @@ Rails.application.routes.draw do
     post "checkout", to: "checkout#create", as: "checkout"
     get "checkout/registration/:id", to: "checkout#show", as: "checkout_registration"
     delete "checkout/registration/:id", to: "checkout#destroy", as: nil
+    put "checkout/registration/:id/break", to: "checkout#break", as: "break_registration"
 
     # Registrations
     resources :registrations, only: [:index, :show, :edit, :update] do

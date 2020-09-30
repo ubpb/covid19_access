@@ -30,6 +30,19 @@ class Admin::CheckoutController < Admin::ApplicationController
     close_registration(registration)
   end
 
+  def break
+    registration = Registration.find(params[:id])
+    break_time = Time.zone.now
+    break_time_end = break_time + 60.minutes
+
+    registration.update_columns(
+      current_break_started_at: break_time
+    )
+
+    flash[:success] = "Pause gespeichert. Die Pause endet um #{l(break_time_end, format: "%H:%M Uhr")}."
+    redirect_to(admin_new_checkout_path)
+  end
+
 private
 
   def close_registration(registration)

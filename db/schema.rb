@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_22_082355) do
+ActiveRecord::Schema.define(version: 2020_09_29_102458) do
 
   create_table "allocations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "registration_id", null: false
@@ -32,6 +32,9 @@ ActiveRecord::Schema.define(version: 2020_09_22_082355) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "uid", null: false
+    t.datetime "current_break_started_at"
+    t.datetime "last_break_started_at"
+    t.datetime "last_break_ended_at"
     t.index ["barcode"], name: "index_registrations_on_barcode"
     t.index ["entered_at"], name: "index_registrations_on_entered_at"
     t.index ["exited_at"], name: "index_registrations_on_exited_at"
@@ -48,14 +51,14 @@ ActiveRecord::Schema.define(version: 2020_09_22_082355) do
     t.index ["resource_id"], name: "index_released_allocations_on_resource_id"
   end
 
-  create_table "reservation_stat_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "reservation_stat_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "action", null: false
     t.string "uid", null: false
     t.datetime "begin_date", null: false
     t.bigint "resource_group_id"
     t.bigint "resource_location_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["action"], name: "index_reservation_stat_records_on_action"
     t.index ["begin_date"], name: "index_reservation_stat_records_on_begin_date"
     t.index ["resource_group_id"], name: "index_reservation_stat_records_on_resource_group_id"
