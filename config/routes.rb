@@ -63,6 +63,9 @@ Rails.application.routes.draw do
       end
     end
 
+    # Stats
+    get "stats", to: "statistics#index", as: "statistics"
+
     # Resource management
     resources :resource_groups, path: "resource-groups"
     resources :resource_locations, path: "resource-locations"
