@@ -11,7 +11,7 @@ private
     @reservation_stats = {}
 
     raw_results = ReservationStatRecord
-      .where(begin_date: (Time.zone.today - 30.days)..(Time.zone.today))
+      .where(begin_date: (Time.zone.today - 30.days)..(Time.zone.today + 1.day))
       .group("DATE(begin_date)", "action")
       .order("DATE(begin_date)")
       .count
