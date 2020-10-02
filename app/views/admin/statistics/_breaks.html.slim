@@ -1,0 +1,32 @@
+.card.card-primary.card-cutoff-corner
+  .card-header
+    h5.mb-0 = "Pausen der letzen 30 Tage"
+  .card-body
+    - if @break_stats.present?
+      .table-responsive
+        table.table.mb-0
+          thead
+            tr
+              th(scope="col") = "Datum"
+              th(scope="col") = "Gesamt"
+              th(scope="col") = "Zeit (Durchschnitt)"
+              th(scope="col") = "Zurück"
+              th(scope="col") = "Zurück %"
+              th(scope="col") = "Nicht zurück"
+              th(scope="col") = "Nicht zurück %"
+          tbody
+            - @break_stats.each do |k, v|
+              tr
+                td
+                  = l(k, format: "%d.%m.%Y")
+                  br
+                  = l(k, format: "%A")
+                td = v["TOTAL"]
+                td = distance_of_time_in_words(v["AVERAGE_TIME"])
+                td = v["RETURNED"]
+                td = number_with_precision(v["RETURNED"].fdiv(v["TOTAL"]) * 100, precision: 2) + "%"
+                td = v["OVERDUE"]
+                td = number_with_precision(v["OVERDUE"].fdiv(v["TOTAL"]) * 100, precision: 2) + "%"
+    - else
+      .alert.alert-info.mb-0
+        ' Keine Statistiken über Pausen verfügbar.
