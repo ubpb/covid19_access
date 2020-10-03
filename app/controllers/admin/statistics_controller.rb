@@ -1,13 +1,14 @@
 class Admin::StatisticsController < Admin::ApplicationController
 
   def index
-    load_reservations_stats
+    load_reservation_stats
+    load_allocation_stats
     load_break_stats
   end
 
 private
 
-  def load_reservations_stats
+  def load_reservation_stats
     @reservation_stats = {}
 
     raw_results = ReservationStatRecord
@@ -33,6 +34,40 @@ private
     end
   end
 
+  def load_allocation_stats
+    @allocation_stats = {}
+
+    # Count
+    raw_results = ReleasedAllocation
+      .where(created_at: (Time.zone.today - 30.days)..(Time.zone.today + 1.day))
+      .group("DATE(created_at)")
+      .order("DATE(created_at)")
+      .count
+
+    raw_results.each do |date, count|
+      @allocation_stats[date] ||= {}
+      @allocation_stats[date]["TOTAL"] = count
+    end
+
+    # Average time
+    raw_results = ReleasedAllocation
+      .where(created_at: (Time.zone.today - 30.days)..(Time.zone.today + 1.day))
+      .group("DATE(created_at)")
+      .order("DATE(created_at)")
+      .average("TIME_TO_SEC(TIMEDIFF(created_at, released_at))")
+
+    raw_results.each do |date, average_time|
+      @allocation_stats[date] ||= {}
+      @allocation_stats[date]["AVERAGE_TIME"] = average_time
+    end
+
+    # Calculate / tweek data
+    @allocation_stats.each do |k, v|
+      v["TOTAL"]        ||= 0
+      v["AVERAGE_TIME"] ||= 0
+    end
+  end
+
   def load_break_stats
     @break_stats = {}
 
@@ -42,6 +77,7 @@ private
       .group("DATE(entered_at)")
       .order("DATE(entered_at)")
       .count
+
     raw_results.each do |date, count|
       @break_stats[date] ||= {}
       @break_stats[date]["RETURNED"] = count
@@ -63,7 +99,8 @@ private
       .where("last_break_started_at is not null AND last_break_ended_at is not null")
       .group("DATE(entered_at)")
       .order("DATE(entered_at)")
-      .average("TIMEDIFF(last_break_ended_at, last_break_started_at)")
+      .average("TIME_TO_SEC(TIMEDIFF(last_break_ended_at, last_break_started_at))")
+
     raw_results.each do |date, average_time|
       @break_stats[date] ||= {}
       @break_stats[date]["AVERAGE_TIME"] = average_time
