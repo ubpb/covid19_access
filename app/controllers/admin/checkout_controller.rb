@@ -3,7 +3,12 @@ class Admin::CheckoutController < Admin::ApplicationController
   def create
     if barcode = get_filtered_barcode(params[:scan_form][:barcode]).presence
       if registration = Registration.find_by(barcode: barcode, exited_at: nil)
-        redirect_to(admin_checkout_registration_path(registration))
+        if registration.in_break?
+          flash[:error] = "Ausweis-Nr. #{barcode} befindet sich in der Pause. Bitte am Einlass erfassen!"
+          redirect_to(admin_new_checkout_path)
+        else
+          redirect_to(admin_checkout_registration_path(registration))
+        end
       else
         flash[:error] = "Ausweis-Nr. #{barcode} wurde nicht am Einlass erfasst oder bereits ausgecheckt."
         redirect_to(admin_new_checkout_path)
