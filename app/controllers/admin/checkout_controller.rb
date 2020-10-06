@@ -44,7 +44,8 @@ class Admin::CheckoutController < Admin::ApplicationController
       current_break_started_at: break_time
     )
 
-    flash[:success] = "Pause gespeichert. Die Pause endet um #{l(break_time_end, format: "%H:%M Uhr")}."
+    #flash[:success] = "Pause gespeichert. Die Pause endet um #{l(break_time_end, format: "%H:%M Uhr")}."
+    flash[:success] = "Pause gespeichert für Ausweis-Nr. #{registration.barcode}."
     redirect_to(admin_new_checkout_path)
   end
 
