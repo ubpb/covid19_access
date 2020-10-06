@@ -1,14 +1,19 @@
-- if @allocation_stats.present?
+- if @registration_stats.present?
   ruby:
     graph_data = {
       type: 'bar',
       data: {
-        labels: @allocation_stats.map{|k,v| l(k, format: "%d.%m.%Y")},
+        labels: @registration_stats.map{|k,v| l(k, format: "%d.%m.%Y")},
         datasets: [
           {
             label: "Gesamt",
             backgroundColor: "rgba(54, 162, 235, 0.8)",
-            data: @allocation_stats.map{|k,v| v["TOTAL"]}
+            data: @registration_stats.map{|k,v| v["TOTAL"]}
+          },
+          {
+            label: "Nicht ausgecheckt",
+            backgroundColor: "rgba(255, 99, 132, 0.8)",
+            data: @registration_stats.map{|k,v| v["NON_CHECKOUT"]}
           }
         ]
       },
@@ -25,25 +30,27 @@
 
 .card.card-primary.card-cutoff-corner
   .card-header
-    h5.mb-0 = "Belegungen der letzen 30 Tage"
+    h5.mb-0 = "Registrierungen der letzen 30 Tage"
   .card-body
-    - if @allocation_stats.present?
+    - if @registration_stats.present?
       .table-responsive
         table.table.mb-0
           thead
             tr
               th(scope="col") = "Datum"
               th(scope="col") = "Gesamt"
+              th(scope="col") = "Nicht ausgecheckt"
               th(scope="col") = "Zeit (Durchschnitt)"
           tbody
-            - @allocation_stats.each do |k, v|
+            - @registration_stats.each do |k, v|
               tr
                 td
                   = l(k, format: "%d.%m.%Y")
                   br
                   = l(k, format: "%A")
                 td = v["TOTAL"]
+                td = v["NON_CHECKOUT"]
                 td = distance_of_time_in_words(v["AVERAGE_TIME"])
     - else
       .alert.alert-info.mb-0
-        ' Keine Statistiken über Belegungen verfügbar.
+        ' Keine Statistiken über Registrierungen verfügbar.

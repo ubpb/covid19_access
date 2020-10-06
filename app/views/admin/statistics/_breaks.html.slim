@@ -1,3 +1,41 @@
+- if @break_stats.present?
+  ruby:
+    graph_data = {
+      type: 'bar',
+      data: {
+        labels: @break_stats.map{|k,v| l(k, format: "%d.%m.%Y")},
+        datasets: [
+          {
+            label: "Zurück",
+            backgroundColor: "rgba(54, 162, 235, 0.8)",
+            data: @break_stats.map{|k,v| v["RETURNED"]}
+          },
+          {
+            label: "Nicht zurück",
+            backgroundColor: "rgba(255, 99, 132, 0.8)",
+            data: @break_stats.map{|k,v| v["OVERDUE"]}
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          xAxes: [{
+            stacked: true
+          }],
+          yAxes: [{
+            stacked: true
+          }]
+        }
+      }
+    }
+
+  .mb-3(
+    data-controller="graph"
+    data-graph-data=graph_data.to_json
+  )
+    canvas(width="100%" height="30" data-target="graph.output")
+
 .card.card-primary.card-cutoff-corner
   .card-header
     h5.mb-0 = "Pausen der letzen 30 Tage"

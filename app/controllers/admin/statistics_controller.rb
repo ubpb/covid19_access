@@ -2,6 +2,7 @@ class Admin::StatisticsController < Admin::ApplicationController
 
   def index
     load_reservation_stats
+    load_registration_stats
     load_allocation_stats
     load_break_stats
   end
@@ -11,6 +12,7 @@ private
   def load_reservation_stats
     @reservation_stats = {}
 
+    # Count reservations
     raw_results = ReservationStatRecord
       .where(begin_date: (Time.zone.today - 30.days)..(Time.zone.today + 1.day))
       .group("DATE(begin_date)", "action")
@@ -31,6 +33,55 @@ private
       v["DELETED_BY_USER"]  ||= 0
       v["DELETED_BY_STAFF"] ||= 0
       v["TOTAL"]              = v["ASSIGNED"] + v["EXPIRED"]
+    end
+  end
+
+  def load_registration_stats
+    @registration_stats = {}
+
+    # Count total
+    raw_results = Registration
+      .where(entered_at: (Time.zone.today - 30.days)..(Time.zone.today + 1.day))
+      .group("DATE(entered_at)")
+      .order("DATE(entered_at)")
+      .count
+
+    raw_results.each do |date, count|
+      @registration_stats[date] ||= {}
+      @registration_stats[date]["TOTAL"] = count
+    end
+
+    # Count non checkout
+    raw_results = Registration
+      .where(entered_at: (Time.zone.today - 30.days)..(Time.zone.today + 1.day))
+      .where("TIME(CONVERT_TZ(exited_at, '+00:00', @@global.time_zone)) = '23:59:59'")
+      .group("DATE(entered_at)")
+      .order("DATE(entered_at)")
+      .count
+
+    raw_results.each do |date, count|
+      @registration_stats[date] ||= {}
+      @registration_stats[date]["NON_CHECKOUT"] = count
+    end
+
+    # Average time
+    raw_results = Registration
+      .where(entered_at: (Time.zone.today - 30.days)..(Time.zone.today + 1.day))
+      .where("TIME(CONVERT_TZ(exited_at, '+00:00', @@global.time_zone)) != '23:59:59'")
+      .group("DATE(entered_at)")
+      .order("DATE(entered_at)")
+      .average("TIME_TO_SEC(TIMEDIFF(exited_at, entered_at))")
+
+    raw_results.each do |date, average_time|
+      @registration_stats[date] ||= {}
+      @registration_stats[date]["AVERAGE_TIME"] = average_time
+    end
+
+    # Calculate / tweek data
+    @registration_stats.each do |k, v|
+      v["TOTAL"]        ||= 0
+      v["NON_CHECKOUT"] ||= 0
+      v["AVERAGE_TIME"] ||= 0
     end
   end
 
