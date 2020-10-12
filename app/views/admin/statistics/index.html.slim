@@ -1,0 +1,19 @@
+ul.nav.nav-pills.mb-3#tabs
+  li.nav-item
+    a.nav-link.active#registrations-tab(data-toggle="tab" href="#registrations") Registrierungen
+  li.nav-item
+    a.nav-link#reservations-tab(data-toggle="tab" href="#reservations") Reservierungen
+  li.nav-item
+    a.nav-link#allocations-tab(data-toggle="tab" href="#allocations") Belegungen
+  li.nav-item
+    a.nav-link#breaks-tab(data-toggle="tab" href="#breaks") Pausen
+
+.tab-content#tab-content
+  .tab-pane.fade.show.active#registrations
+    = render "registrations"
+  .tab-pane.fade#reservations
+    = render "reservations"
+  .tab-pane.fade#allocations
+    = render "allocations"
+  .tab-pane.fade#breaks
+    = render "breaks"

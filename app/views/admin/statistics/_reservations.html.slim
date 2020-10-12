@@ -1,0 +1,74 @@
+- if @reservation_stats.present?
+  ruby:
+    graph_data = {
+      type: 'bar',
+      data: {
+        labels: @reservation_stats.map{|k,v| l(k, format: "%d.%m.%Y")},
+        datasets: [
+          {
+            label: "Zugeteilt",
+            backgroundColor: "rgba(54, 162, 235, 0.8)",
+            data: @reservation_stats.map{|k,v| v["ASSIGNED"]}
+          },
+          {
+            label: "Verfallen",
+            backgroundColor: "rgba(255, 99, 132, 0.8)",
+            data: @reservation_stats.map{|k,v| v["EXPIRED"]}
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          xAxes: [{
+            stacked: true
+          }],
+          yAxes: [{
+            stacked: true
+          }]
+        }
+      }
+    }
+
+  .mb-3(
+    data-controller="graph"
+    data-graph-data=graph_data.to_json
+  )
+    canvas(width="100%" height="30" data-target="graph.output")
+
+.card.card-primary.card-cutoff-corner
+  .card-header
+    h5.mb-0 = "Reservierungen der letzen 30 Tage"
+  .card-body
+    - if @reservation_stats.present?
+      .table-responsive
+        table.table.mb-0
+          thead
+            tr
+              th(scope="col") = "Datum"
+              th(scope="col") = "Gesamt"
+              th(scope="col") = "Erstellt (Nutzer)"
+              th(scope="col") = "Gelöscht (Nutzer)"
+              th(scope="col") = "Gelöscht (UB)"
+              th(scope="col") = "Zugeteilt"
+              th(scope="col") = "Zugeteilt %"
+              th(scope="col") = "Verfallen"
+              th(scope="col") = "Verfallen %"
+          tbody
+            - @reservation_stats.each do |k, v|
+              tr
+                td
+                  = l(k, format: "%d.%m.%Y")
+                  br
+                  = l(k, format: "%A")
+                td = v["TOTAL"]
+                td = v["CREATED_BY_USER"]
+                td = v["DELETED_BY_USER"]
+                td = v["DELETED_BY_STAFF"]
+                td = v["ASSIGNED"]
+                td = number_with_precision(v["ASSIGNED"].fdiv(v["TOTAL"]) * 100, precision: 2) + "%"
+                td = v["EXPIRED"]
+                td = number_with_precision(v["EXPIRED"].fdiv(v["TOTAL"]) * 100, precision: 2) + "%"
+    - else
+      .alert.alert-info.mb-0
+        ' Keine Statistiken über Reservierungen verfügbar.
