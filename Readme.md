@@ -43,11 +43,11 @@ Es ist in jedem Fall ratsam einen Fork des Codes zu erstellen.
 
 1. Installation von Ruby. Es gibt viele Möglichkeiten Ruby zu installieren. Wir empfehlen RVM (https://rvm.io). Die Anwdenung nutzt aktuell Ruby Version `2.6.5`. Grundsätzlich sollte auch `2.7.x` funktionieren. In dem Fall muss die Datei `.ruby-version` entsprechend angepasst werden.
 
-2. node.js (https://nodejs.org) installieren
+2. node.js (https://nodejs.org) installieren.
 
-3. yarn 1.x (https://classic.yarnpkg.com) installieren. yarn 2.x sollte auch funktionieren, wurde aber noch nicht getestet.
+3. yarn (https://yarnpkg.com) installieren.
 
-4. Programm-Abhängigkeiten installieren
+4. Abhängige Pakete installieren.
 
    `$ bundle install`
 
@@ -69,7 +69,7 @@ Es ist in jedem Fall ratsam einen Fork des Codes zu erstellen.
 
    `$ rails s -p 3000`
 
-   Die Anwendung ist jetzt unter `http://localhost:3000` erreichbar. Die Anwendung wird per HTTP BASIC AUTH geschützt. Das PW kann in `config/application.yml` gesetzt werden.
+   Die Anwendung ist jetzt unter `http://localhost:3000` erreichbar. Das Staff-Backend unter `/admin` wird per HTTP BASIC AUTH geschützt. Das PW kann in `config/application.yml` gesetzt werden.
 
 9. Hinweis: Background Tasks
 
@@ -77,6 +77,8 @@ Es ist in jedem Fall ratsam einen Fork des Codes zu erstellen.
 
    * `rails app:dsgvo:cleanup` Dieser Task löscht alle personenbezogenen Daten die älter sind als 4 Wochen. Sollte auf einem Produktionssystem täglich laufen.
    * `rails app:reservations:cleanup` Dieser Task löscht alle nicht in Anspruch genommenen Reservierungen. Sollte auf einem Produktionssystem ca. alle 5 Minuten laufen.
+   * `rails app:utils:reset_open_registrations` Dieser Task setzt alle offenen Registrierungen zurück und gibt alle belegten Resourcen frei. Dieser Task muss außerhalb der Öffnungszeiten laufen. Ist erforderlich, wenn nach Schließung sich laut System noch Personen im Gebäude befinden.
+   * `rails app:utils:reset_overdue_registrations` Dieser Task setzt die Registrierungen und Ressourcen von Personen zurück die länger als 60 Minuten Pause machen.
 
    Ein zusätzlicher Task ist bei Bedarf manuell auszuführen
 
