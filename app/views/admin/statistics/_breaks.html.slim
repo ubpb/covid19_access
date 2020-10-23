@@ -1,6 +1,6 @@
 - if @break_stats.present?
   ruby:
-    graph_data = {
+    graph_data1 = {
       type: 'bar',
       data: {
         labels: @break_stats.map{|k,v| l(k, format: "%d.%m.%Y")},
@@ -8,7 +8,12 @@
           {
             label: "Zurück",
             backgroundColor: "rgba(54, 162, 235, 0.8)",
-            data: @break_stats.map{|k,v| v["RETURNED"]}
+            data: @break_stats.map{|k,v| v["RETURNED"]},
+            trendlineLinear: {
+              style: "rgba(54, 162, 235, 0.8)",
+              lineStyle: "dotted",
+              width: 3
+            }
           },
           {
             label: "Nicht zurück",
@@ -30,9 +35,37 @@
       }
     }
 
+    graph_data2 = {
+      type: 'bar',
+      data: {
+        labels: @break_stats.map{|k,v| l(k, format: "%d.%m.%Y")},
+        datasets: [
+          {
+            label: "Pausenzeit (Durchschnitt)",
+            backgroundColor: "rgba(54, 162, 235, 0.8)",
+            data: @break_stats.map{|k,v| v["AVERAGE_TIME_MINUTES"]},
+            trendlineLinear: {
+              style: "rgba(54, 162, 235, 0.8)",
+              lineStyle: "dotted",
+              width: 3
+            }
+          }
+        ]
+      },
+      options: {
+        responsive: true
+      }
+    }
+
   .mb-3(
     data-controller="graph"
-    data-graph-data=graph_data.to_json
+    data-graph-data=graph_data1.to_json
+  )
+    canvas(width="100%" height="30" data-target="graph.output")
+
+  .mb-3(
+    data-controller="graph"
+    data-graph-data=graph_data2.to_json
   )
     canvas(width="100%" height="30" data-target="graph.output")
 
@@ -60,7 +93,7 @@
                   br
                   = l(k, format: "%A")
                 td = v["TOTAL"]
-                td = distance_of_time_in_words(v["AVERAGE_TIME"])
+                td = distance_of_time_in_words(v["AVERAGE_TIME_SECONDS"])
                 td = v["RETURNED"]
                 td = number_with_precision(v["RETURNED"].fdiv(v["TOTAL"]) * 100, precision: 2) + "%"
                 td = v["OVERDUE"]

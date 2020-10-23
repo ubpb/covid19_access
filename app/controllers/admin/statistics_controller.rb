@@ -14,7 +14,7 @@ private
 
     # Count reservations
     raw_results = ReservationStatRecord
-      .where(begin_date: (Time.zone.today - 30.days)..(Time.zone.today + 1.day))
+      .where(begin_date: (Time.zone.today - 30.days)..Time.zone.today)
       .group("DATE(begin_date)", "action")
       .order("DATE(begin_date)")
       .count
@@ -41,7 +41,7 @@ private
 
     # Count total
     raw_results = Registration
-      .where(entered_at: (Time.zone.today - 30.days)..(Time.zone.today + 1.day))
+      .where(entered_at: (Time.zone.today - 30.days)..Time.zone.today)
       .group("DATE(entered_at)")
       .order("DATE(entered_at)")
       .count
@@ -53,7 +53,7 @@ private
 
     # Count non checkout
     raw_results = Registration
-      .where(entered_at: (Time.zone.today - 30.days)..(Time.zone.today + 1.day))
+      .where(entered_at: (Time.zone.today - 30.days)..Time.zone.today)
       .where("TIME(CONVERT_TZ(exited_at, '+00:00', @@global.time_zone)) = '23:59:59'")
       .group("DATE(entered_at)")
       .order("DATE(entered_at)")
@@ -66,7 +66,7 @@ private
 
     # Average time
     raw_results = Registration
-      .where(entered_at: (Time.zone.today - 30.days)..(Time.zone.today + 1.day))
+      .where(entered_at: (Time.zone.today - 30.days)..Time.zone.today)
       .where("TIME(CONVERT_TZ(exited_at, '+00:00', @@global.time_zone)) != '23:59:59'")
       .group("DATE(entered_at)")
       .order("DATE(entered_at)")
@@ -74,7 +74,7 @@ private
 
     raw_results.each do |date, average_time|
       @registration_stats[date] ||= {}
-      @registration_stats[date]["AVERAGE_TIME"] = average_time
+      @registration_stats[date]["AVERAGE_TIME"] = average_time.to_i
     end
 
     # Calculate / tweek data
@@ -90,7 +90,7 @@ private
 
     # Count
     raw_results = ReleasedAllocation
-      .where(created_at: (Time.zone.today - 30.days)..(Time.zone.today + 1.day))
+      .where(created_at: (Time.zone.today - 30.days)..Time.zone.today)
       .group("DATE(created_at)")
       .order("DATE(created_at)")
       .count
@@ -102,14 +102,14 @@ private
 
     # Average time
     raw_results = ReleasedAllocation
-      .where(created_at: (Time.zone.today - 30.days)..(Time.zone.today + 1.day))
+      .where(created_at: (Time.zone.today - 30.days)..Time.zone.today)
       .group("DATE(created_at)")
       .order("DATE(created_at)")
       .average("TIME_TO_SEC(TIMEDIFF(created_at, released_at))")
 
     raw_results.each do |date, average_time|
       @allocation_stats[date] ||= {}
-      @allocation_stats[date]["AVERAGE_TIME"] = average_time
+      @allocation_stats[date]["AVERAGE_TIME"] = average_time.to_i
     end
 
     # Calculate / tweek data
@@ -124,6 +124,7 @@ private
 
     # Returned breaks
     raw_results = Registration
+      .where(created_at: (Time.zone.today - 30.days)..Time.zone.today)
       .where("last_break_started_at is not null AND last_break_ended_at is not null")
       .group("DATE(entered_at)")
       .order("DATE(entered_at)")
@@ -136,6 +137,7 @@ private
 
     # Overdue breaks
     raw_results = Registration
+      .where(created_at: (Time.zone.today - 30.days)..Time.zone.today)
       .where("last_break_started_at is not null AND last_break_ended_at is null")
       .group("DATE(entered_at)")
       .order("DATE(entered_at)")
@@ -147,6 +149,7 @@ private
 
     # Average time
     raw_results = Registration
+      .where(created_at: (Time.zone.today - 30.days)..Time.zone.today)
       .where("last_break_started_at is not null AND last_break_ended_at is not null")
       .group("DATE(entered_at)")
       .order("DATE(entered_at)")
@@ -154,15 +157,17 @@ private
 
     raw_results.each do |date, average_time|
       @break_stats[date] ||= {}
-      @break_stats[date]["AVERAGE_TIME"] = average_time
+      @break_stats[date]["AVERAGE_TIME_SECONDS"] = average_time.to_i
+      @break_stats[date]["AVERAGE_TIME_MINUTES"] = average_time.to_i / 60
     end
 
     # Calculate / tweek data
     @break_stats.each do |k, v|
-      v["RETURNED"]     ||= 0
-      v["OVERDUE"]      ||= 0
-      v["AVERAGE_TIME"] ||= 0
-      v["TOTAL"]          = v["RETURNED"] + v["OVERDUE"]
+      v["RETURNED"]             ||= 0
+      v["OVERDUE"]              ||= 0
+      v["AVERAGE_TIME_SECONDS"] ||= 0
+      v["AVERAGE_TIME_MINUTES"] ||= 0
+      v["TOTAL"]                 = v["RETURNED"] + v["OVERDUE"]
     end
   end
 

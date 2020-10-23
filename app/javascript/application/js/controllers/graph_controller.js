@@ -1,5 +1,6 @@
 import { Controller } from "stimulus"
-import Chart from 'chart.js'
+import Chart from "chart.js"
+import "chartjs-plugin-trendline"
 
 export default class extends Controller {
   static targets = [ "output" ]

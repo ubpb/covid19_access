@@ -8,7 +8,12 @@
           {
             label: "Gesamt",
             backgroundColor: "rgba(54, 162, 235, 0.8)",
-            data: @allocation_stats.map{|k,v| v["TOTAL"]}
+            data: @allocation_stats.map{|k,v| v["TOTAL"]},
+            trendlineLinear: {
+              style: "rgba(54, 162, 235, 0.8)",
+              lineStyle: "dotted",
+              width: 3
+            }
           }
         ]
       },

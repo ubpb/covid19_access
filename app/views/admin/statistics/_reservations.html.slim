@@ -8,12 +8,22 @@
           {
             label: "Zugeteilt",
             backgroundColor: "rgba(54, 162, 235, 0.8)",
-            data: @reservation_stats.map{|k,v| v["ASSIGNED"]}
+            data: @reservation_stats.map{|k,v| v["ASSIGNED"]},
+            trendlineLinear: {
+              style: "rgba(54, 162, 235, 0.8)",
+              lineStyle: "dotted",
+              width: 3
+            }
           },
           {
             label: "Verfallen",
             backgroundColor: "rgba(255, 99, 132, 0.8)",
-            data: @reservation_stats.map{|k,v| v["EXPIRED"]}
+            data: @reservation_stats.map{|k,v| v["EXPIRED"]},
+            trendlineLinear: {
+              style: "rgba(255, 99, 132, 0.8)",
+              lineStyle: "dotted",
+              width: 3
+            }
           }
         ]
       },
