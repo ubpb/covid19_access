@@ -39,6 +39,9 @@ class Reservation < ApplicationRecord
       break if tries >= 100
     end
 
+    # Remove dates that are too far in the future
+    reservable_dates = reservable_dates.reject{|date| date > Time.zone.today + 5.days}
+
     # Return our list of reservable dates
     reservable_dates
   end
