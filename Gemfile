@@ -10,7 +10,7 @@ gem "highline",     "~> 2.0.3"
 gem "jbuilder",     "~> 2.7"
 gem "mysql2",       ">= 0.4.4"
 gem "nokogiri",     "~> 1.10.9"
-gem "puma",         "~> 4.1"
+gem "puma",         ">= 5.1"
 gem "rails",        "~> 6.0.2", ">= 6.0.2.2"
 gem "rails-i18n",   "~> 6.0.0"
 gem "sass-rails",   ">= 6"
@@ -18,7 +18,7 @@ gem "simple_form",  "~> 5.0.2"
 gem "slim",         "~> 4.0"
 gem "strip_attributes", "~> 1.11"
 gem "turbolinks",   "~> 5"
-gem "webpacker",    "~> 4.0"
+gem "webpacker",    "~> 5.0"
 
 gem "bootsnap", ">= 1.4.2", require: false
 
