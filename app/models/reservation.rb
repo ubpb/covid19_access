@@ -9,38 +9,43 @@ class Reservation < ApplicationRecord
 
 
   def self.next_reservable_dates
+    reservation_enabled = Rails.application.config.application.reservation_enabled || false
+
     day = Time.zone.today
     now = Time.zone.now
     special_closing_dates = Rails.application.config.application.special_closing_dates || []
     reservable_dates = []
-    tries = 0 # To protect against infinite loop due to improper config
 
-    loop do
-      # Check if generally open the tested day
-      dayname = day.strftime("%A").downcase.to_sym
-      opening_time, closing_time = self.get_opening_and_closing_times(day)
-      is_generally_open = opening_time.present? && closing_time.present?
+    if reservation_enabled
+      tries = 0 # To protect against infinite loop due to improper config
 
-      # In case we are open today, check if already closed due to current time.
-      already_closed = is_generally_open && day == Time.zone.today && now >= closing_time
+      loop do
+        # Check if generally open the tested day
+        dayname = day.strftime("%A").downcase.to_sym
+        opening_time, closing_time = self.get_opening_and_closing_times(day)
+        is_generally_open = opening_time.present? && closing_time.present?
 
-      # Check if the tested day is a special closing day
-      is_special_closing_day = special_closing_dates.include?(day)
+        # In case we are open today, check if already closed due to current time.
+        already_closed = is_generally_open && day == Time.zone.today && now >= closing_time
 
-      # The tested day is reservable if open
-      if is_generally_open && !already_closed && !is_special_closing_day
-        reservable_dates << day
+        # Check if the tested day is a special closing day
+        is_special_closing_day = special_closing_dates.include?(day)
+
+        # The tested day is reservable if open
+        if is_generally_open && !already_closed && !is_special_closing_day
+          reservable_dates << day
+        end
+
+        # Check / Setup the loop
+        day += 1.day
+        tries += 1
+        break if reservable_dates.include?(Time.zone.today) ? reservable_dates.count >= 4 : reservable_dates.count >= 3
+        break if tries >= 100
       end
 
-      # Check / Setup the loop
-      day += 1.day
-      tries += 1
-      break if reservable_dates.include?(Time.zone.today) ? reservable_dates.count >= 4 : reservable_dates.count >= 3
-      break if tries >= 100
+      # Remove dates that are too far (> 5 days) in the future
+      #reservable_dates = reservable_dates.reject{|date| date > Time.zone.today + 5.days}
     end
-
-    # Remove dates that are too far in the future
-    reservable_dates = reservable_dates.reject{|date| date > Time.zone.today + 5.days}
 
     # Return our list of reservable dates
     reservable_dates
