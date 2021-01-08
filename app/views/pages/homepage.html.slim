@@ -8,6 +8,8 @@
         p Aus diesem Grund dürfen nur Personen mit einem gültigen Bibliotheksausweis die Bibliothek betreten und müssen sich alle Personen bis auf Weiteres beim Betreten und Verlassen der Bibliothek mit ihrem Bibliotheksausweis ein- bzw. ausbuchen. Dabei werden die Bibliotheksausweisnummer, der Name, die Adresse, die Telefonnummer sowie der Zeitpunkt des Betretens bzw. Verlassens der Bibliothek gespeichert. Werden Arbeitsplätze innerhalb der Bibliothek in Anspruch genommen, wird dies ebenfalls protokolliert.
         p.mb-0
           strong Möchten Sie einen Arbeitsplatz in Anspruch nehmen, informieren Sie sich bitte vorab über unsere <a href="#{statistics_path}">Belegungsübersicht</a> über den aktuellen Stand an freien Plätzen oder <a href="#{account_reservations_path}">reservieren Sie hier</a> vorab einen Platz.
+        - unless Rails.application.config.application.reservation_enabled
+          .mt-3 = render "reservations_disabled_info"
 
   .col-sm-12.col-lg-4
     .mb-3 = render "statistics/opening_hours"

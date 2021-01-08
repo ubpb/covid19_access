@@ -7,6 +7,9 @@
       .card-header.d-flex.align-items-center
         h5.mb-0 = "Belegungsübersicht: #{resource_group.title}"
       .card-body
+        - unless Rails.application.config.application.reservation_enabled
+          .mb-3 = render "reservations_disabled_info"
+
         - if resources.present?
           - if resource_stats[:has_reservations]
             .alert.alert-info

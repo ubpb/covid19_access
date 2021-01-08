@@ -6,6 +6,9 @@
         i.fas.fa-plus
         =< "Neue Reservierung"
   .card-body
+    - unless Rails.application.config.application.reservation_enabled
+      .mb-3 = render "reservations_disabled_info"
+
     - if @reservations.present?
       .alert.alert-warning
         i.fas.fa-exclamation-triangle
