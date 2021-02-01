@@ -1,9 +1,19 @@
+- public_display = local_assigns.fetch(:public_display) { true }
+
 ruby:
   x = @number_of_people_entered.fdiv(@max_number_of_people) * 100
   bg_class = case x
     when 0..89   then "bg-success"
     when 90..99 then "bg-warning"
     else "bg-danger"
+  end
+
+  if public_display
+    bg_class = "bg-success"
+
+    if @number_of_people_entered > @max_number_of_people
+      @number_of_people_entered = @max_number_of_people
+    end
   end
 
 .card.card-cutoff-corner.text-white.mb-3(class=bg_class)
