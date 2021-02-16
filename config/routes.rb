@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   get "/stats", to: "statistics#index", as: :statistics
 
   # Static kickers
-  get "/datenschutz", to: redirect("https://www.ub.uni-paderborn.de/fileadmin/ub/Dokumente_Formulare/DSE_UB_001_COVID19_Access_v1.pdf"), as: "datenschutz"
+  get "/datenschutz", to: redirect("https://www.ub.uni-paderborn.de/fileadmin/ub/Dokumente_Formulare/DSE_UB_008_Besucherregistrierung.pdf"), as: "datenschutz"
   get "/impressum", to: redirect("https://www.ub.uni-paderborn.de/ueber-uns/impressum/"), as: "impressum"
 
   # User Backend
