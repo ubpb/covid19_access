@@ -53,7 +53,12 @@ class Admin::ResourcesController < Admin::ApplicationController
 private
 
   def permitted_params
-    params.require(:resource).permit(:resource_group_id, :resource_location_id, :title)
+    params.require(:resource).permit(
+      :allocatable,
+      :resource_group_id,
+      :resource_location_id,
+      :title
+    )
   end
 
 end

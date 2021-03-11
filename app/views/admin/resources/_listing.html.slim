@@ -8,7 +8,7 @@
         th(scope="col") = ""
     tbody
       - resources.each do |r|
-        tr
+        tr(class="#{r.allocatable? ? '' : 'table-danger'}")
           td = r.resource_group.title
           td = r.resource_location.title
           td = r.title

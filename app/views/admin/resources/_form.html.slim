@@ -1,6 +1,7 @@
 = simple_form_for [:admin, resource] do |f|
-  = f.association :resource_group, label: "Ressource-Gruppe"
-  = f.association :resource_location, label: "Ressource-Bereich"
+  = f.input :allocatable, label: "Belegbar", as: :boolean
+  = f.association :resource_group, collection: ResourceGroup.order('title asc'), label: "Ressource-Gruppe"
+  = f.association :resource_location, collection: ResourceLocation.order('title asc'), label: "Ressource-Bereich"
   = f.input :title, label: "Titel", input_html: {class: "", autocomplete: "off"}
   = f.button :submit, "Speichern", class: "btn btn-primary"
   = link_to "Abbrechen", admin_resources_path, class: "btn btn-link"

@@ -25,7 +25,10 @@ class Admin::Registrations::AllocationsController < Admin::Registrations::Applic
       was_reserved = params[:allocation][:was_reserved]
       resource = Resource.find(permitted_params[:resource_id])
 
-      if resource.reserved_today? && was_reserved == "false"
+      if !resource.allocatable?
+        flash[:error] = "Die Ressource steht aktuell nicht zur Verfügung und kann nicht belegt werden."
+        redirect_to(new_admin_registration_allocation_path(@registration))
+      elsif resource.reserved_today? && was_reserved == "false"
         flash[:error] = "Die Ressource wurde in der Zwischenzeit reserviert. Bitte Auswahl prüfen."
         redirect_to(new_admin_registration_allocation_path(@registration))
       else

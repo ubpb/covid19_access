@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_29_102458) do
+ActiveRecord::Schema.define(version: 2021_03_09_140644) do
 
   create_table "allocations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "registration_id", null: false
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 2020_09_29_102458) do
     t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "allocatable", default: true, null: false
     t.index ["resource_group_id"], name: "index_resources_on_resource_group_id"
     t.index ["resource_location_id"], name: "index_resources_on_resource_location_id"
   end

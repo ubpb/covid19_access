@@ -8,4 +8,4 @@
   .card-body
     - @resource_locations.each do |rl|
       h5 = rl.title
-      = render "listing", resources: rl.resources
+      = render "listing", resources: rl.resources.allocatable

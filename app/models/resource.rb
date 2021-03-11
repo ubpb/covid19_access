@@ -13,6 +13,8 @@ class Resource < ApplicationRecord
   # Validations
   validates :title, presence: true
 
+  # Scopes
+  scope :allocatable, -> { where(allocatable: true) }
 
   def allocated?
     allocation.present?

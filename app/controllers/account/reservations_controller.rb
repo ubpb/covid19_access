@@ -8,6 +8,7 @@ class Account::ReservationsController < Account::ApplicationController
     set_and_check_dates(selected_date: params[:date]) or return
 
     @resources = Resource
+      .allocatable
       .joins(:resource_group, :resource_location)
       .order("resource_groups.title, resource_locations.title, resources.title")
   end
@@ -123,7 +124,10 @@ private
         .includes(:resource_group, :resource_location, :allocation, :reservations)
         .find(resource_id)
 
-      if (@selected_date == Time.zone.today && @resource.allocated?) || @resource.reserved_today?(@selected_date)
+      if !@resource.allocatable?
+        flash[:error] = "Diese Resource kann aktuell nicht belegt werden. Bitte treffen Sie eine andere Auswahl."
+        redirect_to(select_date_account_reservations_path(date: @selected_date))
+      elsif (@selected_date == Time.zone.today && @resource.allocated?) || @resource.reserved_today?(@selected_date)
         flash[:error] = "Bitte wählen Sie eine freie Ressource aus. Die gewählte Ressource ist bereits belegt oder reserviert."
         redirect_to(select_date_account_reservations_path(date: @selected_date))
         return false
