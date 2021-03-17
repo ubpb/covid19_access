@@ -21,16 +21,4 @@ private
     end
   end
 
-  def get_filtered_barcode(barcode)
-    if barcode.present?
-      filter_proc = ->(barcode) { barcode.gsub(/\s+/, "").upcase } # default filter proc
-
-      if filter_proc_string = Rails.configuration.application.barcode_filter_proc
-        filter_proc = eval(filter_proc_string)
-      end
-
-      filter_proc.(barcode)
-    end
-  end
-
 end

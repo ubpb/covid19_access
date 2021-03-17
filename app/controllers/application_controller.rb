@@ -18,6 +18,18 @@ class ApplicationController < ActionController::Base
     @opening_time, @closing_time = Reservation.get_opening_and_closing_times(Time.zone.today)
   end
 
+  def get_filtered_barcode(barcode)
+    if barcode.present?
+      filter_proc = ->(barcode) { barcode.gsub(/\s+/, "").upcase } # default filter proc
+
+      if filter_proc_string = Rails.configuration.application.barcode_filter_proc
+        filter_proc = eval(filter_proc_string)
+      end
+
+      filter_proc.(barcode)
+    end
+  end
+
 private
 
   def authenticate!
