@@ -1,0 +1,15 @@
+html.self-checkout * {
+  //font-size: 110% !important;
+}
+
+html.self-checkout {
+  height: 100%;
+  body {
+    height: 100%;
+    background-color: $page-background-color;
+
+    #page {
+      background-color: transparent;
+    }
+  }
+}

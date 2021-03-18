@@ -21,7 +21,8 @@ Rails.application.routes.draw do
 
   # Self-Checkout
   get "self-checkout/new", to: "self_checkout#new", as: "new_self_checkout"
-  post "self-checkout", to: "self_checkout#create", as: "self_checkout"
+  get "self-checkout", to: "self_checkout#show", as: "self_checkout"
+  post "self-checkout", to: "self_checkout#create"
 
   # User Backend
   namespace :account, path: "/account" do

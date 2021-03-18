@@ -1,5 +1,5 @@
 doctype html
-html
+html.self-checkout
   head
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible" content="IE=edge")
@@ -13,10 +13,7 @@ html
     = stylesheet_pack_tag "application", "data-turbolinks-track": "reload", media: "all"
     = javascript_pack_tag "application", "data-turbolinks-track": "reload"
 
-  body
+  body.d-flex.flex-column.justify-content-center
     #page
-      .container.mt-3
-        = render "alerts", global: true
-        = content_for?(:main) ? yield(:main) : yield
-    #footer.d-print-none
-      = render "footer"
+      .container
+        div = yield
