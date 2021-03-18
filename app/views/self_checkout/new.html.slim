@@ -3,11 +3,25 @@
     h5.mb-0 = "Auslass / Checkout"
   .card-body
     .alert.alert-info.d-flex.align-items-center
-      .mr-3: i.fas.fa-info-circle.fa-2x
+      .mr-3: i.fas.fa-barcode.fa-2x
       .ml-0 =< "Bitte halten Sie den Barcode Ihres Bibliotheksausweises unter den Scanner um sich auszubuchen."
-    .alert.alert-warning.d-flex.align-items-center
+    .alert.alert-warning.d-flex.align-items-center.mb-0
       .mr-3: i.fas.fa-exclamation-triangle.fa-2x
       .ml-0 ==< "Wenn Sie das Gebäude für eine <strong>Pause</strong> verlassen und einen <strong>Arbeitsplatz</strong> belegt haben, buchen Sie sich bitte <strong>NICHT</strong> aus!"
 
-    = simple_form_for :scan_form, url: self_checkout_path, method: :post do |f|
-      = f.input :barcode, label: false, placeholder: "Bitte scannen...", input_html: {class: "form-control-lg", autocomplete: "off"}, wrapper_html: { class: 'mb-0' }, autofocus: true
+.invisible
+  = simple_form_for :scan_form, url: self_checkout_path, html: {id: "scan_form", method: :post} do |f|
+    = f.input :barcode, label: false, placeholder: "Bitte scannen...", input_html: {class: "form-control-lg", autocomplete: "off"}, wrapper_html: { class: 'mb-0' }, autofocus: true
+
+javascript:
+  var currentBarcode = ""
+
+  document.addEventListener("keypress", function onPress(event) {
+    if (event.key !== "Enter") {
+      currentBarcode += event.key
+    } else {
+      document.getElementById("scan_form_barcode").value = currentBarcode
+      document.getElementById("scan_form").submit()
+      currentBarcode = ""
+    }
+  });
