@@ -1,13 +1,13 @@
-.card.shadow.rounded
-  .card-header
-    h5.mb-0 = "Auslass / Checkout"
-  .card-body
-    .alert.alert-info.d-flex.align-items-center
-      .mr-3: i.fas.fa-barcode.fa-2x
-      .ml-0 =< "Bitte halten Sie den Barcode Ihres Bibliotheksausweises unter den Scanner um sich auszubuchen."
-    .alert.alert-warning.d-flex.align-items-center.mb-0
-      .mr-3: i.fas.fa-exclamation-triangle.fa-2x
-      .ml-0 ==< "Wenn Sie das Gebäude für eine <strong>Pause</strong> verlassen und einen <strong>Arbeitsplatz</strong> belegt haben, buchen Sie sich bitte <strong>NICHT</strong> aus!"
+.animate__animated.animate__fadeIn
+  .alert.alert-warning.d-flex.align-items-center.mb-4
+    .mr-3: i.fas.fa-exclamation-triangle.fa-2x
+    .ml-0 ==< "Wenn Sie das Gebäude für eine <strong>Pause</strong> verlassen und einen <strong>Arbeitsplatz</strong> belegt haben, buchen Sie sich bitte <strong>NICHT</strong> aus!"
+
+  .card.shadow.rounded.bg-info.text-white
+    .card-body
+      .d-flex.align-items-center
+        .mr-3: i.fas.fa-barcode.fa-7x
+        .lead =< "Bitte halten Sie den Barcode Ihres Bibliotheksausweises unter den Scanner um sich auszubuchen."
 
 .invisible
   = simple_form_for :scan_form, url: self_checkout_path, html: {id: "scan_form", method: :post} do |f|

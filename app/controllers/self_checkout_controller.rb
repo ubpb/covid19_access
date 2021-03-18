@@ -1,16 +1,16 @@
 class SelfCheckoutController < ApplicationController
 
   def create
-    flash[:self_checkout_results] = {}
+    flash[:self_checkout_result] = {}
 
     if barcode = get_filtered_barcode(params[:scan_form][:barcode]).presence
       if registration = Registration.find_by(barcode: barcode, exited_at: nil)
         close_registration(registration)
       else
-        flash[:self_checkout_results][:error] = "Sie wurden nicht am Einlass erfasst oder wurden bereits ausgecheckt. Bitte wenden Sie sich an die Ortsleihe."
+        flash[:self_checkout_result][:error] = "Sie wurden nicht am Einlass erfasst oder wurden bereits ausgecheckt. Bitte wenden Sie sich an die Ortsleihe."
       end
     else
-      flash[:self_checkout_results][:error] = "Bitte einen Bibliotheksausweis scannen. Für Fragen wenden Sie sich bitte an die Ortsleihe."
+      flash[:self_checkout_result][:error] = "Bitte einen Bibliotheksausweis scannen. Für Fragen wenden Sie sich bitte an die Ortsleihe."
     end
 
     redirect_to(self_checkout_path)
@@ -31,9 +31,9 @@ private
         message_html << "<br/>Hinweis: Der von Ihnen belegte Arbeitsplatz wurde wieder zur Nutzung freigegeben."
       end
 
-      flash[:self_checkout_results][:success] = message_html
+      flash[:self_checkout_result][:success] = message_html
     else
-      flash[:self_checkout_results][:error] = "Es ist ein Fehler aufgetreten. Bitte wenden Sie sich an die Ortsleihe."
+      flash[:self_checkout_result][:error] = "Es ist ein Fehler aufgetreten. Bitte wenden Sie sich an die Ortsleihe."
     end
   end
 
