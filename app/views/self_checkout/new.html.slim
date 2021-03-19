@@ -1,9 +1,13 @@
 .animate__animated.animate__fadeIn
   .alert.alert-warning.d-flex.align-items-center.mb-4
     .mr-3: i.fas.fa-exclamation-triangle.fa-2x
-    .ml-0 ==< "Wenn Sie das Gebäude für eine <strong>Pause</strong> verlassen und einen <strong>Arbeitsplatz</strong> belegt haben, buchen Sie sich bitte <strong>NICHT</strong> aus!"
+    .ml-0 ==< "Möchten Sie die Bibliothek NUR KURZ VERLASSEN (Pause, Rauchen, Mittagessen etc.), BUCHEN SIE SICH BITTE <strong>NICHT</strong> AUS! Nur dann bleibt Ihr Arbeitsplatz für Sie reserviert."
 
   .card.shadow.rounded.bg-info.text-white
+    .card-header
+      .lead
+        span.mr-2: i.far.fa-hand-paper.fa-lg
+        = "Ausbuchen nicht vergessen!"
     .card-body
       .d-flex.align-items-center
         .mr-3: i.fas.fa-barcode.fa-7x
