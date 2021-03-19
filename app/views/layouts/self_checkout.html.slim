@@ -16,4 +16,8 @@ html.self-checkout
   body.d-flex.flex-column.justify-content-center
     #page
       .container
+        .fixed-top.p-3.d-flex.flex-row.align-items-center.justify-content-between
+          = image_tag("ub-logo.svg", id: "header-ub-logo", loading: "lazy")
+          = image_tag("app-logo.svg", id: "header-app-logo", loading: "lazy")
+
         div = yield
