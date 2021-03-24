@@ -14,10 +14,11 @@ html.self-checkout
     = javascript_pack_tag "application", "data-turbolinks-track": "reload"
 
   body.d-flex.flex-column.justify-content-center
-    #page
-      .container
-        .fixed-top.p-3.d-flex.flex-row.align-items-center.justify-content-between
-          = image_tag("ub-logo.svg", id: "header-ub-logo", loading: "lazy")
-          = image_tag("app-logo.svg", id: "header-app-logo", loading: "lazy")
+    .container
+      .fixed-top.p-3.d-flex.flex-row.align-items-center.justify-content-between
+        = image_tag("ub-logo.svg", id: "header-ub-logo", loading: "lazy", style: "height: 60px")
+        = image_tag("app-logo.svg", id: "header-app-logo", loading: "lazy", style: "height: 40px")
 
-        div = yield
+      .row.justify-content-center
+        .col-lg-10
+          div(style="margin-top: 75px") = yield

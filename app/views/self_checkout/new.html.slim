@@ -1,5 +1,5 @@
 .animate__animated.animate__fadeIn
-  .alert.alert-warning.d-flex.align-items-center.mb-4
+  .alert.alert-danger.d-flex.align-items-center.mb-4
     .mr-3: i.fas.fa-exclamation-triangle.fa-2x
     .ml-0 ==< "Möchten Sie die Bibliothek NUR KURZ VERLASSEN (Pause, Rauchen, Mittagessen etc.), BUCHEN SIE SICH BITTE <strong>NICHT</strong> AUS! Nur dann bleibt Ihr Arbeitsplatz für Sie reserviert."
 
@@ -11,11 +11,15 @@
     .card-body
       .d-flex.align-items-center
         .mr-3: i.fas.fa-barcode.fa-7x
-        .lead =< "Bitte halten Sie den Barcode Ihres Bibliotheksausweises unter den Scanner um sich auszubuchen."
+        .lead =< "Bitte halten Sie den Barcode Ihres Bibliotheksausweises unter den Scanner!"
+      .mt-2.text-center
+        span.ml-0: i.fas.fa-arrow-down.fa-3x
+        span.ml-3: i.fas.fa-arrow-down.fa-3x
+        span.ml-3: i.fas.fa-arrow-down.fa-3x
 
-.invisible
-  = simple_form_for :scan_form, url: self_checkout_path, html: {id: "scan_form", method: :post} do |f|
-    = f.input :barcode, label: false, placeholder: "Bitte scannen...", input_html: {class: "form-control-lg", autocomplete: "off"}, wrapper_html: { class: 'mb-0' }, autofocus: true
+  .d-none
+    = simple_form_for :scan_form, url: self_checkout_path, html: {id: "scan_form", method: :post} do |f|
+      = f.input :barcode, label: false, placeholder: "Bitte scannen...", input_html: {class: "form-control-lg", autocomplete: "off"}, wrapper_html: { class: 'mb-0' }, autofocus: true
 
 javascript:
   var currentBarcode = ""
