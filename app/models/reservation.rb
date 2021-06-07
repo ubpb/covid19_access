@@ -14,12 +14,16 @@ class Reservation < ApplicationRecord
     day = Time.zone.today
     now = Time.zone.now
     special_closing_dates = Rails.application.config.application.special_closing_dates || []
+    special_reservation_disabled_dates = Rails.application.config.application.special_reservation_disabled_dates || []
     reservable_dates = []
 
     if reservation_enabled
       tries = 0 # To protect against infinite loop due to improper config
 
       loop do
+        # Check if reservation is disabled on the tested day
+        reservation_disabled = special_reservation_disabled_dates.include?(day)
+
         # Check if generally open the tested day
         dayname = day.strftime("%A").downcase.to_sym
         opening_time, closing_time = self.get_opening_and_closing_times(day)
@@ -32,7 +36,7 @@ class Reservation < ApplicationRecord
         is_special_closing_day = special_closing_dates.include?(day)
 
         # The tested day is reservable if open
-        if is_generally_open && !already_closed && !is_special_closing_day
+        if is_generally_open && !already_closed && !is_special_closing_day && !reservation_disabled
           reservable_dates << day
         end
 
