@@ -48,7 +48,7 @@
                       - if allocated
                         = "BELEGT"
                       - elsif todays_next_reservation.present?
-                        = "RESERVIERT AB #{l(todays_next_reservation.begin_date, format: "%H:%M Uhr")}"
+                        = "FREI (RESERVIERT AB #{l(todays_next_reservation.begin_date, format: "%H:%M Uhr")})"
                       - else
                         = "FREI"
                     td = resource.resource_location.title
