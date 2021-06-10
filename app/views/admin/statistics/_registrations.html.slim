@@ -45,6 +45,7 @@
               th(scope="col") = "Datum"
               th(scope="col") = "Gesamt"
               th(scope="col") = "Nicht ausgecheckt"
+              th(scope="col") = "Nicht ausgecheckt %"
               th(scope="col") = "Zeit (Durchschnitt)"
           tbody
             - @registration_stats.each do |k, v|
@@ -55,6 +56,7 @@
                   = l(k, format: "%A")
                 td = v["TOTAL"]
                 td = v["NON_CHECKOUT"]
+                td = number_with_precision(v["NON_CHECKOUT"].fdiv(v["TOTAL"]) * 100, precision: 2) + "%"
                 td = distance_of_time_in_words(v["AVERAGE_TIME"])
     - else
       .alert.alert-info.mb-0
