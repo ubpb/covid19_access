@@ -38,7 +38,7 @@ namespace :app do
         username = db_config["username"]
         password = db_config["password"]
 
-        execute("mysqldump -h #{host} -u #{username} -p#{password} -r #{remote_dump_file} #{database}")
+        execute("mysqldump --column-statistics=0 -h #{host} -u #{username} -p#{password} -r #{remote_dump_file} #{database}")
       end
 
       # Download file
