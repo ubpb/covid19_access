@@ -6,7 +6,8 @@ class StatisticsController < ApplicationController
     load_global_stats(now)
 
     ResourceGroup.includes(:resources).order(:title).each do |rg|
-      resources = rg.resources.allocatable.joins(:resource_location).includes(:allocation, :reservations).order("resource_locations.title, resources.title").to_a
+      resources = rg.resources.joins(:resource_location).includes(:allocation, :reservations).order("resource_locations.title, resources.title").to_a
+      resources = resources.select{|r| r.allocatable?(Date.today)}
       num_total = resources.count
       num_allocated = Allocation.joins(:resource).where("resources.resource_group": rg).count
       number_of_allocations_last_hour = Allocation.joins(:resource).where("resources.resource_group": rg).where(created_at: (now - 1.hour)..now).count +

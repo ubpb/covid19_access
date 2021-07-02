@@ -51,7 +51,7 @@ class Admin::ResourceLocationsController < Admin::ApplicationController
 private
 
   def permitted_params
-    params.require(:resource_location).permit(:title)
+    params.require(:resource_location).permit(:title, :disable_dates)
   end
 
 end

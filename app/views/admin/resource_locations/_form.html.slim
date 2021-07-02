@@ -1,4 +1,5 @@
 = simple_form_for [:admin, resource_location] do |f|
   = f.input :title, label: "Titel", input_html: {class: "", autocomplete: "off"}
+  = f.input :disable_dates, label: "Deaktiviert am", hint: "Liste von Tagen, an dem die Reservierung/Belegung deaktiviert sein soll. Datum der Form TT.MM.YYYY. Mehrere Tage durch Komma getrennt. Keine Leerzeichen."
   = f.button :submit, "Speichern", class: "btn btn-primary"
   = link_to "Abbrechen", admin_resource_locations_path, class: "btn btn-link"

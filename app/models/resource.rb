@@ -16,6 +16,25 @@ class Resource < ApplicationRecord
   # Scopes
   scope :allocatable, -> { where(allocatable: true) }
 
+  def allocatable(date = Date.today)
+    self.allocatable?
+  end
+
+  def allocatable?(date = Date.today)
+    rl_disable_dates = resource_location.disable_dates || ""
+    rl_disable_dates = rl_disable_dates.split(",")
+      .map(&:strip)
+      .map(&:presence)
+      .map{|d| Date.parse(d) rescue nil}
+      .compact
+
+    if rl_disable_dates.present?
+      self[:allocatable] && !rl_disable_dates.include?(date)
+    else
+      self[:allocatable]
+    end
+  end
+
   def allocated?
     allocation.present?
   end

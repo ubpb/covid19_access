@@ -4,12 +4,14 @@
       tr
         th(scope="col") = "Titel"
         th(scope="col") = "# Ressourcen"
+        th(scope="col") = "Deaktiviert am"
         th(scope="col") = ""
     tbody
       - resource_locations.each do |rl|
         tr
           td = rl.title
           td = rl.resources.count
+          td = rl.disable_dates
           td.text-right
             = link_to "Bearbeiten", edit_admin_resource_location_path(rl), class: "btn btn-primary btn-sm"
             - if rl.deleteable?
