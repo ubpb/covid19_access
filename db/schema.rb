@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_09_140644) do
+ActiveRecord::Schema.define(version: 2021_07_02_115147) do
 
   create_table "allocations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "registration_id", null: false
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 2021_03_09_140644) do
     t.string "uid", null: false
     t.string "first_name", null: false
     t.string "last_name", null: false
-    t.string "email", null: false
+    t.string "email"
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
