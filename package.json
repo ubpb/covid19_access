@@ -18,5 +18,8 @@
   "version": "1.0.0",
   "devDependencies": {
     "webpack-dev-server": "^3.11.0"
+  },
+  "resolutions": {
+    "chokidar": "^3.4.0"
   }
 }
