@@ -10,10 +10,27 @@ class Registration < ApplicationRecord
   validates :uid, presence: true
   validates :barcode, presence: true
   validates :entered_at, presence: true
-  validates :name, presence: true
-  validates :street, presence: true
-  validates :city, presence: true
-  validates :phone, presence: true
+  validates :name, presence: true, unless: :omit_personal_data
+  validates :street, presence: true, unless: :omit_personal_data
+  validates :city, presence: true, unless: :omit_personal_data
+  validates :phone, presence: true, unless: :omit_personal_data
+
+  attr_accessor :omit_personal_data
+
+  def self.anonymize!(date)
+    self
+      .where("created_at < ?", date)
+      .where("uid is not null")
+      .update_all(
+        uid: nil,
+        barcode: nil,
+        name: nil,
+        street: nil,
+        city: nil,
+        phone: nil
+      )
+    self
+  end
 
   def self.number_of_people_entered
     self.where(exited_at: nil).count

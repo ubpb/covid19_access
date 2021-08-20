@@ -1,8 +1,13 @@
 = simple_form_for @registration, url: admin_checkin_registration_path do |f|
   = f.input_field :uid, as: :hidden
   = f.input :barcode, label: "Bibliotheksausweisnummer", input_html: {class: "form-control-lg", autocomplete: "off"}, readonly: true
-  = f.input :name, label: "Name", input_html: {class: "form-control-lg", autocomplete: "off"}, readonly: true
-  = f.input :street, label: "Straße und Hausnummer", input_html: {class: "form-control-lg", autocomplete: "off"}
-  = f.input :city, label: "PLZ / Stadt", input_html: {class: "form-control-lg", autocomplete: "off"}
-  = f.input :phone, label: "Telefon", input_html: {class: "form-control-lg", autocomplete: "off"}
-  = f.button :submit, "Datenabgleich durchgeführt / Einlass bestätigen", class: "btn btn-primary btn-lg btn-block"
+  - unless @omit_personal_data
+    = f.input :name, label: "Name", input_html: {class: "form-control-lg", autocomplete: "off"}, readonly: true
+    = f.input :street, label: "Straße und Hausnummer", input_html: {class: "form-control-lg", autocomplete: "off"}
+    = f.input :city, label: "PLZ / Stadt", input_html: {class: "form-control-lg", autocomplete: "off"}
+    = f.input :phone, label: "Telefon", input_html: {class: "form-control-lg", autocomplete: "off"}
+    = f.button :submit, "Datenabgleich durchgeführt / Einlass bestätigen", class: "btn btn-primary btn-lg btn-block"
+  - else
+    .alert.alert-warning.text-center
+      = "Kein weiterer Datenabgleich erforderlich"
+    = f.button :submit, "Einlass bestätigen", class: "btn btn-primary btn-lg btn-block"

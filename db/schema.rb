@@ -2,17 +2,17 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_02_115147) do
+ActiveRecord::Schema.define(version: 2021_08_20_135109) do
 
-  create_table "allocations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "allocations", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "registration_id", null: false
     t.bigint "resource_id", null: false
     t.datetime "created_at", null: false
@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(version: 2021_07_02_115147) do
     t.index ["resource_id"], name: "index_allocations_on_resource_id", unique: true
   end
 
-  create_table "registrations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "barcode", null: false
+  create_table "registrations", charset: "utf8mb3", force: :cascade do |t|
+    t.string "barcode"
     t.datetime "entered_at", null: false
     t.datetime "exited_at"
     t.string "name"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_115147) do
     t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "uid", null: false
+    t.string "uid"
     t.datetime "current_break_started_at"
     t.datetime "last_break_started_at"
     t.datetime "last_break_ended_at"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_115147) do
     t.index ["exited_at"], name: "index_registrations_on_exited_at"
   end
 
-  create_table "released_allocations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "released_allocations", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "registration_id", null: false
     t.bigint "resource_id", null: false
     t.datetime "created_at", null: false
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_115147) do
     t.index ["resource_id"], name: "index_released_allocations_on_resource_id"
   end
 
-  create_table "reservation_stat_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "reservation_stat_records", charset: "utf8mb3", force: :cascade do |t|
     t.string "action", null: false
     t.string "uid", null: false
     t.datetime "begin_date", null: false
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_115147) do
     t.index ["uid"], name: "index_reservation_stat_records_on_uid"
   end
 
-  create_table "reservations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "reservations", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "resource_id", null: false
     t.datetime "begin_date", null: false
@@ -77,19 +77,19 @@ ActiveRecord::Schema.define(version: 2021_07_02_115147) do
     t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
-  create_table "resource_groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "resource_groups", charset: "utf8mb3", force: :cascade do |t|
     t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "resource_locations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "resource_locations", charset: "utf8mb3", force: :cascade do |t|
     t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "resources", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "resources", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "resource_group_id", null: false
     t.bigint "resource_location_id", null: false
     t.string "title", null: false
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_115147) do
     t.index ["resource_location_id"], name: "index_resources_on_resource_location_id"
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "users", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid", null: false
     t.string "first_name", null: false
     t.string "last_name", null: false

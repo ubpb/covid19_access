@@ -2,18 +2,9 @@ namespace :app do
   namespace :dsgvo do
     desc "Cleanup personal information to be DSGVO compliant"
     task :cleanup => :environment do
-      date = 4.weeks.ago
-
-      Registration.where("created_at < ?", date).each do |p|
-        p.update_columns(
-          uid: "*".ljust(10, "*"),
-          barcode: p.barcode[0..2].ljust(10, "*"),
-          name: nil,
-          street: nil,
-          city: nil,
-          phone: nil
-        )
-      end
+      omit_personal_data = Rails.configuration.application.omit_personal_data_on_checkin || false
+      date = omit_personal_data ? 1.day.ago.end_of_day : 4.weeks.ago.end_of_day
+      Registration.anonymize!(date)
     end
   end
 end

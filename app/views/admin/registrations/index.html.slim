@@ -13,7 +13,6 @@
               tr
                 th(scope="col") = "Status"
                 th(scope="col") = "Ausweis Nr."
-                th(scope="col") = "Name"
                 th(scope="col") = "Einlass"
                 th(scope="col") = "Auslass"
                 th(scope="col") = ""
@@ -28,7 +27,6 @@
                     - if reg.in_break?
                       span.badge.badge-warning =< "In Pause"
                   td = reg.barcode
-                  td = reg.name
                   td = l(reg.entered_at, format: "%d.%m.%Y, %H:%M Uhr")
                   td
                     - if reg.exited_at.present?

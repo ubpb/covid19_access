@@ -11,34 +11,45 @@ class Admin::CheckinController < Admin::ApplicationController
   end
 
   def new_registration
+    @omit_personal_data = Rails.configuration.application.omit_personal_data_on_checkin || false
+
     if barcode = get_filtered_barcode(params[:barcode]).presence
       # Do some checks
       check_for_valid_barcode(barcode) or return
       check_for_non_active_registration(barcode) or return
 
-      # Load data from Aleph
+      # Load data from Aleph and run checks
       bib_data = AlephClient.new.get_bib_data_for(barcode)
       check_bib_data(barcode, bib_data) or return
 
-      # Try to find a previous registration that has more data to speed
-      # up the registration process.
-      unless params[:reload_aleph_data]
-        previous_registration = Registration.order("entered_at desc").find_by(barcode: barcode)
-        if previous_registration.present?
-          bib_data[:name]   = previous_registration.name.presence   || bib_data[:name]
-          bib_data[:street] = previous_registration.street.presence || bib_data[:street]
-          bib_data[:city]   = previous_registration.city.presence   || bib_data[:city]
-          bib_data[:phone]  = previous_registration.phone.presence  || bib_data[:phone]
+      # Collect personal data for tracing contacts in case of an infection
+      # as required by the "Coronaschutzverordnung".
+      unless @omit_personal_data_on_checkin
+        # Try to find a previous registration that has more data to speed
+        # up the registration process.
+        unless params[:reload_aleph_data]
+          previous_registration = Registration.order("entered_at desc").find_by(barcode: barcode)
+          if previous_registration.present?
+            bib_data[:name]   = previous_registration.name.presence   || bib_data[:name]
+            bib_data[:street] = previous_registration.street.presence || bib_data[:street]
+            bib_data[:city]   = previous_registration.city.presence   || bib_data[:city]
+            bib_data[:phone]  = previous_registration.phone.presence  || bib_data[:phone]
+          end
         end
-      end
 
-      # Build registration
-      @registration         = Registration.new(barcode: barcode)
-      @registration.uid     = bib_data[:id]
-      @registration.name    = bib_data[:name]
-      @registration.street  = bib_data[:street]
-      @registration.city    = bib_data[:city]
-      @registration.phone   = bib_data[:phone]
+        # Build registration
+        @registration         = Registration.new(barcode: barcode)
+        @registration.uid     = bib_data[:id]
+        @registration.name    = bib_data[:name]
+        @registration.street  = bib_data[:street]
+        @registration.city    = bib_data[:city]
+        @registration.phone   = bib_data[:phone]
+      # We omit peronal data and only store the
+      # required minimum, needed for reservations.
+      else
+        @registration     = Registration.new(barcode: barcode)
+        @registration.uid = bib_data[:id]
+      end
     else
       flash[:error] = "Bitte eine Ausweisnummer scannen oder eintippen."
       redirect_to(admin_new_checkin_path)
@@ -46,6 +57,8 @@ class Admin::CheckinController < Admin::ApplicationController
   end
 
   def create_registration
+    @omit_personal_data = Rails.configuration.application.omit_personal_data_on_checkin || false
+
     # Permit params
     permitted_params = params.require(:registration).permit(
       :uid, :barcode, :name, :street, :city, :phone
@@ -54,9 +67,10 @@ class Admin::CheckinController < Admin::ApplicationController
     # Create registration
     @registration = Registration.new(permitted_params)
     @registration.entered_at = Time.zone.now
+    @registration.omit_personal_data = @omit_personal_data
 
     if @registration.save
-      flash["success"] = "Einlass OK für '#{@registration.name} (#{@registration.barcode})'"
+      flash["success"] = "Einlass OK für '#{@registration.barcode}'"
       redirect_to(admin_registration_path(@registration))
     else
       render :new_registration

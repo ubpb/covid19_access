@@ -30,13 +30,13 @@
       .col
         dl
           dt = "Name"
-          dd = @registration.name
+          dd = @registration.name.presence || "–"
           dt = "Anschrift"
-          dd = @registration.street
+          dd = @registration.street.presence || "–"
           dt = "PLZ / Ort"
-          dd = @registration.city
+          dd = @registration.city.presence || "–"
           dt = "Telefon"
-          dd = @registration.phone
+          dd = @registration.phone.presence || "–"
       .col
         dl
           - if @registration.in_break?
