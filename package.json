@@ -2,22 +2,23 @@
   "name": "covid19_access",
   "private": true,
   "dependencies": {
-    "@rails/activestorage": "^6.0.0",
-    "@rails/ujs": "^6.0.0",
+    "@rails/activestorage": "^6.1.0",
+    "@rails/ujs": "^6.1.0",
     "@rails/webpacker": "5.4.0",
     "animate.css": "^4.1.0",
     "axios": "^0.21.0",
-    "bootstrap": "^4.5.2",
+    "bootstrap": "^4.6.0",
     "chart.js": "^2.9.3",
     "chartjs-plugin-trendline": "^0.2.2",
     "jquery": "^3.5.1",
     "popper.js": "^1.15.0",
     "stimulus": "^2.0.0",
-    "turbolinks": "^5.2.0"
+    "turbolinks": "^5.2.0",
+    "webpack": "^4.0.0"
   },
   "version": "1.0.0",
   "devDependencies": {
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^4.0.0"
   },
   "resolutions": {
     "chokidar": "^3.4.0"
