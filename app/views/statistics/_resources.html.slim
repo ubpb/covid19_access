@@ -7,7 +7,9 @@
       .card-header.d-flex.align-items-center
         h5.mb-0 = "Belegungsübersicht: #{resource_group.title}"
       .card-body
-        - unless Rails.application.config.application.reservation_enabled
+        - if Rails.application.config.application.reservation_enabled
+          .mb-3 = link_to "Platz reservieren", account_reservations_path, class: "btn btn-primary"
+        - else
           .mb-3 = render "reservations_disabled_info"
 
         - if resources.present?
