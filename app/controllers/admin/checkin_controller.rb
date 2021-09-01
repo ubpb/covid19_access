@@ -11,8 +11,6 @@ class Admin::CheckinController < Admin::ApplicationController
   end
 
   def new_registration
-    @omit_personal_data = Rails.configuration.application.omit_personal_data_on_checkin || false
-
     if barcode = get_filtered_barcode(params[:barcode]).presence
       # Do some checks
       check_for_valid_barcode(barcode) or return
@@ -24,7 +22,7 @@ class Admin::CheckinController < Admin::ApplicationController
 
       # Collect personal data for tracing contacts in case of an infection
       # as required by the "Coronaschutzverordnung".
-      unless @omit_personal_data_on_checkin
+      unless ApplicationConfig.registration_required?
         # Try to find a previous registration that has more data to speed
         # up the registration process.
         unless params[:reload_aleph_data]
@@ -44,8 +42,8 @@ class Admin::CheckinController < Admin::ApplicationController
         @registration.street  = bib_data[:street]
         @registration.city    = bib_data[:city]
         @registration.phone   = bib_data[:phone]
-      # We omit peronal data and only store the
-      # required minimum, needed for reservations.
+      # Registration is not required we create a minmal
+      # instance, so that we can process reservations and allocations
       else
         @registration     = Registration.new(barcode: barcode)
         @registration.uid = bib_data[:id]
@@ -57,8 +55,6 @@ class Admin::CheckinController < Admin::ApplicationController
   end
 
   def create_registration
-    @omit_personal_data = Rails.configuration.application.omit_personal_data_on_checkin || false
-
     # Permit params
     permitted_params = params.require(:registration).permit(
       :uid, :barcode, :name, :street, :city, :phone
@@ -67,7 +63,6 @@ class Admin::CheckinController < Admin::ApplicationController
     # Create registration
     @registration = Registration.new(permitted_params)
     @registration.entered_at = Time.zone.now
-    @registration.omit_personal_data = @omit_personal_data
 
     if @registration.save
       flash["success"] = "Einlass OK für '#{@registration.barcode}'"

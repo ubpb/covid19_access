@@ -24,9 +24,7 @@ class Admin::RegistrationsController < Admin::ApplicationController
       :street, :city, :phone, :entered_at, :exited_at
     )
 
-    @omit_personal_data = Rails.configuration.application.omit_personal_data_on_checkin || false
     @registration = Registration.find(params[:id])
-    @registration.omit_personal_data = @omit_personal_data
 
     if @registration.update(permitted_params)
       flash[:success] = "Registrierung erfolgreich gespeichert."

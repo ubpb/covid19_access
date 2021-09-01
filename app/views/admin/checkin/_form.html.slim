@@ -1,7 +1,7 @@
 = simple_form_for @registration, url: admin_checkin_registration_path do |f|
   = f.input_field :uid, as: :hidden
   = f.input :barcode, label: "Bibliotheksausweisnummer", input_html: {class: "form-control-lg", autocomplete: "off"}, readonly: true
-  - unless @omit_personal_data
+  - if ApplicationConfig.registration_required?
     = f.input :name, label: "Name", input_html: {class: "form-control-lg", autocomplete: "off"}, readonly: true
     = f.input :street, label: "Straße und Hausnummer", input_html: {class: "form-control-lg", autocomplete: "off"}
     = f.input :city, label: "PLZ / Stadt", input_html: {class: "form-control-lg", autocomplete: "off"}

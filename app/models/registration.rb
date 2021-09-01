@@ -10,12 +10,10 @@ class Registration < ApplicationRecord
   validates :uid, presence: true
   validates :barcode, presence: true
   validates :entered_at, presence: true
-  validates :name, presence: true, unless: :omit_personal_data
-  validates :street, presence: true, unless: :omit_personal_data
-  validates :city, presence: true, unless: :omit_personal_data
-  validates :phone, presence: true, unless: :omit_personal_data
-
-  attr_accessor :omit_personal_data
+  validates :name, presence: true, if: :registration_required?
+  validates :street, presence: true, if: :registration_required?
+  validates :city, presence: true, if: :registration_required?
+  validates :phone, presence: true, if: :registration_required?
 
   def self.anonymize!(date)
     self
@@ -34,6 +32,10 @@ class Registration < ApplicationRecord
 
   def self.number_of_people_entered
     self.where(exited_at: nil).count
+  end
+
+  def registration_required?
+    ApplicationConfig.registration_required?
   end
 
   def closed?

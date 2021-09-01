@@ -16,6 +16,7 @@ default: &default
   aleph_x_services_url: http://localhost:8991/X
   aleph_user_library: "XXX50"
 
+  registration_required: true
   reservation_enabled: true
 
   opening_hours:
