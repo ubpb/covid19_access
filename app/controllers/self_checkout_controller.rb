@@ -7,7 +7,7 @@ class SelfCheckoutController < ApplicationController
       if registration = Registration.find_by(barcode: barcode, exited_at: nil)
         close_registration(registration)
       else
-        flash[:self_checkout_result][:error] = "Sie wurden nicht am Einlass erfasst oder wurden bereits ausgecheckt. Bitte wenden Sie sich an die Ortsleihe."
+        flash[:self_checkout_result][:error] = "Sie wurden nicht am Check-In erfasst oder wurden bereits ausgecheckt. Bitte wenden Sie sich an die Ortsleihe."
       end
     else
       flash[:self_checkout_result][:error] = "Bitte einen Bibliotheksausweis scannen. Für Fragen wenden Sie sich bitte an die Ortsleihe."

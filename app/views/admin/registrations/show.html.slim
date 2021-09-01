@@ -18,9 +18,9 @@
         dl
           dt = "Bibliotheksausweisnummer"
           dd = @registration.barcode
-          dt = "Einlass"
+          dt = "Check-In"
           dd = l(@registration.entered_at, format: "%d.%m.%Y, %H:%M:%S")
-          dt = "Auslass"
+          dt = "Check-Out"
           dd
             - if @registration.closed?
               = l(@registration.exited_at, format: "%d.%m.%Y, %H:%M:%S")

@@ -10,9 +10,9 @@ nav.navbar.navbar-dark.bg-dark.navbar-expand-lg
     #navbarContent.collapse.navbar-collapse
       ul.navbar-nav.mr-auto
         li.nav-item(class=active_when(/admin\/checkin/))
-          = link_to "Einlass", admin_new_checkin_path , class: "nav-link"
+          = link_to "Check-In", admin_new_checkin_path , class: "nav-link"
         li.nav-item(class=active_when(/admin\/checkout/))
-          = link_to "Auslass", admin_new_checkout_path , class: "nav-link"
+          = link_to "Check-Out", admin_new_checkout_path , class: "nav-link"
         li.nav-item(class=active_when(/admin\/registrations/))
           = link_to "Registrierungen", admin_registrations_path , class: "nav-link"
       ul.navbar-nav

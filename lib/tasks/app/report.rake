@@ -21,8 +21,8 @@ namespace :app do
           headers = [
             "Bib. interne ID",
             "Bib. Ausweis Nr.",
-            "Einlass",
-            "Auslass",
+            "Check-In",
+            "Check-Out",
             "Name",
             "Straße",
             "PLZ / Stadt",

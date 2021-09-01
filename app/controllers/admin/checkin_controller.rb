@@ -65,7 +65,7 @@ class Admin::CheckinController < Admin::ApplicationController
     @registration.entered_at = Time.zone.now
 
     if @registration.save
-      flash["success"] = "Einlass OK für '#{@registration.barcode}'"
+      flash["success"] = "Check-In OK für '#{@registration.barcode}'"
       redirect_to(admin_registration_path(@registration))
     else
       render :new_registration

@@ -1,11 +1,11 @@
 .card.card-primary.card-cutoff-corner.mb-3
   .card-header.d-flex.align-items-center
-    h5.mb-0 = "Auslass bestätigen"
+    h5.mb-0 = "Check-Out bestätigen"
   .card-body
     dl
       dt = "Bibliotheksausweisnummer"
       dd = @registration.barcode
-      dt = "Einlass"
+      dt = "Check-In"
       dd = l(@registration.entered_at, format: "%d.%m.%Y, %H:%M:%S")
 
     - if @has_allocations
@@ -14,7 +14,7 @@
           ' ACHTUNG: Die Person belegt einen Arbeitsplatz. Dieser wird beim Check-Out freigegeben. Check-Out nicht durchführen
           ' wenn die Person das Gebäude nur für eine Pause verlassen möchte.
         /p.mb-0: strong
-          ' Pause endet in 60 Minuten. Die Person muss bis dahin wieder am Einlass eingebucht werden, sonst wird der Arbeitsplatz
+          ' Pause endet in 60 Minuten. Die Person muss bis dahin wieder am Check-In eingebucht werden, sonst wird der Arbeitsplatz
           ' automatisch freigegeben.
 
     = link_to "Check-Out", admin_checkout_registration_path, method: :delete, class: "btn btn-lg btn-danger"

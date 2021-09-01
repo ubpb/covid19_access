@@ -8,7 +8,7 @@
         li.list-group-item.bg-transparent
           - mode = reg.exited_at.nil? ? :enter : :exit
           div
-            = "#{mode == :enter ? "Einlass" : "Auslass"}:"
+            = "#{mode == :enter ? "Check-In" : "Check-Out"}:"
             =< link_to reg.barcode, admin_registration_path(reg), class: "text-white"
           small
             - timestamp = mode == :enter ? reg.entered_at : reg.exited_at

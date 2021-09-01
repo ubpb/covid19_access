@@ -6,8 +6,8 @@
     = f.input :street, label: "Straße und Hausnummer", input_html: {class: "form-control-lg", autocomplete: "off"}
     = f.input :city, label: "PLZ / Stadt", input_html: {class: "form-control-lg", autocomplete: "off"}
     = f.input :phone, label: "Telefon", input_html: {class: "form-control-lg", autocomplete: "off"}
-    = f.button :submit, "Datenabgleich durchgeführt / Einlass bestätigen", class: "btn btn-primary btn-lg btn-block"
+    = f.button :submit, "Datenabgleich durchgeführt / Check-In bestätigen", class: "btn btn-primary btn-lg btn-block"
   - else
     .alert.alert-warning.text-center
       = "Kein weiterer Datenabgleich erforderlich"
-    = f.button :submit, "Einlass bestätigen", class: "btn btn-primary btn-lg btn-block"
+    = f.button :submit, "Check-In bestätigen", class: "btn btn-primary btn-lg btn-block"
