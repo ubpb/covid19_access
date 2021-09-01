@@ -2,4 +2,6 @@
   .col-sm-12.col-lg-8
     = render "resources"
   .col-sm-12.col-lg-4
-    = render "people"
+    = render "statistics/opening_hours"
+    - if ApplicationConfig.registration_required?
+      .mt-3 = render "people"

@@ -13,9 +13,11 @@
 
   .col-sm-12.col-lg-4
     .mb-3 = render "statistics/opening_hours"
-    .mb-3 = render "statistics/people"
 
-    .card.card-cutoff-corner.text-white.bg-secondary
+    - if ApplicationConfig.registration_required?
+      .mb-3 = render "statistics/people"
+
+    .card.card-cutoff-corner.text-white.bg-info
       .card-header
         h5.mb-0
           i.fas.fa-chart-line
