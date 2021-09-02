@@ -9,7 +9,7 @@
           - mode = reg.exited_at.nil? ? :enter : :exit
           div
             = "#{mode == :enter ? "Check-In" : "Check-Out"}:"
-            =< link_to reg.barcode, admin_registration_path(reg), class: "text-white"
+            =< link_to (reg.barcode || "n.n."), admin_registration_path(reg), class: "text-white"
           small
             - timestamp = mode == :enter ? reg.entered_at : reg.exited_at
             = l(timestamp, format: "%d.%m.%Y, %H:%M:%S")

@@ -17,7 +17,7 @@
       .col
         dl
           dt = "Bibliotheksausweisnummer"
-          dd = @registration.barcode
+          dd = @registration.barcode.presence || "–"
           dt = "Check-In"
           dd = l(@registration.entered_at, format: "%d.%m.%Y, %H:%M:%S")
           dt = "Check-Out"

@@ -10,7 +10,11 @@ module ApplicationHelper
   end
 
   def mask_barcode(barcode)
-    barcode.dup.tap { |p| r = (4..p.size-3) ; p[r] = r.size.times.map{'*'}.join }
+    if barcode.present?
+      barcode.dup.tap { |p| r = (4..p.size-3) ; p[r] = r.size.times.map{'*'}.join }
+    else
+      "n.n."
+    end
   end
 
 end
