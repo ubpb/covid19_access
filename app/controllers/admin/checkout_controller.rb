@@ -53,7 +53,7 @@ private
 
   def close_registration(registration)
     if registration.close
-      flash[:success] = "Check-Out für Ausweis-Nr. #{registration.barcode} erfolgreich."
+      flash[:success] = "Check-Out OK für '#{registration.barcode || 'n.n.'}'"
 
       if params[:return_to_registration] == "true"
         redirect_to(admin_registration_path(registration))
