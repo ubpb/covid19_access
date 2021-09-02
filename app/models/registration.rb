@@ -1,5 +1,14 @@
 class Registration < ApplicationRecord
 
+  ANONYMIZE_COLUMNS = {
+    uid: nil,
+    barcode: nil,
+    name: nil,
+    street: nil,
+    city: nil,
+    phone: nil
+  }.freeze
+
   # Relations
   has_many :allocations
   has_many :resources, through: :allocations
@@ -15,18 +24,11 @@ class Registration < ApplicationRecord
   validates :city, presence: true, if: :registration_required?
   validates :phone, presence: true, if: :registration_required?
 
-  def self.anonymize!(date)
+  def self.anonymize_all!(date)
     self
       .where("created_at < ?", date)
       .where("uid is not null")
-      .update_all(
-        uid: nil,
-        barcode: nil,
-        name: nil,
-        street: nil,
-        city: nil,
-        phone: nil
-      )
+      .update_all(ANONYMIZE_COLUMNS)
     self
   end
 
@@ -47,6 +49,11 @@ class Registration < ApplicationRecord
       now = Time.zone.now
       exited_at = reset ? self.entered_at.end_of_day : now
       update_columns(exited_at: exited_at, updated_at: now)
+
+      # Anonymize all fields unless registration is required.
+      unless ApplicationConfig.registration_required?
+        update_columns(ANONYMIZE_COLUMNS)
+      end
 
       if in_break?
         update_columns(

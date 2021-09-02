@@ -54,7 +54,12 @@ private
   def close_registration(registration)
     if registration.close
       flash[:success] = "Check-Out für Ausweis-Nr. #{registration.barcode} erfolgreich."
-      redirect_to(admin_new_checkout_path)
+
+      if params[:return_to_registration] == "true"
+        redirect_to(admin_registration_path(registration))
+      else
+        redirect_to(admin_new_checkout_path)
+      end
     else
       flash[:error] = "Fehler: Check-Out konnte nicht abgeschlossen werden. Bitte überprüfen Sie die Registrierung."
       redirect_to(admin_registration_path(registration))
