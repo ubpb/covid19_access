@@ -13,7 +13,8 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy", as: :logout
 
   # Stats
-  get "/stats", to: "statistics#index", as: :statistics
+  #get "/stats", to: "statistics#index", as: :statistics
+  get "/stats", to: redirect("/"), as: :statistics
 
   # Static kickers
   get "/datenschutz", to: redirect("https://www.ub.uni-paderborn.de/fileadmin/ub/Dokumente_Formulare/DSE_UB_008_Besucherregistrierung.pdf"), as: "datenschutz"

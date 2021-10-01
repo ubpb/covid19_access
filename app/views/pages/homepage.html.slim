@@ -4,10 +4,10 @@
       .card-header
         h5.mb-0 Willkommen im Portal für die Besucherregistrierung der Universitätsbibliothek Paderborn
       .card-body
-        p.mb-0
+        /p.mb-0
           ' Möchten Sie einen Arbeitsplatz in Anspruch nehmen, informieren Sie sich bitte vorab über unsere <a href="#{statistics_path}">Belegungsübersicht</a> über den aktuellen Stand an freien Plätzen oder <a href="#{account_reservations_path}">reservieren Sie hier</a> vorab einen Platz.
         - unless Rails.application.config.application.reservation_enabled
-          .mt-3 = render "reservations_disabled_info"
+          = render "reservations_disabled_info"
 
   .col-sm-12.col-lg-4
     .mb-3 = render "statistics/opening_hours"
@@ -15,7 +15,7 @@
     - if ApplicationConfig.registration_required?
       .mb-3 = render "statistics/people"
 
-    .card.card-cutoff-corner.text-white.bg-info
+    /.card.card-cutoff-corner.text-white.bg-info
       .card-header
         h5.mb-0
           i.fas.fa-chart-line
